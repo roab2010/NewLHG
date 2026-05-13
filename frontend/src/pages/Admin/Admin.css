@@ -356,3 +356,108 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Custom Select styles */
+.admin-select {
+  appearance: none;
+  background-color: transparent;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-full);
+  padding: 4px 28px 4px 12px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 14px;
+}
+
+.admin-select option {
+  background-color: var(--dark-100);
+  color: var(--white);
+}
+
+/* Modals */
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.admin-modal {
+  background: var(--dark-200);
+  border: 1px solid var(--white-10);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.admin-modal h3 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xl);
+  margin-bottom: var(--space-lg);
+  color: var(--white);
+}
+
+.admin-modal .form-group {
+  margin-bottom: var(--space-md);
+}
+
+.admin-modal label {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--white-60);
+  margin-bottom: 6px;
+}
+
+.admin-modal input, .admin-modal select {
+  width: 100%;
+  background: var(--dark-300);
+  border: 1px solid var(--white-10);
+  color: var(--white);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  outline: none;
+  font-family: inherit;
+}
+
+.admin-modal input:focus, .admin-modal select:focus {
+  border-color: var(--accent);
+}
+
+.admin-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.admin-modal-details {
+  background: var(--dark-300);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.admin-modal-details-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--white-10);
+}
+.admin-modal-details-item:last-child {
+  border-bottom: none;
+}

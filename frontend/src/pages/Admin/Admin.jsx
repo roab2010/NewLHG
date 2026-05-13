@@ -37,6 +37,13 @@ export default function Admin() {
   const [recentActivity, setRecentActivity] = useState([])
   const [loading, setLoading] = useState(true)
 
+  // Modal States
+  const [productModal, setProductModal] = useState({ isOpen: false, data: null })
+  const [orderModal, setOrderModal] = useState({ isOpen: false, orderId: null, items: [] })
+  
+  // Form State for Product
+  const [productForm, setProductForm] = useState({ name: '', price: '', stock: '', category: 'Áo' })
+
   useEffect(() => {
     async function loadData() {
       try {
@@ -141,29 +148,49 @@ export default function Admin() {
     } else alert('Lỗi khi cập nhật chức vụ!')
   }
 
-  const handleAddProduct = async () => {
-    const name = window.prompt('Nhập tên sản phẩm:')
-    if (!name) return
-    const priceStr = window.prompt('Nhập giá sản phẩm:')
-    const price = Number(priceStr)
-    if (!priceStr || isNaN(price)) return alert('Giá không hợp lệ')
-    const stockStr = window.prompt('Nhập số lượng tồn kho:')
-    const stock = Number(stockStr) || 0
-    const category = window.prompt('Nhập danh mục (Áo/Phụ kiện/...):') || 'Khác'
+  const handleOpenProductModal = (product = null) => {
+    if (product) {
+      setProductForm({ name: product.name, price: product.price, stock: product.stock, category: product.category || 'Khác' })
+      setProductModal({ isOpen: true, data: product })
+    } else {
+      setProductForm({ name: '', price: '', stock: '', category: 'Áo' })
+      setProductModal({ isOpen: true, data: null })
+    }
+  }
 
-    const newProduct = { name, price, stock, category, created_by: profile?.id }
-    const { data, error } = await supabase.from('products').insert([newProduct]).select()
-    if (!error && data) {
-      setProducts([data[0], ...products])
-      setStats(s => ({ ...s, products: s.products + 1 }))
-    } else alert('Lỗi thêm sản phẩm!')
+  const handleSaveProduct = async () => {
+    if (!productForm.name || !productForm.price) return alert('Vui lòng nhập đủ thông tin!')
+    
+    const productData = { 
+      name: productForm.name, 
+      price: Number(productForm.price), 
+      stock: Number(productForm.stock), 
+      category: productForm.category
+    }
+
+    if (productModal.data) {
+      // Cập nhật
+      const { error } = await supabase.from('products').update(productData).eq('id', productModal.data.id)
+      if (!error) {
+        setProducts(products.map(p => p.id === productModal.data.id ? { ...p, ...productData } : p))
+        setProductModal({ isOpen: false, data: null })
+      } else alert('Lỗi khi cập nhật sản phẩm!')
+    } else {
+      // Thêm mới
+      productData.created_by = profile?.id
+      const { data, error } = await supabase.from('products').insert([productData]).select()
+      if (!error && data) {
+        setProducts([data[0], ...products])
+        setStats(s => ({ ...s, products: s.products + 1 }))
+        setProductModal({ isOpen: false, data: null })
+      } else alert('Lỗi khi thêm sản phẩm!')
+    }
   }
 
   const showOrderDetails = async (orderId) => {
     const { data, error } = await supabase.from('order_items').select('quantity, price, products(name)').eq('order_id', orderId)
     if (!error && data) {
-      const details = data.map(i => `- ${i.products?.name}: ${i.quantity} x ${formatPrice(i.price)}`).join('\n')
-      window.alert(`Chi tiết đơn hàng #${orderId.substring(0,8)}:\n\n${details}`)
+      setOrderModal({ isOpen: true, orderId, items: data })
     } else {
       alert('Không thể lấy chi tiết đơn hàng')
     }
@@ -284,7 +311,7 @@ export default function Admin() {
             <div className="admin-section glass-card">
               <div className="admin-section__header">
                 <h2>Quản Lý Sản Phẩm</h2>
-                <button className="btn btn-primary btn--sm" onClick={handleAddProduct}>
+                <button className="btn btn-primary btn--sm" onClick={() => handleOpenProductModal()}>
                   <Plus size={16} /> Thêm Sản Phẩm
                 </button>
               </div>
@@ -309,15 +336,7 @@ export default function Admin() {
                       <td>{product.stock}</td>
                       <td>
                         <div className="admin-table__actions">
-                          <button className="admin-action-btn" onClick={() => {
-                            const newPrice = window.prompt('Nhập giá mới:', product.price)
-                            if (newPrice && !isNaN(Number(newPrice))) {
-                              supabase.from('products').update({ price: Number(newPrice) }).eq('id', product.id)
-                                .then(({error}) => {
-                                  if (!error) setProducts(products.map(p => p.id === product.id ? {...p, price: Number(newPrice)} : p))
-                                })
-                            }
-                          }}><Edit2 size={16} /></button>
+                          <button className="admin-action-btn" onClick={() => handleOpenProductModal(product)}><Edit2 size={16} /></button>
                           <button className="admin-action-btn admin-action-btn--danger" onClick={() => handleDeleteProduct(product.id)}><Trash2 size={16} /></button>
                         </div>
                       </td>
@@ -358,10 +377,9 @@ export default function Admin() {
                       <td>{formatPrice(order.total_amount)}</td>
                       <td>
                         <select 
-                          className={`admin-status admin-status--${order.status}`}
+                          className={`admin-status admin-status--${order.status} admin-select`}
                           value={order.status}
                           onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
-                          style={{ background: 'transparent', border: '1px solid currentColor', borderRadius: '4px', padding: '2px 8px', outline: 'none' }}
                         >
                           <option value="pending">Chờ xử lý</option>
                           <option value="confirmed">Đã xác nhận</option>
@@ -413,12 +431,11 @@ export default function Admin() {
                         <select
                           value={u.role}
                           onChange={(e) => handleUpdateUserRole(u.id, e.target.value)}
-                          className={`admin-badge admin-badge--${u.role}`}
-                          style={{ background: 'transparent', border: '1px solid currentColor', borderRadius: '4px', outline: 'none' }}
+                          className={`admin-badge admin-badge--${u.role} admin-select`}
                         >
-                          <option value="customer" style={{color: '#000'}}>Customer</option>
-                          <option value="member" style={{color: '#000'}}>Member</option>
-                          <option value="admin" style={{color: '#000'}}>Admin</option>
+                          <option value="customer">Customer</option>
+                          <option value="member">Member</option>
+                          <option value="admin">Admin</option>
                         </select>
                       </td>
                       <td>{formatDate(u.created_at)}</td>
@@ -451,6 +468,73 @@ export default function Admin() {
           </motion.div>
         )}
       </main>
+
+      {/* Modals */}
+      {productModal.isOpen && (
+        <div className="admin-modal-overlay" onClick={() => setProductModal({ isOpen: false, data: null })}>
+          <motion.div 
+            className="admin-modal"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>{productModal.data ? 'Cập Nhật Sản Phẩm' : 'Thêm Sản Phẩm Mới'}</h3>
+            <div className="form-group">
+              <label>Tên sản phẩm</label>
+              <input type="text" value={productForm.name} onChange={e => setProductForm({...productForm, name: e.target.value})} />
+            </div>
+            <div className="form-group">
+              <label>Giá (VNĐ)</label>
+              <input type="number" value={productForm.price} onChange={e => setProductForm({...productForm, price: e.target.value})} />
+            </div>
+            <div className="form-group">
+              <label>Tồn kho</label>
+              <input type="number" value={productForm.stock} onChange={e => setProductForm({...productForm, stock: e.target.value})} />
+            </div>
+            <div className="form-group">
+              <label>Danh mục</label>
+              <select value={productForm.category} onChange={e => setProductForm({...productForm, category: e.target.value})} className="admin-select" style={{ border: '1px solid var(--white-10)' }}>
+                <option value="Áo">Áo</option>
+                <option value="Phụ kiện">Phụ kiện</option>
+                <option value="Khác">Khác</option>
+              </select>
+            </div>
+            <div className="admin-modal-actions">
+              <button className="btn btn-ghost" onClick={() => setProductModal({ isOpen: false, data: null })}>Hủy</button>
+              <button className="btn btn-primary" onClick={handleSaveProduct}>Lưu</button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {orderModal.isOpen && (
+        <div className="admin-modal-overlay" onClick={() => setOrderModal({ isOpen: false, orderId: null, items: [] })}>
+          <motion.div 
+            className="admin-modal"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Chi tiết đơn hàng #{orderModal.orderId?.substring(0,8)}</h3>
+            <div className="admin-modal-details">
+              {orderModal.items.length === 0 ? <p>Không có sản phẩm.</p> : orderModal.items.map((item, idx) => (
+                <div key={idx} className="admin-modal-details-item">
+                  <div>
+                    <strong>{item.products?.name}</strong>
+                    <div style={{ color: 'var(--white-40)', fontSize: '13px' }}>Số lượng: {item.quantity}</div>
+                  </div>
+                  <div style={{ fontWeight: 'bold', color: 'var(--primary)' }}>
+                    {formatPrice(item.price * item.quantity)}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="admin-modal-actions">
+              <button className="btn btn-primary" onClick={() => setOrderModal({ isOpen: false, orderId: null, items: [] })}>Đóng</button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }
