@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, CheckCircle2, Package, MapPin, Phone, User as UserIcon } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
+import { sendTelegramMessage } from '../../services/telegram'
 import './Checkout.css'
 
 export default function Checkout() {
@@ -12,6 +13,7 @@ export default function Checkout() {
   const [cart, setCart] = useState([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [alertDialog, setAlertDialog] = useState({ isOpen: false, message: '', type: 'error' })
   
   const [formData, setFormData] = useState({
     name: profile?.display_name || '',
@@ -99,14 +101,31 @@ export default function Checkout() {
 
       if (itemsError) throw itemsError
 
-      // 3. Thành công
+      // 4. Gửi thông báo Telegram
+      const orderMsg = `
+<b>🛍 ĐƠN HÀNG MỚI!</b>
+------------------------
+<b>Khách hàng:</b> ${formData.name}
+<b>SĐT:</b> ${formData.phone}
+<b>Địa chỉ:</b> ${formData.address}
+<b>Tổng tiền:</b> ${formatPrice(cartTotal)}
+------------------------
+<b>Sản phẩm:</b>
+${cart.map(item => `- ${item.name} (x${item.quantity})`).join('\n')}
+------------------------
+${formData.notes ? `<b>Ghi chú:</b> ${formData.notes}` : ''}
+      `;
+      
+      await sendTelegramMessage(orderMsg);
+
+      // 5. Thành công
       setIsSuccess(true)
       if (user?.id) {
         localStorage.removeItem(`cart_${user.id}`)
       }
     } catch (err) {
       console.error('Lỗi khi đặt hàng:', err)
-      alert('Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!')
+      setAlertDialog({ isOpen: true, message: 'Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!', type: 'error' })
     } finally {
       setIsSubmitting(false)
     }
@@ -260,6 +279,28 @@ export default function Checkout() {
           </div>
         </motion.div>
       </div>
+
+      {alertDialog.isOpen && (
+        <div className="profile-alert-overlay">
+          <motion.div 
+            className="profile-alert-box glass-card"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <div className={`profile-alert-icon ${alertDialog.type}`}>
+              {alertDialog.type === 'success' ? <CheckCircle2 size={32} /> : <X size={32} />}
+            </div>
+            <h3>{alertDialog.type === 'success' ? 'Thành công' : 'Lỗi'}</h3>
+            <p>{alertDialog.message}</p>
+            <button 
+              className={`btn ${alertDialog.type === 'success' ? 'btn-primary' : 'btn-danger'}`} 
+              onClick={() => setAlertDialog({ isOpen: false, message: '', type: 'error' })}
+            >
+              Đóng
+            </button>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }

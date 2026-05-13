@@ -417,6 +417,10 @@
     right: -100%;
   }
 
+  .cart-sidebar.cart-sidebar--open {
+    right: 0;
+  }
+
   .toast-message {
     left: 1rem;
     right: 1rem;
