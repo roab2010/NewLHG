@@ -25,7 +25,7 @@ export default function Profile() {
   
   // Password Change State
   const [isChangingPassword, setIsChangingPassword] = useState(false)
-  const [passwordForm, setPasswordForm] = useState({ new: '', confirm: '' })
+  const [passwordForm, setPasswordForm] = useState({ current: '', new: '', confirm: '' })
 
   useEffect(() => {
     if (profile) {
@@ -87,13 +87,28 @@ export default function Profile() {
       return
     }
     setLoading(true)
+    
+    // Xác thực mật khẩu cũ trước khi đổi
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: passwordForm.current
+    })
+
+    if (signInError) {
+      alert("Mật khẩu hiện tại không chính xác!")
+      setLoading(false)
+      return
+    }
+
+    // Đổi mật khẩu
     const { error } = await supabase.auth.updateUser({
       password: passwordForm.new
     })
+    
     if (!error) {
       alert("Đổi mật khẩu thành công!")
       setIsChangingPassword(false)
-      setPasswordForm({ new: '', confirm: '' })
+      setPasswordForm({ current: '', new: '', confirm: '' })
     } else {
       alert("Lỗi đổi mật khẩu: " + error.message)
     }
@@ -181,6 +196,17 @@ export default function Profile() {
               {isChangingPassword ? (
                 <div className="profile-edit-form">
                   <form onSubmit={handleChangePassword}>
+                    <div className="form-group">
+                      <label>Mật khẩu hiện tại</label>
+                      <input 
+                        type="password" 
+                        value={passwordForm.current} 
+                        onChange={e => setPasswordForm({...passwordForm, current: e.target.value})} 
+                        placeholder="Nhập mật khẩu hiện tại"
+                        className="profile-input"
+                        required 
+                      />
+                    </div>
                     <div className="form-group">
                       <label>Mật khẩu mới</label>
                       <input 
