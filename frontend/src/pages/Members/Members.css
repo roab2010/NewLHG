@@ -1,0 +1,317 @@
+/* ── Members Page ── */
+.members-page {
+  position: relative;
+  padding-top: var(--navbar-height);
+}
+
+.members-page__bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(0, 180, 216, 0.03), transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(0, 245, 255, 0.02), transparent 50%);
+  pointer-events: none;
+}
+
+/* ── Team Photo Container ── */
+.team-photo-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  cursor: crosshair;
+  border: 2px solid var(--white-10);
+  box-shadow: var(--shadow-lg);
+}
+
+.team-photo {
+  width: 100%;
+  display: block;
+  transition: all 0.5s ease;
+}
+
+.team-photo--dimmed {
+  filter: brightness(0.4);
+}
+
+/* ── Member Hover Zones ── */
+.member-zone {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.member-zone__glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  transition: box-shadow 0.4s ease;
+  pointer-events: none;
+}
+
+.member-zone--active {
+  z-index: 3;
+}
+
+/* When hovering a member, show their part bright */
+.team-photo--dimmed ~ .member-zone--active::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* The image is re-applied as background to show bright version */
+  mix-blend-mode: screen;
+}
+
+.member-zone__bottom-glow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  pointer-events: none;
+  animation: fadeIn 0.3s ease;
+}
+
+/* ── Smoke Particles ── */
+.smoke-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.smoke-particle {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  animation: smokeRise ease-out forwards;
+  pointer-events: none;
+}
+
+/* ── Member Tooltip ── */
+.member-tooltip {
+  position: absolute;
+  z-index: 10;
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--member-color, var(--primary));
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  min-width: 250px;
+  pointer-events: none;
+  animation: fadeInUp 0.2s ease;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+              0 0 15px color-mix(in srgb, var(--member-color, var(--primary)) 30%, transparent);
+}
+
+.member-tooltip__hidden-stat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.member-tooltip__stat-label {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--white-40);
+}
+
+.member-tooltip__stat-value {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.member-tooltip__divider {
+  height: 2px;
+  margin: var(--space-sm) 0;
+  opacity: 0.5;
+  border-radius: var(--radius-full);
+}
+
+.member-tooltip__name {
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.member-tooltip__nickname {
+  margin-bottom: var(--space-sm);
+}
+
+.member-tooltip__tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 1px solid;
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.member-tooltip__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--fs-sm);
+  color: var(--white-60);
+}
+
+/* ── Member Cards Grid ── */
+.members-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-2xl);
+}
+
+.member-card {
+  position: relative;
+  padding: var(--space-xl);
+  overflow: hidden;
+  transition: all var(--transition-slow);
+}
+
+.member-card:hover {
+  border-color: var(--card-color);
+  box-shadow: 0 0 25px color-mix(in srgb, var(--card-color) 20%, transparent);
+  transform: translateY(-8px);
+}
+
+.member-card__accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+}
+
+.member-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.member-card__avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark-300);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.member-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transform: scale(1.95);
+  transform-origin: center 35%;
+}
+
+.member-card__avatar span {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 800;
+}
+
+.member-card__stat-badge {
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.member-card__name {
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.member-card__nickname-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--space-md);
+}
+
+.member-card__nickname {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.member-card__ig {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.member-card__ig:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.member-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--fs-sm);
+  color: var(--white-60);
+}
+
+.member-card__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-slow);
+}
+
+.member-card:hover .member-card__glow {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .team-photo-container {
+    border-radius: var(--radius-md);
+  }
+
+  .member-tooltip {
+    display: none;
+  }
+
+  .members-cards {
+    grid-template-columns: 1fr;
+  }
+}
