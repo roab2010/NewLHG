@@ -182,3 +182,7 @@ VALUES
 CREATE POLICY "Admin can see all order items" ON order_items FOR SELECT USING (
   EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
 );
+
+CREATE POLICY "Admin can update orders" ON orders FOR UPDATE USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
