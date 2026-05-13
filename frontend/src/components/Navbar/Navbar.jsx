@@ -133,21 +133,26 @@ export default function Navbar() {
           {user && (
             <>
               <li style={{ borderTop: '1px solid var(--white-10)', paddingTop: 'var(--space-md)', marginTop: 'var(--space-md)', width: '100%' }}>
+                <span style={{ display: 'block', textAlign: 'center', color: 'var(--white-40)', fontSize: 'var(--fs-sm)', marginBottom: 'var(--space-sm)' }}>
+                  Xin chào, {profile?.display_name || 'User'}
+                </span>
+              </li>
+              {profile?.role === 'admin' && (
+                <li>
+                  <Link to="/admin" className="navbar__mobile-link" style={{ color: '#FF1744' }}>
+                    ⚡ Quản Trị Admin
+                  </Link>
+                </li>
+              )}
+              <li>
                 <Link to="/profile" className="navbar__mobile-link">
                   Hồ Sơ
                 </Link>
               </li>
-              {!isAdmin && (
+              {profile?.role !== 'admin' && (
                 <li>
                   <Link to="/profile?tab=orders" className="navbar__mobile-link">
                     Đơn Hàng Của Tôi
-                  </Link>
-                </li>
-              )}
-              {isAdmin && (
-                <li>
-                  <Link to="/admin" className="navbar__mobile-link navbar__mobile-link--primary" style={{ color: '#FF1744' }}>
-                    Admin
                   </Link>
                 </li>
               )}

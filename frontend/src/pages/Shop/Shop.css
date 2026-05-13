@@ -394,10 +394,17 @@
     border: none;
     box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.4);
     color: white;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    opacity: 1 !important;
   }
 
-  .shop__cart-btn:hover {
+  .shop__cart-btn:hover,
+  .shop__cart-btn:active,
+  .shop__cart-btn:focus {
     color: white;
+    background: var(--gradient-primary);
+    opacity: 1 !important;
   }
 
   .shop__cart-badge {
