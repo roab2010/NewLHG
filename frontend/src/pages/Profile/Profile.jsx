@@ -27,6 +27,9 @@ export default function Profile() {
   const [isChangingPassword, setIsChangingPassword] = useState(false)
   const [passwordForm, setPasswordForm] = useState({ current: '', new: '', confirm: '' })
 
+  // Alert Dialog State
+  const [alertDialog, setAlertDialog] = useState({ isOpen: false, message: '', type: 'error' })
+
   useEffect(() => {
     if (profile) {
       setProfileForm({
@@ -69,9 +72,11 @@ export default function Profile() {
     }).eq('id', user.id)
     
     if (!error) {
-      window.location.reload()
+      setAlertDialog({ isOpen: true, message: "Cập nhật thông tin thành công!", type: 'success' })
+      // Delay reload to let user see success message
+      setTimeout(() => window.location.reload(), 1500)
     } else {
-      alert("Lỗi khi cập nhật hồ sơ: " + error.message)
+      setAlertDialog({ isOpen: true, message: "Lỗi khi cập nhật hồ sơ: " + error.message, type: 'error' })
       setLoading(false)
     }
   }
@@ -79,11 +84,11 @@ export default function Profile() {
   const handleChangePassword = async (e) => {
     e.preventDefault()
     if (passwordForm.new !== passwordForm.confirm) {
-      alert("Mật khẩu không khớp!")
+      setAlertDialog({ isOpen: true, message: "Mật khẩu không khớp!", type: 'error' })
       return
     }
     if (passwordForm.new.length < 6) {
-      alert("Mật khẩu phải có ít nhất 6 ký tự!")
+      setAlertDialog({ isOpen: true, message: "Mật khẩu phải có ít nhất 6 ký tự!", type: 'error' })
       return
     }
     setLoading(true)
@@ -95,7 +100,7 @@ export default function Profile() {
     })
 
     if (signInError) {
-      alert("Mật khẩu hiện tại không chính xác!")
+      setAlertDialog({ isOpen: true, message: "Mật khẩu hiện tại không chính xác!", type: 'error' })
       setLoading(false)
       return
     }
@@ -106,11 +111,11 @@ export default function Profile() {
     })
     
     if (!error) {
-      alert("Đổi mật khẩu thành công!")
+      setAlertDialog({ isOpen: true, message: "Đổi mật khẩu thành công!", type: 'success' })
       setIsChangingPassword(false)
       setPasswordForm({ current: '', new: '', confirm: '' })
     } else {
-      alert("Lỗi đổi mật khẩu: " + error.message)
+      setAlertDialog({ isOpen: true, message: "Lỗi đổi mật khẩu: " + error.message, type: 'error' })
     }
     setLoading(false)
   }
@@ -358,6 +363,28 @@ export default function Profile() {
           )}
         </div>
       </div>
+
+      {alertDialog.isOpen && (
+        <div className="profile-alert-overlay">
+          <motion.div 
+            className="profile-alert-box glass-card"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <div className={`profile-alert-icon ${alertDialog.type}`}>
+              {alertDialog.type === 'success' ? <Package size={32} /> : <X size={32} />}
+            </div>
+            <h3>{alertDialog.type === 'success' ? 'Thành công' : 'Lỗi'}</h3>
+            <p>{alertDialog.message}</p>
+            <button 
+              className={`btn ${alertDialog.type === 'success' ? 'btn-primary' : 'btn-danger'}`} 
+              onClick={() => setAlertDialog({ isOpen: false, message: '', type: 'error' })}
+            >
+              Đóng
+            </button>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }

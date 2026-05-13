@@ -307,3 +307,15 @@
 .profile-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2); }
 .form-group { margin-bottom: 1.5rem; }
 .form-group label { display: block; margin-bottom: 0.5rem; color: var(--white-80); }
+
+/* Alert Dialog */
+.profile-alert-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; backdrop-filter: blur(4px); }
+.profile-alert-box { background: var(--dark-bg); padding: 2.5rem 2rem; border-radius: var(--radius-lg); border: 1px solid var(--white-10); width: 100%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.profile-alert-icon { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
+.profile-alert-icon.success { background: rgba(16, 185, 129, 0.1); color: #10B981; }
+.profile-alert-icon.error { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
+.profile-alert-box h3 { margin: 0 0 1rem; font-size: 1.5rem; }
+.profile-alert-box p { color: var(--white-60); margin-bottom: 2rem; line-height: 1.5; }
+.profile-alert-box .btn { width: 100%; justify-content: center; }
+.btn-danger { background: #EF4444; color: white; border: 1px solid transparent; }
+.btn-danger:hover { background: #DC2626; }
