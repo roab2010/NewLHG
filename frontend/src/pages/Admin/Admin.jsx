@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   LayoutDashboard, Package, ShoppingBag, Users, FileText,
-  Plus, Edit2, Trash2, Eye, TrendingUp, DollarSign, UserCheck
+  Plus, Edit2, Trash2, Eye, TrendingUp, DollarSign, UserCheck, Upload
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
@@ -40,9 +40,10 @@ export default function Admin() {
   // Modal States
   const [productModal, setProductModal] = useState({ isOpen: false, data: null })
   const [orderModal, setOrderModal] = useState({ isOpen: false, orderId: null, items: [] })
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, message: '', onConfirm: null })
   
   // Form State for Product
-  const [productForm, setProductForm] = useState({ name: '', price: '', stock: '', category: 'Áo' })
+  const [productForm, setProductForm] = useState({ name: '', price: '', stock: '', category: 'Áo', image_url: '' })
 
   useEffect(() => {
     async function loadData() {
@@ -115,18 +116,30 @@ export default function Admin() {
     }
   }, [profile])
 
-  const handleDeleteProduct = async (id) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) return
-    const { error } = await supabase.from('products').delete().eq('id', id)
-    if (!error) setProducts(products.filter(p => p.id !== id))
-    else alert('Lỗi khi xóa sản phẩm: ' + error.message)
+  const handleDeleteProduct = (id) => {
+    setConfirmDialog({
+      isOpen: true,
+      message: 'Bạn có chắc chắn muốn xóa sản phẩm này?',
+      onConfirm: async () => {
+        const { error } = await supabase.from('products').delete().eq('id', id)
+        if (!error) setProducts(products.filter(p => p.id !== id))
+        else alert('Lỗi khi xóa sản phẩm: ' + error.message)
+        setConfirmDialog({ isOpen: false })
+      }
+    })
   }
 
-  const handleDeleteUser = async (id) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa người dùng này?')) return
-    const { error } = await supabase.from('profiles').delete().eq('id', id)
-    if (!error) setUsers(users.filter(u => u.id !== id))
-    else alert('Lỗi khi xóa người dùng: ' + error.message)
+  const handleDeleteUser = (id) => {
+    setConfirmDialog({
+      isOpen: true,
+      message: 'Bạn có chắc chắn muốn xóa người dùng này?',
+      onConfirm: async () => {
+        const { error } = await supabase.from('profiles').delete().eq('id', id)
+        if (!error) setUsers(users.filter(u => u.id !== id))
+        else alert('Lỗi khi xóa người dùng: ' + error.message)
+        setConfirmDialog({ isOpen: false })
+      }
+    })
   }
 
   const handleUpdateOrderStatus = async (id, newStatus) => {
@@ -148,24 +161,39 @@ export default function Admin() {
     } else alert('Lỗi khi cập nhật chức vụ!')
   }
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0] || e.dataTransfer?.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setProductForm(prev => ({...prev, image_url: reader.result}))
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
   const handleOpenProductModal = (product = null) => {
     if (product) {
-      setProductForm({ name: product.name, price: product.price, stock: product.stock, category: product.category || 'Khác' })
+      setProductForm({ name: product.name, price: product.price, stock: product.stock, category: product.category || 'Khác', image_url: product.image_url || '' })
       setProductModal({ isOpen: true, data: product })
     } else {
-      setProductForm({ name: '', price: '', stock: '', category: 'Áo' })
+      setProductForm({ name: '', price: '', stock: '', category: 'Áo', image_url: '' })
       setProductModal({ isOpen: true, data: null })
     }
   }
 
   const handleSaveProduct = async () => {
-    if (!productForm.name || !productForm.price) return alert('Vui lòng nhập đủ thông tin!')
+    if (!productForm.name || productForm.price === '') return alert('Vui lòng nhập đủ thông tin!')
     
+    if (Number(productForm.price) < 0) return alert('Giá sản phẩm không được âm!')
+    if (Number(productForm.stock) < 0) return alert('Số lượng tồn kho không được âm!')
+
     const productData = { 
       name: productForm.name, 
       price: Number(productForm.price), 
       stock: Number(productForm.stock), 
-      category: productForm.category
+      category: productForm.category,
+      image_url: productForm.image_url
     }
 
     if (productModal.data) {
@@ -485,11 +513,11 @@ export default function Admin() {
             </div>
             <div className="form-group">
               <label>Giá (VNĐ)</label>
-              <input type="number" value={productForm.price} onChange={e => setProductForm({...productForm, price: e.target.value})} />
+              <input type="number" min="0" value={productForm.price} onChange={e => setProductForm({...productForm, price: e.target.value})} />
             </div>
             <div className="form-group">
               <label>Tồn kho</label>
-              <input type="number" value={productForm.stock} onChange={e => setProductForm({...productForm, stock: e.target.value})} />
+              <input type="number" min="0" value={productForm.stock} onChange={e => setProductForm({...productForm, stock: e.target.value})} />
             </div>
             <div className="form-group">
               <label>Danh mục</label>
@@ -498,6 +526,25 @@ export default function Admin() {
                 <option value="Phụ kiện">Phụ kiện</option>
                 <option value="Khác">Khác</option>
               </select>
+            </div>
+            <div className="form-group">
+              <label>Hình ảnh sản phẩm</label>
+              <div 
+                className="admin-image-dropzone"
+                onDragOver={e => e.preventDefault()}
+                onDrop={e => { e.preventDefault(); handleImageUpload(e) }}
+                onClick={() => document.getElementById('productImageInput').click()}
+              >
+                <input type="file" id="productImageInput" accept="image/*" style={{display: 'none'}} onChange={handleImageUpload} />
+                {productForm.image_url ? (
+                  <img src={productForm.image_url} alt="preview" className="admin-image-preview" />
+                ) : (
+                  <div className="admin-image-placeholder">
+                    <Upload size={24} />
+                    <p>Kéo thả ảnh hoặc click để chọn</p>
+                  </div>
+                )}
+              </div>
             </div>
             <div className="admin-modal-actions">
               <button className="btn btn-ghost" onClick={() => setProductModal({ isOpen: false, data: null })}>Hủy</button>
@@ -531,6 +578,22 @@ export default function Admin() {
             </div>
             <div className="admin-modal-actions">
               <button className="btn btn-primary" onClick={() => setOrderModal({ isOpen: false, orderId: null, items: [] })}>Đóng</button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {confirmDialog.isOpen && (
+        <div className="admin-confirm-overlay">
+          <motion.div 
+            className="admin-confirm"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <p>{confirmDialog.message}</p>
+            <div className="admin-confirm-actions">
+              <button className="btn btn-ghost" onClick={() => setConfirmDialog({ isOpen: false })}>Hủy</button>
+              <button className="btn btn-primary" style={{ background: '#FF1744', borderColor: '#FF1744', color: 'white' }} onClick={confirmDialog.onConfirm}>Đồng ý</button>
             </div>
           </motion.div>
         </div>

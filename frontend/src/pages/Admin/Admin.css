@@ -461,3 +461,73 @@
 .admin-modal-details-item:last-child {
   border-bottom: none;
 }
+
+/* Image Dropzone */
+.admin-image-dropzone {
+  border: 2px dashed var(--white-20);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--dark-300);
+  margin-bottom: var(--space-md);
+}
+
+.admin-image-dropzone:hover {
+  border-color: var(--accent);
+  background: var(--dark-400);
+}
+
+.admin-image-preview {
+  max-width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+.admin-image-placeholder {
+  color: var(--white-40);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Confirm Dialog */
+.admin-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.admin-confirm {
+  background: var(--dark-200);
+  border: 1px solid var(--white-10);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.admin-confirm p {
+  margin-bottom: var(--space-xl);
+  color: var(--white);
+  font-size: var(--fs-md);
+}
+
+.admin-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+}
