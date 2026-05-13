@@ -347,6 +347,7 @@ export default function Admin() {
               <table className="admin-table">
                 <thead>
                   <tr>
+                    <th>Hình ảnh</th>
                     <th>Tên</th>
                     <th>Danh mục</th>
                     <th>Giá</th>
@@ -356,9 +357,16 @@ export default function Admin() {
                 </thead>
                 <tbody>
                   {products.length === 0 ? (
-                    <tr><td colSpan="5" style={{textAlign:'center'}}>Chưa có sản phẩm nào.</td></tr>
+                    <tr><td colSpan="6" style={{textAlign:'center'}}>Chưa có sản phẩm nào.</td></tr>
                   ) : products.map(product => (
                     <tr key={product.id}>
+                      <td>
+                        <img 
+                          src={product.image_url || '/images/shop/placeholder.jpg'} 
+                          alt={product.name} 
+                          style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} 
+                        />
+                      </td>
                       <td>{product.name}</td>
                       <td><span className="admin-badge">{product.category || 'Khác'}</span></td>
                       <td>{formatPrice(product.price)}</td>
