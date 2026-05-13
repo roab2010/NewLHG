@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Filter, ShoppingCart, Plus, Star, Package, AlertCircle } from 'lucide-react'
+import { Search, Filter, ShoppingCart, Plus, Star, Package, AlertCircle, Trash2 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { fetchProducts } from '../../services/api'
 import './Shop.css'
@@ -82,10 +83,38 @@ export default function Shop() {
   const [products, setProducts] = useState(sampleProducts)
   const [selectedCategory, setSelectedCategory] = useState('Tất cả')
   const [searchTerm, setSearchTerm] = useState('')
-  const [cart, setCart] = useState([])
+  const { isAuthenticated, user } = useAuth()
+  
+  // Khởi tạo giỏ hàng từ localStorage dựa theo user ID
+  const [cart, setCart] = useState(() => {
+    if (user?.id) {
+      const saved = localStorage.getItem(`cart_${user.id}`)
+      return saved ? JSON.parse(saved) : []
+    }
+    return []
+  })
+  
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
-  const { isAuthenticated } = useAuth()
+  const navigate = useNavigate()
+
+  // Cập nhật giỏ hàng khi đổi user (đăng nhập/đăng xuất)
+  useEffect(() => {
+    if (user?.id) {
+      const saved = localStorage.getItem(`cart_${user.id}`)
+      setCart(saved ? JSON.parse(saved) : [])
+    } else {
+      setCart([])
+      setIsCartOpen(false)
+    }
+  }, [user?.id])
+
+  // Lưu giỏ hàng vào localStorage mỗi khi có thay đổi
+  useEffect(() => {
+    if (user?.id) {
+      localStorage.setItem(`cart_${user.id}`, JSON.stringify(cart))
+    }
+  }, [cart, user?.id])
 
   // Fetch sản phẩm từ Supabase
   useEffect(() => {
@@ -287,8 +316,15 @@ export default function Shop() {
               <span>Tổng cộng:</span>
               <span className="cart-sidebar__total-value">{formatPrice(cartTotal)}</span>
             </div>
-            <button className="btn btn-primary" style={{ width: '100%' }}>
-              Đặt Hàng
+            <button 
+              className="btn btn-primary" 
+              style={{ width: '100%' }}
+              onClick={() => {
+                setIsCartOpen(false);
+                navigate('/checkout');
+              }}
+            >
+              Tiến Hành Đặt Hàng
             </button>
           </div>
         )}

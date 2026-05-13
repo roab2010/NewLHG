@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useRef } from 'react'
 import { supabase } from '../services/supabase'
 
 const AuthContext = createContext({})
@@ -7,25 +7,55 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
+  const fetchingRef = useRef(false)
+
+  async function fetchProfile(userId) {
+    // Chống gọi trùng lặp
+    if (fetchingRef.current) return
+    fetchingRef.current = true
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+
+      if (error) {
+        console.error('[AuthContext] fetchProfile error:', error)
+        setProfile(null)
+      } else {
+        setProfile(data)
+      }
+    } catch (error) {
+      console.error('[AuthContext] fetchProfile exception:', error)
+      setProfile(null)
+    } finally {
+      fetchingRef.current = false
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    // Get initial session
+    // Lấy session hiện tại khi mount
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
       if (session?.user) {
+        setUser(session.user)
         fetchProfile(session.user.id)
       } else {
         setLoading(false)
       }
     })
 
-    // Listen for auth changes
+    // Lắng nghe thay đổi auth (login, logout, token refresh)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setUser(session?.user ?? null)
-        if (session?.user) {
-          await fetchProfile(session.user.id)
-        } else {
+      (event, session) => {
+        // Chỉ xử lý SIGNED_IN và SIGNED_OUT, bỏ qua TOKEN_REFRESHED và INITIAL_SESSION
+        if (event === 'SIGNED_IN') {
+          setUser(session.user)
+          fetchProfile(session.user.id)
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null)
           setProfile(null)
           setLoading(false)
         }
@@ -34,24 +64,6 @@ export function AuthProvider({ children }) {
 
     return () => subscription.unsubscribe()
   }, [])
-
-  async function fetchProfile(userId) {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single()
-
-      if (error) throw error
-      setProfile(data)
-    } catch (error) {
-      console.error('Error fetching profile:', error)
-      setProfile(null)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   async function signUp(email, password, displayName) {
     const { data, error } = await supabase.auth.signUp({
@@ -77,10 +89,19 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
-    const { error } = await supabase.auth.signOut()
-    if (error) throw error
+    // Xóa state ngay lập tức TRƯỚC khi gọi API
     setUser(null)
     setProfile(null)
+
+    try {
+      await supabase.auth.signOut()
+    } catch (err) {
+      console.warn('[AuthContext] signOut error (ignored):', err)
+    }
+
+    localStorage.clear()
+    sessionStorage.clear()
+    window.location.href = '/'
   }
 
   const value = {

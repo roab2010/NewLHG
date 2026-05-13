@@ -9,6 +9,7 @@ import Stats from './pages/Stats/Stats'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import Admin from './pages/Admin/Admin'
+import Checkout from './pages/Checkout/Checkout'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import './App.css'
 
@@ -57,6 +58,14 @@ function AppContent() {
             <Route path="/stats" element={<Stats />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route 
+              path="/checkout" 
+              element={
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+              } 
+            />
             <Route
               path="/admin/*"
               element={
