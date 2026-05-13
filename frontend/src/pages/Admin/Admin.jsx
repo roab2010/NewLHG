@@ -40,6 +40,7 @@ export default function Admin() {
   // Modal States
   const [productModal, setProductModal] = useState({ isOpen: false, data: null })
   const [orderModal, setOrderModal] = useState({ isOpen: false, order: null, items: [] })
+  const [userDetailModal, setUserDetailModal] = useState({ isOpen: false, user: null })
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, message: '', onConfirm: null })
   const [alertDialog, setAlertDialog] = useState({ isOpen: false, message: '' })
   
@@ -461,10 +462,10 @@ export default function Admin() {
                   {users.length === 0 ? (
                     <tr><td colSpan="5" style={{textAlign:'center'}}>Chưa có người dùng.</td></tr>
                   ) : users.map(u => (
-                    <tr key={u.id}>
+                    <tr key={u.id} style={{ cursor: 'pointer' }} onClick={() => setUserDetailModal({ isOpen: true, user: u })}>
                       <td>{u.display_name || 'Chưa đặt tên'}</td>
                       <td>ID: {u.id.substring(0,8)}...</td>
-                      <td>
+                      <td onClick={(e) => e.stopPropagation()}>
                         <select
                           value={u.role}
                           onChange={(e) => handleUpdateUserRole(u.id, e.target.value)}
@@ -476,8 +477,9 @@ export default function Admin() {
                         </select>
                       </td>
                       <td>{formatDate(u.created_at)}</td>
-                      <td>
+                      <td onClick={(e) => e.stopPropagation()}>
                         <div className="admin-table__actions">
+                          <button className="admin-action-btn" onClick={() => setUserDetailModal({ isOpen: true, user: u })}><Eye size={16} /></button>
                           <button className="admin-action-btn admin-action-btn--danger" onClick={() => handleDeleteUser(u.id)}><Trash2 size={16} /></button>
                         </div>
                       </td>
@@ -591,6 +593,54 @@ export default function Admin() {
             </div>
             <div className="admin-modal-actions">
               <button className="btn btn-primary" onClick={() => setOrderModal({ isOpen: false, order: null, items: [] })}>Đóng</button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {userDetailModal.isOpen && (
+        <div className="admin-modal-overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) setUserDetailModal({ isOpen: false, user: null }) }}>
+          <motion.div 
+            className="admin-modal"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <h3>Thông tin người dùng</h3>
+            <div className="admin-user-detail">
+              <div className="admin-user-detail__avatar">
+                <Users size={40} />
+              </div>
+              <div className="admin-user-detail__grid">
+                <div className="admin-user-detail__item">
+                  <span className="admin-user-detail__label">Tên hiển thị</span>
+                  <span className="admin-user-detail__value">{userDetailModal.user?.display_name || 'Chưa cập nhật'}</span>
+                </div>
+                <div className="admin-user-detail__item">
+                  <span className="admin-user-detail__label">ID</span>
+                  <span className="admin-user-detail__value" style={{ fontSize: '13px', wordBreak: 'break-all' }}>{userDetailModal.user?.id}</span>
+                </div>
+                <div className="admin-user-detail__item">
+                  <span className="admin-user-detail__label">Số điện thoại</span>
+                  <span className="admin-user-detail__value">{userDetailModal.user?.phone || 'Chưa cập nhật'}</span>
+                </div>
+                <div className="admin-user-detail__item">
+                  <span className="admin-user-detail__label">Địa chỉ</span>
+                  <span className="admin-user-detail__value">{userDetailModal.user?.address || 'Chưa cập nhật'}</span>
+                </div>
+                <div className="admin-user-detail__item">
+                  <span className="admin-user-detail__label">Vai trò</span>
+                  <span className="admin-user-detail__value">
+                    <span className={`admin-badge admin-badge--${userDetailModal.user?.role}`}>{userDetailModal.user?.role}</span>
+                  </span>
+                </div>
+                <div className="admin-user-detail__item">
+                  <span className="admin-user-detail__label">Ngày tham gia</span>
+                  <span className="admin-user-detail__value">{userDetailModal.user ? formatDate(userDetailModal.user.created_at) : ''}</span>
+                </div>
+              </div>
+            </div>
+            <div className="admin-modal-actions">
+              <button className="btn btn-primary" onClick={() => setUserDetailModal({ isOpen: false, user: null })}>Đóng</button>
             </div>
           </motion.div>
         </div>

@@ -531,3 +531,12 @@
   justify-content: center;
   gap: var(--space-md);
 }
+
+/* User Detail Modal */
+.admin-user-detail { text-align: center; margin-bottom: var(--space-xl); }
+.admin-user-detail__avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), #8B5CF6); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-xl); box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.3); }
+.admin-user-detail__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); text-align: left; }
+.admin-user-detail__item { background: var(--dark-bg, #0a0a0f); padding: var(--space-md); border-radius: var(--radius-md); border: 1px solid var(--white-10); }
+.admin-user-detail__label { display: block; font-size: 0.75rem; color: var(--white-40); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.admin-user-detail__value { font-size: 1rem; font-weight: 500; color: var(--white); }
+.admin-table tbody tr:hover { background: var(--white-5); }
