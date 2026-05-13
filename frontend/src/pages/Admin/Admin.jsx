@@ -58,7 +58,9 @@ export default function Admin() {
         setOrders(ordersData || [])
 
         // Tính toán stats
-        const totalRevenue = (ordersData || []).reduce((sum, o) => sum + Number(o.total_amount || 0), 0)
+        const totalRevenue = (ordersData || [])
+          .filter(o => o.status === 'delivered')
+          .reduce((sum, o) => sum + Number(o.total_amount || 0), 0)
         setStats({
           users: usersData?.length || 0,
           orders: ordersData?.length || 0,
@@ -105,6 +107,67 @@ export default function Admin() {
       loadData()
     }
   }, [profile])
+
+  const handleDeleteProduct = async (id) => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) return
+    const { error } = await supabase.from('products').delete().eq('id', id)
+    if (!error) setProducts(products.filter(p => p.id !== id))
+    else alert('Lỗi khi xóa sản phẩm: ' + error.message)
+  }
+
+  const handleDeleteUser = async (id) => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa người dùng này?')) return
+    const { error } = await supabase.from('profiles').delete().eq('id', id)
+    if (!error) setUsers(users.filter(u => u.id !== id))
+    else alert('Lỗi khi xóa người dùng: ' + error.message)
+  }
+
+  const handleUpdateOrderStatus = async (id, newStatus) => {
+    const { error } = await supabase.from('orders').update({ status: newStatus }).eq('id', id)
+    if (!error) {
+      setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus } : o))
+      // Cập nhật lại doanh thu nếu chuyển thành delivered
+      if (newStatus === 'delivered') {
+        const o = orders.find(x => x.id === id)
+        if (o) setStats(s => ({ ...s, revenue: s.revenue + Number(o.total_amount) }))
+      }
+    } else alert('Lỗi khi cập nhật trạng thái đơn hàng!')
+  }
+
+  const handleUpdateUserRole = async (id, newRole) => {
+    const { error } = await supabase.from('profiles').update({ role: newRole }).eq('id', id)
+    if (!error) {
+      setUsers(users.map(u => u.id === id ? { ...u, role: newRole } : u))
+    } else alert('Lỗi khi cập nhật chức vụ!')
+  }
+
+  const handleAddProduct = async () => {
+    const name = window.prompt('Nhập tên sản phẩm:')
+    if (!name) return
+    const priceStr = window.prompt('Nhập giá sản phẩm:')
+    const price = Number(priceStr)
+    if (!priceStr || isNaN(price)) return alert('Giá không hợp lệ')
+    const stockStr = window.prompt('Nhập số lượng tồn kho:')
+    const stock = Number(stockStr) || 0
+    const category = window.prompt('Nhập danh mục (Áo/Phụ kiện/...):') || 'Khác'
+
+    const newProduct = { name, price, stock, category, created_by: profile?.id }
+    const { data, error } = await supabase.from('products').insert([newProduct]).select()
+    if (!error && data) {
+      setProducts([data[0], ...products])
+      setStats(s => ({ ...s, products: s.products + 1 }))
+    } else alert('Lỗi thêm sản phẩm!')
+  }
+
+  const showOrderDetails = async (orderId) => {
+    const { data, error } = await supabase.from('order_items').select('quantity, price, products(name)').eq('order_id', orderId)
+    if (!error && data) {
+      const details = data.map(i => `- ${i.products?.name}: ${i.quantity} x ${formatPrice(i.price)}`).join('\n')
+      window.alert(`Chi tiết đơn hàng #${orderId.substring(0,8)}:\n\n${details}`)
+    } else {
+      alert('Không thể lấy chi tiết đơn hàng')
+    }
+  }
 
   return (
     <div className="admin-page">
@@ -221,7 +284,7 @@ export default function Admin() {
             <div className="admin-section glass-card">
               <div className="admin-section__header">
                 <h2>Quản Lý Sản Phẩm</h2>
-                <button className="btn btn-primary btn--sm">
+                <button className="btn btn-primary btn--sm" onClick={handleAddProduct}>
                   <Plus size={16} /> Thêm Sản Phẩm
                 </button>
               </div>
@@ -246,8 +309,16 @@ export default function Admin() {
                       <td>{product.stock}</td>
                       <td>
                         <div className="admin-table__actions">
-                          <button className="admin-action-btn"><Edit2 size={16} /></button>
-                          <button className="admin-action-btn admin-action-btn--danger"><Trash2 size={16} /></button>
+                          <button className="admin-action-btn" onClick={() => {
+                            const newPrice = window.prompt('Nhập giá mới:', product.price)
+                            if (newPrice && !isNaN(Number(newPrice))) {
+                              supabase.from('products').update({ price: Number(newPrice) }).eq('id', product.id)
+                                .then(({error}) => {
+                                  if (!error) setProducts(products.map(p => p.id === product.id ? {...p, price: Number(newPrice)} : p))
+                                })
+                            }
+                          }}><Edit2 size={16} /></button>
+                          <button className="admin-action-btn admin-action-btn--danger" onClick={() => handleDeleteProduct(product.id)}><Trash2 size={16} /></button>
                         </div>
                       </td>
                     </tr>
@@ -274,6 +345,7 @@ export default function Admin() {
                     <th>Tổng tiền</th>
                     <th>Trạng thái</th>
                     <th>Ngày đặt</th>
+                    <th>Chi tiết</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -285,14 +357,25 @@ export default function Admin() {
                       <td>{order.user?.display_name || 'Khách'}</td>
                       <td>{formatPrice(order.total_amount)}</td>
                       <td>
-                        <span className={`admin-status admin-status--${order.status}`}>
-                          {order.status === 'pending' ? 'Chờ xử lý' : 
-                           order.status === 'confirmed' ? 'Đã xác nhận' :
-                           order.status === 'shipped' ? 'Đang giao' :
-                           order.status === 'delivered' ? 'Đã giao' : 'Đã hủy'}
-                        </span>
+                        <select 
+                          className={`admin-status admin-status--${order.status}`}
+                          value={order.status}
+                          onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
+                          style={{ background: 'transparent', border: '1px solid currentColor', borderRadius: '4px', padding: '2px 8px', outline: 'none' }}
+                        >
+                          <option value="pending">Chờ xử lý</option>
+                          <option value="confirmed">Đã xác nhận</option>
+                          <option value="shipped">Đang giao</option>
+                          <option value="delivered">Đã giao</option>
+                          <option value="cancelled">Đã hủy</option>
+                        </select>
                       </td>
                       <td>{formatDate(order.created_at)}</td>
+                      <td>
+                        <button className="admin-action-btn" onClick={() => showOrderDetails(order.id)}>
+                          <Eye size={16} />
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -327,15 +410,21 @@ export default function Admin() {
                       <td>{u.display_name || 'Chưa đặt tên'}</td>
                       <td>ID: {u.id.substring(0,8)}...</td>
                       <td>
-                        <span className={`admin-badge admin-badge--${u.role}`}>
-                          {u.role.toUpperCase()}
-                        </span>
+                        <select
+                          value={u.role}
+                          onChange={(e) => handleUpdateUserRole(u.id, e.target.value)}
+                          className={`admin-badge admin-badge--${u.role}`}
+                          style={{ background: 'transparent', border: '1px solid currentColor', borderRadius: '4px', outline: 'none' }}
+                        >
+                          <option value="customer" style={{color: '#000'}}>Customer</option>
+                          <option value="member" style={{color: '#000'}}>Member</option>
+                          <option value="admin" style={{color: '#000'}}>Admin</option>
+                        </select>
                       </td>
                       <td>{formatDate(u.created_at)}</td>
                       <td>
                         <div className="admin-table__actions">
-                          <button className="admin-action-btn"><Edit2 size={16} /></button>
-                          <button className="admin-action-btn admin-action-btn--danger"><Trash2 size={16} /></button>
+                          <button className="admin-action-btn admin-action-btn--danger" onClick={() => handleDeleteUser(u.id)}><Trash2 size={16} /></button>
                         </div>
                       </td>
                     </tr>
