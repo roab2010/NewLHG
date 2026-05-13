@@ -178,3 +178,7 @@ VALUES
   ('Đặng Thành Lộc', 'LocMaster', '2004-11-14', 'IGL / Analyst', 'Phân Tích', '#EF4444', 5),
   ('Hoàng Trí Luật', 'YenOi', '2004-01-01', 'Lurker', 'Phán Đoán', '#A855F7', 6),
   ('Phạm Thanh Tài', 'Taile', '2004-06-12', 'AWPer', 'Rình Ai Tắm', '#EC4899', 7);
+
+CREATE POLICY "Admin can see all order items" ON order_items FOR SELECT USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);

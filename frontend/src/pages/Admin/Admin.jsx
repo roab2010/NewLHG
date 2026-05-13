@@ -41,6 +41,7 @@ export default function Admin() {
   const [productModal, setProductModal] = useState({ isOpen: false, data: null })
   const [orderModal, setOrderModal] = useState({ isOpen: false, orderId: null, items: [] })
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, message: '', onConfirm: null })
+  const [alertDialog, setAlertDialog] = useState({ isOpen: false, message: '' })
   
   // Form State for Product
   const [productForm, setProductForm] = useState({ name: '', price: '', stock: '', category: 'Áo', image_url: '' })
@@ -123,7 +124,7 @@ export default function Admin() {
       onConfirm: async () => {
         const { error } = await supabase.from('products').delete().eq('id', id)
         if (!error) setProducts(products.filter(p => p.id !== id))
-        else alert('Lỗi khi xóa sản phẩm: ' + error.message)
+        else setAlertDialog({ isOpen: true, message: 'Lỗi khi xóa sản phẩm: ' + error.message })
         setConfirmDialog({ isOpen: false })
       }
     })
@@ -136,7 +137,7 @@ export default function Admin() {
       onConfirm: async () => {
         const { error } = await supabase.from('profiles').delete().eq('id', id)
         if (!error) setUsers(users.filter(u => u.id !== id))
-        else alert('Lỗi khi xóa người dùng: ' + error.message)
+        else setAlertDialog({ isOpen: true, message: 'Lỗi khi xóa người dùng: ' + error.message })
         setConfirmDialog({ isOpen: false })
       }
     })
@@ -151,14 +152,14 @@ export default function Admin() {
         const o = orders.find(x => x.id === id)
         if (o) setStats(s => ({ ...s, revenue: s.revenue + Number(o.total_amount) }))
       }
-    } else alert('Lỗi khi cập nhật trạng thái đơn hàng!')
+    } else setAlertDialog({ isOpen: true, message: 'Lỗi khi cập nhật trạng thái đơn hàng!' })
   }
 
   const handleUpdateUserRole = async (id, newRole) => {
     const { error } = await supabase.from('profiles').update({ role: newRole }).eq('id', id)
     if (!error) {
       setUsers(users.map(u => u.id === id ? { ...u, role: newRole } : u))
-    } else alert('Lỗi khi cập nhật chức vụ!')
+    } else setAlertDialog({ isOpen: true, message: 'Lỗi khi cập nhật chức vụ!' })
   }
 
   const handleImageUpload = (e) => {
@@ -183,10 +184,10 @@ export default function Admin() {
   }
 
   const handleSaveProduct = async () => {
-    if (!productForm.name || productForm.price === '') return alert('Vui lòng nhập đủ thông tin!')
+    if (!productForm.name || productForm.price === '') return setAlertDialog({ isOpen: true, message: 'Vui lòng nhập đủ thông tin!' })
     
-    if (Number(productForm.price) < 0) return alert('Giá sản phẩm không được âm!')
-    if (Number(productForm.stock) < 0) return alert('Số lượng tồn kho không được âm!')
+    if (Number(productForm.price) < 0) return setAlertDialog({ isOpen: true, message: 'Giá sản phẩm không được âm!' })
+    if (Number(productForm.stock) < 0) return setAlertDialog({ isOpen: true, message: 'Số lượng tồn kho không được âm!' })
 
     const productData = { 
       name: productForm.name, 
@@ -202,7 +203,7 @@ export default function Admin() {
       if (!error) {
         setProducts(products.map(p => p.id === productModal.data.id ? { ...p, ...productData } : p))
         setProductModal({ isOpen: false, data: null })
-      } else alert('Lỗi khi cập nhật sản phẩm!')
+      } else setAlertDialog({ isOpen: true, message: 'Lỗi khi cập nhật sản phẩm!' })
     } else {
       // Thêm mới
       productData.created_by = profile?.id
@@ -211,7 +212,7 @@ export default function Admin() {
         setProducts([data[0], ...products])
         setStats(s => ({ ...s, products: s.products + 1 }))
         setProductModal({ isOpen: false, data: null })
-      } else alert('Lỗi khi thêm sản phẩm!')
+      } else setAlertDialog({ isOpen: true, message: 'Lỗi khi thêm sản phẩm!' })
     }
   }
 
@@ -220,7 +221,7 @@ export default function Admin() {
     if (!error && data) {
       setOrderModal({ isOpen: true, orderId, items: data })
     } else {
-      alert('Không thể lấy chi tiết đơn hàng')
+      setAlertDialog({ isOpen: true, message: 'Không thể lấy chi tiết đơn hàng' })
     }
   }
 
@@ -594,6 +595,21 @@ export default function Admin() {
             <div className="admin-confirm-actions">
               <button className="btn btn-ghost" onClick={() => setConfirmDialog({ isOpen: false })}>Hủy</button>
               <button className="btn btn-primary" style={{ background: '#FF1744', borderColor: '#FF1744', color: 'white' }} onClick={confirmDialog.onConfirm}>Đồng ý</button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {alertDialog.isOpen && (
+        <div className="admin-confirm-overlay">
+          <motion.div 
+            className="admin-confirm"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <p>{alertDialog.message}</p>
+            <div className="admin-confirm-actions">
+              <button className="btn btn-primary" onClick={() => setAlertDialog({ isOpen: false, message: '' })}>Đóng</button>
             </div>
           </motion.div>
         </div>
