@@ -17,16 +17,94 @@ const sidebarItems = [
   { key: 'posts', label: 'Bài Viết', icon: <FileText size={20} /> },
 ]
 
-const dashboardStats = [
-  { label: 'Người dùng', value: '156', change: '+12%', icon: <Users size={24} />, color: '#3B82F6' },
-  { label: 'Đơn hàng', value: '48', change: '+8%', icon: <ShoppingBag size={24} />, color: '#10B981' },
-  { label: 'Doanh thu', value: '12.5M', change: '+23%', icon: <DollarSign size={24} />, color: '#F59E0B' },
-  { label: 'Sản phẩm', value: '24', change: '+3', icon: <Package size={24} />, color: '#8B5CF6' },
-]
+const formatPrice = (price) => {
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)
+}
+
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('vi-VN')
+}
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState('dashboard')
   const { profile } = useAuth()
+  
+  // Data States
+  const [stats, setStats] = useState({ users: 0, orders: 0, revenue: 0, products: 0 })
+  const [products, setProducts] = useState([])
+  const [orders, setOrders] = useState([])
+  const [users, setUsers] = useState([])
+  const [recentActivity, setRecentActivity] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setLoading(true)
+        // 1. Fetch Users
+        const { data: usersData } = await supabase.from('profiles').select('*').order('created_at', { ascending: false })
+        setUsers(usersData || [])
+        
+        // 2. Fetch Products
+        const { data: productsData } = await supabase.from('products').select('*').order('created_at', { ascending: false })
+        setProducts(productsData || [])
+        
+        // 3. Fetch Orders (Cần login admin hoặc role có quyền xem order)
+        // Trong schema, Admin thấy tất cả.
+        const { data: ordersData } = await supabase.from('orders').select(`
+          id, total_amount, status, created_at,
+          user:profiles(display_name)
+        `).order('created_at', { ascending: false })
+        setOrders(ordersData || [])
+
+        // Tính toán stats
+        const totalRevenue = (ordersData || []).reduce((sum, o) => sum + Number(o.total_amount || 0), 0)
+        setStats({
+          users: usersData?.length || 0,
+          orders: ordersData?.length || 0,
+          revenue: totalRevenue,
+          products: productsData?.length || 0
+        })
+
+        // Tạo Recent Activity ảo từ dữ liệu thật
+        const activities = []
+        if (ordersData && ordersData.length > 0) {
+          activities.push({
+            id: 'o' + ordersData[0].id,
+            text: `Đơn hàng mới #${ordersData[0].id.substring(0,8)} từ ${ordersData[0].user?.display_name || 'Khách'}`,
+            time: formatDate(ordersData[0].created_at),
+            color: '#10B981'
+          })
+        }
+        if (usersData && usersData.length > 0) {
+          activities.push({
+            id: 'u' + usersData[0].id,
+            text: `Người dùng mới đăng ký: ${usersData[0].display_name || 'User'}`,
+            time: formatDate(usersData[0].created_at),
+            color: '#3B82F6'
+          })
+        }
+        if (productsData && productsData.length > 0) {
+          activities.push({
+            id: 'p' + productsData[0].id,
+            text: `Sản phẩm mới thêm: ${productsData[0].name}`,
+            time: formatDate(productsData[0].created_at),
+            color: '#8B5CF6'
+          })
+        }
+        setRecentActivity(activities)
+        
+      } catch (err) {
+        console.error('Error loading admin data:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    if (profile?.role === 'admin') {
+      loadData()
+    }
+  }, [profile])
 
   return (
     <div className="admin-page">
@@ -69,59 +147,68 @@ export default function Admin() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            {/* Stats Cards */}
-            <div className="admin-stats">
-              {dashboardStats.map((stat, index) => (
-                <div key={stat.label} className="admin-stat-card glass-card">
-                  <div className="admin-stat-card__icon" style={{ color: stat.color, background: `${stat.color}15` }}>
-                    {stat.icon}
+            {loading ? <p>Đang tải dữ liệu...</p> : (
+              <>
+                {/* Stats Cards */}
+                <div className="admin-stats">
+                  <div className="admin-stat-card glass-card">
+                    <div className="admin-stat-card__icon" style={{ color: '#3B82F6', background: '#3B82F615' }}>
+                      <Users size={24} />
+                    </div>
+                    <div className="admin-stat-card__info">
+                      <span className="admin-stat-card__value">{stats.users}</span>
+                      <span className="admin-stat-card__label">Người dùng</span>
+                    </div>
                   </div>
-                  <div className="admin-stat-card__info">
-                    <span className="admin-stat-card__value">{stat.value}</span>
-                    <span className="admin-stat-card__label">{stat.label}</span>
+                  
+                  <div className="admin-stat-card glass-card">
+                    <div className="admin-stat-card__icon" style={{ color: '#10B981', background: '#10B98115' }}>
+                      <ShoppingBag size={24} />
+                    </div>
+                    <div className="admin-stat-card__info">
+                      <span className="admin-stat-card__value">{stats.orders}</span>
+                      <span className="admin-stat-card__label">Đơn hàng</span>
+                    </div>
                   </div>
-                  <span className="admin-stat-card__change" style={{ color: '#10B981' }}>
-                    <TrendingUp size={14} />
-                    {stat.change}
-                  </span>
-                </div>
-              ))}
-            </div>
 
-            {/* Recent Activity */}
-            <div className="admin-section glass-card">
-              <h2>Hoạt Động Gần Đây</h2>
-              <div className="admin-activity">
-                <div className="admin-activity__item">
-                  <div className="admin-activity__dot" style={{ background: '#10B981' }} />
-                  <div>
-                    <p>Đơn hàng mới #1048 — Áo Jersey LHE 2024</p>
-                    <span>2 phút trước</span>
+                  <div className="admin-stat-card glass-card">
+                    <div className="admin-stat-card__icon" style={{ color: '#F59E0B', background: '#F59E0B15' }}>
+                      <DollarSign size={24} />
+                    </div>
+                    <div className="admin-stat-card__info">
+                      <span className="admin-stat-card__value">{formatPrice(stats.revenue)}</span>
+                      <span className="admin-stat-card__label">Doanh thu</span>
+                    </div>
+                  </div>
+
+                  <div className="admin-stat-card glass-card">
+                    <div className="admin-stat-card__icon" style={{ color: '#8B5CF6', background: '#8B5CF615' }}>
+                      <Package size={24} />
+                    </div>
+                    <div className="admin-stat-card__info">
+                      <span className="admin-stat-card__value">{stats.products}</span>
+                      <span className="admin-stat-card__label">Sản phẩm</span>
+                    </div>
                   </div>
                 </div>
-                <div className="admin-activity__item">
-                  <div className="admin-activity__dot" style={{ background: '#3B82F6' }} />
-                  <div>
-                    <p>Người dùng mới đăng ký: gamer123@email.com</p>
-                    <span>15 phút trước</span>
+
+                {/* Recent Activity */}
+                <div className="admin-section glass-card">
+                  <h2>Hoạt Động Gần Đây (Thực tế)</h2>
+                  <div className="admin-activity">
+                    {recentActivity.length === 0 ? <p>Chưa có hoạt động nào.</p> : recentActivity.map(act => (
+                      <div key={act.id} className="admin-activity__item">
+                        <div className="admin-activity__dot" style={{ background: act.color }} />
+                        <div>
+                          <p>{act.text}</p>
+                          <span>{act.time}</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="admin-activity__item">
-                  <div className="admin-activity__dot" style={{ background: '#F59E0B' }} />
-                  <div>
-                    <p>NhanHoag đăng bài viết mới: "Tips CS2 cho newbie"</p>
-                    <span>1 giờ trước</span>
-                  </div>
-                </div>
-                <div className="admin-activity__item">
-                  <div className="admin-activity__dot" style={{ background: '#8B5CF6' }} />
-                  <div>
-                    <p>Sản phẩm mới thêm: Mousepad LHE V2</p>
-                    <span>3 giờ trước</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              </>
+            )}
           </motion.div>
         )}
 
@@ -149,45 +236,22 @@ export default function Admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Áo Jersey LHE 2024</td>
-                    <td><span className="admin-badge">Áo</span></td>
-                    <td>450,000₫</td>
-                    <td>25</td>
-                    <td>
-                      <div className="admin-table__actions">
-                        <button className="admin-action-btn"><Eye size={16} /></button>
-                        <button className="admin-action-btn"><Edit2 size={16} /></button>
-                        <button className="admin-action-btn admin-action-btn--danger"><Trash2 size={16} /></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Mousepad LHE XL</td>
-                    <td><span className="admin-badge">Phụ kiện</span></td>
-                    <td>250,000₫</td>
-                    <td>50</td>
-                    <td>
-                      <div className="admin-table__actions">
-                        <button className="admin-action-btn"><Eye size={16} /></button>
-                        <button className="admin-action-btn"><Edit2 size={16} /></button>
-                        <button className="admin-action-btn admin-action-btn--danger"><Trash2 size={16} /></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Hoodie LHE Limited</td>
-                    <td><span className="admin-badge">Áo</span></td>
-                    <td>550,000₫</td>
-                    <td>10</td>
-                    <td>
-                      <div className="admin-table__actions">
-                        <button className="admin-action-btn"><Eye size={16} /></button>
-                        <button className="admin-action-btn"><Edit2 size={16} /></button>
-                        <button className="admin-action-btn admin-action-btn--danger"><Trash2 size={16} /></button>
-                      </div>
-                    </td>
-                  </tr>
+                  {products.length === 0 ? (
+                    <tr><td colSpan="5" style={{textAlign:'center'}}>Chưa có sản phẩm nào.</td></tr>
+                  ) : products.map(product => (
+                    <tr key={product.id}>
+                      <td>{product.name}</td>
+                      <td><span className="admin-badge">{product.category || 'Khác'}</span></td>
+                      <td>{formatPrice(product.price)}</td>
+                      <td>{product.stock}</td>
+                      <td>
+                        <div className="admin-table__actions">
+                          <button className="admin-action-btn"><Edit2 size={16} /></button>
+                          <button className="admin-action-btn admin-action-btn--danger"><Trash2 size={16} /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -213,27 +277,24 @@ export default function Admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>#1048</td>
-                    <td>gamer123</td>
-                    <td>450,000₫</td>
-                    <td><span className="admin-status admin-status--pending">Chờ xử lý</span></td>
-                    <td>12/05/2026</td>
-                  </tr>
-                  <tr>
-                    <td>#1047</td>
-                    <td>player_x</td>
-                    <td>710,000₫</td>
-                    <td><span className="admin-status admin-status--confirmed">Đã xác nhận</span></td>
-                    <td>11/05/2026</td>
-                  </tr>
-                  <tr>
-                    <td>#1046</td>
-                    <td>noob2pro</td>
-                    <td>200,000₫</td>
-                    <td><span className="admin-status admin-status--delivered">Đã giao</span></td>
-                    <td>10/05/2026</td>
-                  </tr>
+                  {orders.length === 0 ? (
+                    <tr><td colSpan="5" style={{textAlign:'center'}}>Chưa có đơn hàng nào.</td></tr>
+                  ) : orders.map(order => (
+                    <tr key={order.id}>
+                      <td>#{order.id.substring(0,8)}</td>
+                      <td>{order.user?.display_name || 'Khách'}</td>
+                      <td>{formatPrice(order.total_amount)}</td>
+                      <td>
+                        <span className={`admin-status admin-status--${order.status}`}>
+                          {order.status === 'pending' ? 'Chờ xử lý' : 
+                           order.status === 'confirmed' ? 'Đã xác nhận' :
+                           order.status === 'shipped' ? 'Đang giao' :
+                           order.status === 'delivered' ? 'Đã giao' : 'Đã hủy'}
+                        </span>
+                      </td>
+                      <td>{formatDate(order.created_at)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -259,29 +320,26 @@ export default function Admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Admin LHE</td>
-                    <td>admin@lhe.vn</td>
-                    <td><span className="admin-badge admin-badge--admin">Admin</span></td>
-                    <td>01/01/2024</td>
-                    <td>
-                      <div className="admin-table__actions">
-                        <button className="admin-action-btn"><Edit2 size={16} /></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>gamer123</td>
-                    <td>gamer@email.com</td>
-                    <td><span className="admin-badge admin-badge--customer">Customer</span></td>
-                    <td>05/05/2026</td>
-                    <td>
-                      <div className="admin-table__actions">
-                        <button className="admin-action-btn"><Edit2 size={16} /></button>
-                        <button className="admin-action-btn admin-action-btn--danger"><Trash2 size={16} /></button>
-                      </div>
-                    </td>
-                  </tr>
+                  {users.length === 0 ? (
+                    <tr><td colSpan="5" style={{textAlign:'center'}}>Chưa có người dùng.</td></tr>
+                  ) : users.map(u => (
+                    <tr key={u.id}>
+                      <td>{u.display_name || 'Chưa đặt tên'}</td>
+                      <td>ID: {u.id.substring(0,8)}...</td>
+                      <td>
+                        <span className={`admin-badge admin-badge--${u.role}`}>
+                          {u.role.toUpperCase()}
+                        </span>
+                      </td>
+                      <td>{formatDate(u.created_at)}</td>
+                      <td>
+                        <div className="admin-table__actions">
+                          <button className="admin-action-btn"><Edit2 size={16} /></button>
+                          <button className="admin-action-btn admin-action-btn--danger"><Trash2 size={16} /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

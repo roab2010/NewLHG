@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, CheckCircle2, Package, MapPin, Phone, User as UserIcon } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
+import { supabase } from '../../services/supabase'
 import './Checkout.css'
 
 export default function Checkout() {
@@ -56,16 +57,48 @@ export default function Checkout() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call for ordering
-    setTimeout(() => {
-      setIsSubmitting(false)
+    try {
+      // 1. Tạo đơn hàng mới
+      const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .insert({
+          user_id: user.id,
+          total_amount: cartTotal,
+          status: 'pending',
+          shipping_address: formData.address,
+          phone: formData.phone
+          // có thể lưu thêm notes vào metadata nếu cần, nhưng schema chưa có field note
+        })
+        .select()
+        .single()
+
+      if (orderError) throw orderError
+
+      // 2. Tạo chi tiết đơn hàng (order_items)
+      const orderItems = cart.map(item => ({
+        order_id: orderData.id,
+        product_id: item.id,
+        quantity: item.quantity,
+        price: item.price
+      }))
+
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems)
+
+      if (itemsError) throw itemsError
+
+      // 3. Thành công
       setIsSuccess(true)
-      
-      // Clear cart
       if (user?.id) {
         localStorage.removeItem(`cart_${user.id}`)
       }
-    }, 1500)
+    } catch (err) {
+      console.error('Lỗi khi đặt hàng:', err)
+      alert('Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (isSuccess) {
