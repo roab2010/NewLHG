@@ -22,7 +22,7 @@ const formatPrice = (price) => {
 }
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('vi-VN')
+  return new Date(dateString).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' })
 }
 
 export default function Admin() {
@@ -39,7 +39,7 @@ export default function Admin() {
 
   // Modal States
   const [productModal, setProductModal] = useState({ isOpen: false, data: null })
-  const [orderModal, setOrderModal] = useState({ isOpen: false, orderId: null, items: [] })
+  const [orderModal, setOrderModal] = useState({ isOpen: false, order: null, items: [] })
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, message: '', onConfirm: null })
   const [alertDialog, setAlertDialog] = useState({ isOpen: false, message: '' })
   
@@ -216,10 +216,10 @@ export default function Admin() {
     }
   }
 
-  const showOrderDetails = async (orderId) => {
-    const { data, error } = await supabase.from('order_items').select('quantity, price, products(name)').eq('order_id', orderId)
+  const showOrderDetails = async (order) => {
+    const { data, error } = await supabase.from('order_items').select('quantity, price, products(name)').eq('order_id', order.id)
     if (!error && data) {
-      setOrderModal({ isOpen: true, orderId, items: data })
+      setOrderModal({ isOpen: true, order: order, items: data })
     } else {
       setAlertDialog({ isOpen: true, message: 'Không thể lấy chi tiết đơn hàng' })
     }
@@ -419,7 +419,7 @@ export default function Admin() {
                       </td>
                       <td>{formatDate(order.created_at)}</td>
                       <td>
-                        <button className="admin-action-btn" onClick={() => showOrderDetails(order.id)}>
+                        <button className="admin-action-btn" onClick={() => showOrderDetails(order)}>
                           <Eye size={16} />
                         </button>
                       </td>
@@ -500,12 +500,11 @@ export default function Admin() {
 
       {/* Modals */}
       {productModal.isOpen && (
-        <div className="admin-modal-overlay" onClick={() => setProductModal({ isOpen: false, data: null })}>
+        <div className="admin-modal-overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) setProductModal({ isOpen: false, data: null }) }}>
           <motion.div 
             className="admin-modal"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            onClick={(e) => e.stopPropagation()}
           >
             <h3>{productModal.data ? 'Cập Nhật Sản Phẩm' : 'Thêm Sản Phẩm Mới'}</h3>
             <div className="form-group">
@@ -556,14 +555,19 @@ export default function Admin() {
       )}
 
       {orderModal.isOpen && (
-        <div className="admin-modal-overlay" onClick={() => setOrderModal({ isOpen: false, orderId: null, items: [] })}>
+        <div className="admin-modal-overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) setOrderModal({ isOpen: false, order: null, items: [] }) }}>
           <motion.div 
             className="admin-modal"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            onClick={(e) => e.stopPropagation()}
           >
-            <h3>Chi tiết đơn hàng #{orderModal.orderId?.substring(0,8)}</h3>
+            <h3>Chi tiết đơn hàng #{orderModal.order?.id?.substring(0,8)}</h3>
+            <div style={{ marginBottom: 'var(--space-lg)', fontSize: 'var(--fs-sm)', color: 'var(--white-60)' }}>
+              <p><strong>Khách hàng:</strong> {orderModal.order?.user?.display_name || 'Khách'}</p>
+              <p><strong>SĐT:</strong> {orderModal.order?.phone || 'Không có'}</p>
+              <p><strong>Địa chỉ:</strong> {orderModal.order?.shipping_address || 'Không có'}</p>
+              <p><strong>Ghi chú:</strong> {orderModal.order?.notes || 'Không có'}</p>
+            </div>
             <div className="admin-modal-details">
               {orderModal.items.length === 0 ? <p>Không có sản phẩm.</p> : orderModal.items.map((item, idx) => (
                 <div key={idx} className="admin-modal-details-item">
@@ -578,7 +582,7 @@ export default function Admin() {
               ))}
             </div>
             <div className="admin-modal-actions">
-              <button className="btn btn-primary" onClick={() => setOrderModal({ isOpen: false, orderId: null, items: [] })}>Đóng</button>
+              <button className="btn btn-primary" onClick={() => setOrderModal({ isOpen: false, order: null, items: [] })}>Đóng</button>
             </div>
           </motion.div>
         </div>

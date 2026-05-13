@@ -66,8 +66,8 @@ export default function Checkout() {
           total_amount: cartTotal,
           status: 'pending',
           shipping_address: formData.address,
-          phone: formData.phone
-          // có thể lưu thêm notes vào metadata nếu cần, nhưng schema chưa có field note
+          phone: formData.phone,
+          notes: formData.notes
         })
         .select()
         .single()
