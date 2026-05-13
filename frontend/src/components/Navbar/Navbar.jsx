@@ -131,11 +131,32 @@ export default function Navbar() {
             </>
           )}
           {user && (
-            <li>
-              <button onClick={signOut} className="navbar__mobile-link navbar__mobile-link--danger">
-                Đăng Xuất
-              </button>
-            </li>
+            <>
+              <li style={{ borderTop: '1px solid var(--white-10)', paddingTop: 'var(--space-md)', marginTop: 'var(--space-md)', width: '100%' }}>
+                <Link to="/profile" className="navbar__mobile-link">
+                  Hồ Sơ
+                </Link>
+              </li>
+              {!isAdmin && (
+                <li>
+                  <Link to="/profile?tab=orders" className="navbar__mobile-link">
+                    Đơn Hàng Của Tôi
+                  </Link>
+                </li>
+              )}
+              {isAdmin && (
+                <li>
+                  <Link to="/admin" className="navbar__mobile-link navbar__mobile-link--primary" style={{ color: '#FF1744' }}>
+                    Admin
+                  </Link>
+                </li>
+              )}
+              <li>
+                <button onClick={signOut} className="navbar__mobile-link navbar__mobile-link--danger">
+                  Đăng Xuất
+                </button>
+              </li>
+            </>
           )}
         </ul>
       </div>
