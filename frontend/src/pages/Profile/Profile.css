@@ -1,0 +1,302 @@
+/* d:\LongHaiEsport\frontend\src\pages\Profile\Profile.css */
+.profile-page {
+  padding-bottom: 4rem;
+  min-height: calc(100vh - 80px);
+}
+
+.profile-header {
+  padding: 3rem 0;
+  margin-bottom: 2rem;
+  background: linear-gradient(180deg, rgba(var(--primary-rgb), 0.1) 0%, transparent 100%);
+}
+
+.profile-header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.profile-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+}
+
+.profile-sidebar {
+  padding: 1.5rem;
+  align-self: start;
+}
+
+.profile-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--white-10);
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.4);
+}
+
+.profile-user-info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.profile-user-info p {
+  margin: 0;
+  color: var(--white-60);
+  font-size: 0.875rem;
+  text-transform: capitalize;
+}
+
+.profile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--white-80);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.profile-nav-btn:hover {
+  background: var(--white-5);
+  color: white;
+}
+
+.profile-nav-btn.active {
+  background: rgba(var(--primary-rgb), 0.15);
+  color: var(--primary-color);
+  border-color: rgba(var(--primary-rgb), 0.3);
+}
+
+.profile-content {
+  padding: 2rem;
+  min-height: 500px;
+}
+
+.profile-content h2 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--white-10);
+  font-size: 1.5rem;
+}
+
+/* Info Grid */
+.profile-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-item {
+  background: var(--dark-bg);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--white-10);
+}
+
+.info-item label {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--white-60);
+  margin-bottom: 0.5rem;
+}
+
+.info-item .info-value {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: white;
+}
+
+/* Orders */
+.profile-orders {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-order-card {
+  background: var(--dark-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--white-10);
+  overflow: hidden;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: var(--white-5);
+  border-bottom: 1px solid var(--white-10);
+}
+
+.order-id {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: white;
+  margin-right: 1rem;
+}
+
+.order-date {
+  color: var(--white-60);
+  font-size: 0.875rem;
+}
+
+.profile-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--white-10);
+  color: white;
+}
+
+.profile-badge--warning { background: rgba(245, 158, 11, 0.2); color: #F59E0B; }
+.profile-badge--info { background: rgba(59, 130, 246, 0.2); color: #3B82F6; }
+.profile-badge--primary { background: rgba(var(--primary-rgb), 0.2); color: var(--primary-color); }
+.profile-badge--success { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+.profile-badge--danger { background: rgba(239, 68, 68, 0.2); color: #EF4444; }
+
+.order-body {
+  padding: 1.5rem;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--white-5);
+}
+
+.order-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.order-item:first-child {
+  padding-top: 0;
+}
+
+.order-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--white-5);
+}
+
+.item-info {
+  flex: 1;
+}
+
+.item-info h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.item-info p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--white-60);
+}
+
+.item-price {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.order-footer {
+  padding: 1.25rem 1.5rem;
+  background: var(--white-5);
+  border-top: 1px solid var(--white-10);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.order-totals {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.order-totals span {
+  color: var(--white-80);
+  font-size: 1rem;
+}
+
+.order-totals .total-price {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.empty-orders {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--white-60);
+}
+
+.empty-orders svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .profile-sidebar {
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+  }
+  
+  .profile-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  
+  .profile-nav-btn {
+    white-space: nowrap;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

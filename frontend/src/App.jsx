@@ -10,6 +10,7 @@ import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import Admin from './pages/Admin/Admin'
 import Checkout from './pages/Checkout/Checkout'
+import Profile from './pages/Profile/Profile'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import './App.css'
 
@@ -63,6 +64,14 @@ function AppContent() {
               element={
                 <ProtectedRoute>
                   <Checkout />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/profile" 
+              element={
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               } 
             />
