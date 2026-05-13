@@ -61,7 +61,7 @@ export default function Admin() {
         // 3. Fetch Orders (Cần login admin hoặc role có quyền xem order)
         // Trong schema, Admin thấy tất cả.
         const { data: ordersData } = await supabase.from('orders').select(`
-          id, total_amount, status, created_at,
+          id, total_amount, status, created_at, phone, shipping_address, notes,
           user:profiles(display_name)
         `).order('created_at', { ascending: false })
         setOrders(ordersData || [])
