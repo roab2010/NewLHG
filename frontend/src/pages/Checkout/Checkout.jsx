@@ -15,10 +15,21 @@ export default function Checkout() {
   
   const [formData, setFormData] = useState({
     name: profile?.display_name || '',
-    phone: '',
-    address: '',
+    phone: profile?.phone || '',
+    address: profile?.address || '',
     notes: ''
   })
+
+  useEffect(() => {
+    if (profile) {
+      setFormData(prev => ({
+        ...prev,
+        name: prev.name || profile.display_name || '',
+        phone: prev.phone || profile.phone || '',
+        address: prev.address || profile.address || ''
+      }))
+    }
+  }, [profile])
 
   useEffect(() => {
     // If not authenticated, redirect to shop

@@ -300,3 +300,10 @@
     gap: 1rem;
   }
 }
+
+/* Edit Form */
+.profile-edit-form { max-width: 600px; }
+.profile-input { width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--white-10); background: var(--dark-bg); color: white; transition: all 0.3s ease; }
+.profile-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2); }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; color: var(--white-80); }

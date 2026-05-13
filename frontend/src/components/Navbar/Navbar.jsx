@@ -76,10 +76,12 @@ export default function Navbar() {
                     <User size={16} />
                     Hồ Sơ
                   </Link>
-                  <Link to="/profile?tab=orders" className="navbar__dropdown-item">
-                    <ShoppingCart size={16} />
-                    Đơn hàng của tôi
-                  </Link>
+                  {!isAdmin && (
+                    <Link to="/profile?tab=orders" className="navbar__dropdown-item">
+                      <ShoppingCart size={16} />
+                      Đơn hàng của tôi
+                    </Link>
+                  )}
                   <button onClick={signOut} className="navbar__dropdown-item navbar__dropdown-item--danger">
                     <LogOut size={16} />
                     Đăng Xuất

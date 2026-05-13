@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { UserPlus, Mail, Lock, User, Eye, EyeOff, AlertCircle } from 'lucide-react'
+import { UserPlus, Mail, Lock, User, Eye, EyeOff, AlertCircle, Phone } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import '../Login/Login.css'
 
 export default function Register() {
   const [displayName, setDisplayName] = useState('')
+  const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -33,7 +34,7 @@ export default function Register() {
 
     setLoading(true)
     try {
-      await signUp(email, password, displayName)
+      await signUp(email, password, displayName, phone)
       setSuccess(true)
     } catch (err) {
       setError(err.message || 'Đăng ký thất bại. Vui lòng thử lại.')
@@ -104,6 +105,21 @@ export default function Register() {
                 placeholder="Nickname của bạn"
                 value={displayName}
                 onChange={e => setDisplayName(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="auth-form__field">
+            <label htmlFor="phone">Số Điện Thoại</label>
+            <div className="auth-form__input-wrapper">
+              <Phone size={18} />
+              <input
+                id="phone"
+                type="tel"
+                placeholder="Số điện thoại của bạn"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
                 required
               />
             </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { User, ShoppingBag, Package } from 'lucide-react'
+import { User, ShoppingBag, Package, Edit2, Save, X, Lock } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
 import './Profile.css'
@@ -10,17 +10,40 @@ export default function Profile() {
   const { user, profile } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = searchParams.get('tab') || 'info'
+  const isAdmin = profile?.role === 'admin'
   
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
 
+  // Profile Edit State
+  const [isEditingProfile, setIsEditingProfile] = useState(false)
+  const [profileForm, setProfileForm] = useState({
+    display_name: '',
+    phone: '',
+    address: ''
+  })
+  
+  // Password Change State
+  const [isChangingPassword, setIsChangingPassword] = useState(false)
+  const [passwordForm, setPasswordForm] = useState({ new: '', confirm: '' })
+
   useEffect(() => {
-    if (activeTab === 'orders' && user) {
+    if (profile) {
+      setProfileForm({
+        display_name: profile.display_name || '',
+        phone: profile.phone || '',
+        address: profile.address || ''
+      })
+    }
+  }, [profile])
+
+  useEffect(() => {
+    if (activeTab === 'orders' && user && !isAdmin) {
       loadOrders()
     } else {
       setLoading(false)
     }
-  }, [activeTab, user])
+  }, [activeTab, user, isAdmin])
 
   const loadOrders = async () => {
     setLoading(true)
@@ -32,6 +55,47 @@ export default function Profile() {
       
     if (!error && data) {
       setOrders(data)
+    }
+    setLoading(false)
+  }
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    const { error } = await supabase.from('profiles').update({
+      display_name: profileForm.display_name,
+      phone: profileForm.phone,
+      address: profileForm.address
+    }).eq('id', user.id)
+    
+    if (!error) {
+      window.location.reload()
+    } else {
+      alert("Lỗi khi cập nhật hồ sơ: " + error.message)
+      setLoading(false)
+    }
+  }
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault()
+    if (passwordForm.new !== passwordForm.confirm) {
+      alert("Mật khẩu không khớp!")
+      return
+    }
+    if (passwordForm.new.length < 6) {
+      alert("Mật khẩu phải có ít nhất 6 ký tự!")
+      return
+    }
+    setLoading(true)
+    const { error } = await supabase.auth.updateUser({
+      password: passwordForm.new
+    })
+    if (!error) {
+      alert("Đổi mật khẩu thành công!")
+      setIsChangingPassword(false)
+      setPasswordForm({ new: '', confirm: '' })
+    } else {
+      alert("Lỗi đổi mật khẩu: " + error.message)
     }
     setLoading(false)
   }
@@ -74,7 +138,7 @@ export default function Profile() {
             </div>
             <div className="profile-user-info">
               <h3>{profile?.display_name || 'Người dùng'}</h3>
-              <p>{profile?.role === 'admin' ? 'Quản trị viên' : 'Thành viên'}</p>
+              <p>{isAdmin ? 'Quản trị viên' : 'Thành viên'}</p>
             </div>
           </div>
           <nav className="profile-nav">
@@ -84,41 +148,142 @@ export default function Profile() {
             >
               <User size={18} /> Thông tin cá nhân
             </button>
-            <button 
-              className={`profile-nav-btn ${activeTab === 'orders' ? 'active' : ''}`}
-              onClick={() => setSearchParams({ tab: 'orders' })}
-            >
-              <ShoppingBag size={18} /> Đơn hàng của tôi
-            </button>
+            {!isAdmin && (
+              <button 
+                className={`profile-nav-btn ${activeTab === 'orders' ? 'active' : ''}`}
+                onClick={() => setSearchParams({ tab: 'orders' })}
+              >
+                <ShoppingBag size={18} /> Đơn hàng của tôi
+              </button>
+            )}
           </nav>
         </div>
 
         <div className="profile-content glass-card">
           {activeTab === 'info' && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <h2>Thông tin cá nhân</h2>
-              <div className="profile-info-grid">
-                <div className="info-item">
-                  <label>Tên hiển thị</label>
-                  <div className="info-value">{profile?.display_name || 'Chưa cập nhật'}</div>
-                </div>
-                <div className="info-item">
-                  <label>Email liên kết</label>
-                  <div className="info-value">{user?.email || 'Không có email'}</div>
-                </div>
-                <div className="info-item">
-                  <label>Vai trò</label>
-                  <div className="info-value">{profile?.role || 'customer'}</div>
-                </div>
-                <div className="info-item">
-                  <label>Ngày tham gia</label>
-                  <div className="info-value">{profile ? formatDate(profile.created_at).split(' ')[1] : ''}</div>
+              <div className="profile-content-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--white-10)' }}>
+                <h2 style={{ margin: 0, border: 'none', padding: 0 }}>Thông tin cá nhân</h2>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  {!isChangingPassword && !isEditingProfile && (
+                    <button className="btn btn-ghost btn--sm" onClick={() => setIsChangingPassword(true)}>
+                      <Lock size={16} /> Đổi mật khẩu
+                    </button>
+                  )}
+                  {!isEditingProfile && !isChangingPassword && (
+                    <button className="btn btn-primary btn--sm" onClick={() => setIsEditingProfile(true)}>
+                      <Edit2 size={16} /> Sửa thông tin
+                    </button>
+                  )}
                 </div>
               </div>
+
+              {isChangingPassword ? (
+                <div className="profile-edit-form">
+                  <form onSubmit={handleChangePassword}>
+                    <div className="form-group">
+                      <label>Mật khẩu mới</label>
+                      <input 
+                        type="password" 
+                        value={passwordForm.new} 
+                        onChange={e => setPasswordForm({...passwordForm, new: e.target.value})} 
+                        placeholder="Nhập mật khẩu mới"
+                        className="profile-input"
+                        required 
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Xác nhận mật khẩu mới</label>
+                      <input 
+                        type="password" 
+                        value={passwordForm.confirm} 
+                        onChange={e => setPasswordForm({...passwordForm, confirm: e.target.value})} 
+                        placeholder="Nhập lại mật khẩu mới"
+                        className="profile-input"
+                        required 
+                      />
+                    </div>
+                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                      <button type="submit" className="btn btn-primary" disabled={loading}>Đổi Mật Khẩu</button>
+                      <button type="button" className="btn btn-ghost" onClick={() => setIsChangingPassword(false)}>Hủy</button>
+                    </div>
+                  </form>
+                </div>
+              ) : isEditingProfile ? (
+                <div className="profile-edit-form">
+                  <form onSubmit={handleUpdateProfile}>
+                    <div className="form-group">
+                      <label>Tên hiển thị</label>
+                      <input 
+                        type="text" 
+                        value={profileForm.display_name} 
+                        onChange={e => setProfileForm({...profileForm, display_name: e.target.value})} 
+                        className="profile-input"
+                        required 
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Số điện thoại</label>
+                      <input 
+                        type="tel" 
+                        value={profileForm.phone} 
+                        onChange={e => setProfileForm({...profileForm, phone: e.target.value})} 
+                        className="profile-input"
+                        placeholder="Chưa cập nhật"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Địa chỉ</label>
+                      <textarea 
+                        value={profileForm.address} 
+                        onChange={e => setProfileForm({...profileForm, address: e.target.value})} 
+                        className="profile-input"
+                        rows="3"
+                        placeholder="Chưa cập nhật"
+                      />
+                    </div>
+                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                      <button type="submit" className="btn btn-primary" disabled={loading}>
+                        <Save size={16} /> Lưu Thay Đổi
+                      </button>
+                      <button type="button" className="btn btn-ghost" onClick={() => setIsEditingProfile(false)}>
+                        <X size={16} /> Hủy
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              ) : (
+                <div className="profile-info-grid">
+                  <div className="info-item">
+                    <label>Tên hiển thị</label>
+                    <div className="info-value">{profile?.display_name || 'Chưa cập nhật'}</div>
+                  </div>
+                  <div className="info-item">
+                    <label>Email liên kết</label>
+                    <div className="info-value">{user?.email || 'Không có email'}</div>
+                  </div>
+                  <div className="info-item">
+                    <label>Số điện thoại</label>
+                    <div className="info-value">{profile?.phone || 'Chưa cập nhật'}</div>
+                  </div>
+                  <div className="info-item">
+                    <label>Địa chỉ</label>
+                    <div className="info-value">{profile?.address || 'Chưa cập nhật'}</div>
+                  </div>
+                  <div className="info-item">
+                    <label>Vai trò</label>
+                    <div className="info-value">{profile?.role || 'customer'}</div>
+                  </div>
+                  <div className="info-item">
+                    <label>Ngày tham gia</label>
+                    <div className="info-value">{profile ? formatDate(profile.created_at).split(' ')[1] : ''}</div>
+                  </div>
+                </div>
+              )}
             </motion.div>
           )}
 
-          {activeTab === 'orders' && (
+          {activeTab === 'orders' && !isAdmin && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <h2>Đơn hàng của tôi</h2>
               {loading ? (
