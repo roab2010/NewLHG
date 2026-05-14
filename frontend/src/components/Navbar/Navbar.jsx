@@ -9,6 +9,7 @@ const navLinks = [
   { path: '/members', label: 'Thành Viên' },
   { path: '/shop', label: 'Cửa Hàng' },
   { path: '/stats', label: 'Thống Kê' },
+  { path: '/live-history', label: 'Live History' },
 ]
 
 export default function Navbar() {

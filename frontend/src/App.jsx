@@ -11,6 +11,7 @@ import Register from './pages/Register/Register'
 import Admin from './pages/Admin/Admin'
 import Checkout from './pages/Checkout/Checkout'
 import Profile from './pages/Profile/Profile'
+import LiveHistory from './pages/LiveHistory/LiveHistory'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import './App.css'
 
@@ -57,6 +58,7 @@ function AppContent() {
             <Route path="/members" element={<Members />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/stats" element={<Stats />} />
+            <Route path="/live-history" element={<LiveHistory />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route 

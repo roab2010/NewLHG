@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-14T19:00:01.732Z",
+  "lastUpdated": "2026-05-14T19:50:45.365Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -10,9 +10,9 @@
       "csstatsUrl": "https://csstats.gg/player/76561198390172300",
       "playerName": "Huang zhong",
       "avatar": "https://avatars.steamstatic.com/a831ee473b249b482425b752c2407d194e0d5fdf_full.jpg",
-      "currentRank": "3,,639",
+      "currentRank": "3,639",
       "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "bestRank": "3,,639",
+      "bestRank": "3,639",
       "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
       "kd": 0.87,
       "rating": 0.99,
@@ -29,7 +29,7 @@
       "tied": 15,
       "damage": 785523,
       "rounds": 10837,
-      "scrapedAt": "2026-05-14T18:59:20.696Z"
+      "scrapedAt": "2026-05-14T19:50:08.368Z"
     },
     {
       "nickname": "Roab",
@@ -40,9 +40,9 @@
       "csstatsUrl": "https://csstats.gg/player/76561199167690122",
       "playerName": "Roab",
       "avatar": "https://avatars.steamstatic.com/02a6e74e93f4d5d406e570feb7c7c889089d76be_full.jpg",
-      "currentRank": "11,,639",
+      "currentRank": "11,639",
       "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
-      "bestRank": "11,,639",
+      "bestRank": "11,639",
       "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
       "kd": 1.21,
       "rating": 1.28,
@@ -59,7 +59,7 @@
       "tied": 13,
       "damage": 838857,
       "rounds": 9178,
-      "scrapedAt": "2026-05-14T18:59:31.262Z"
+      "scrapedAt": "2026-05-14T19:50:15.525Z"
     },
     {
       "nickname": "YenOi",
@@ -70,9 +70,9 @@
       "csstatsUrl": "https://csstats.gg/player/76561199042104680",
       "playerName": "Whatdup",
       "avatar": "https://avatars.steamstatic.com/c826c21abf1854b0f63dc90f007762537f06a65e_full.jpg",
-      "currentRank": "4,,622",
+      "currentRank": "4,622",
       "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "bestRank": "4,,622",
+      "bestRank": "4,622",
       "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
       "kd": 0.73,
       "rating": 0.84,
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 37292,
       "rounds": 577,
-      "scrapedAt": "2026-05-14T18:59:36.990Z"
+      "scrapedAt": "2026-05-14T19:50:22.284Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +119,7 @@
       "tied": 5,
       "damage": 130858,
       "rounds": 1697,
-      "scrapedAt": "2026-05-14T18:59:47.671Z"
+      "scrapedAt": "2026-05-14T19:50:29.211Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 124627,
       "rounds": 1748,
-      "scrapedAt": "2026-05-14T18:59:53.408Z"
+      "scrapedAt": "2026-05-14T19:50:36.107Z"
     },
     {
       "nickname": "XunWon",
@@ -160,9 +160,9 @@
       "csstatsUrl": "https://csstats.gg/player/76561198877435442",
       "playerName": "360HZ PEEK",
       "avatar": "https://avatars.steamstatic.com/97e463a36f2693f6158631fb69c4074694019c20_full.jpg",
-      "currentRank": "3,,624",
+      "currentRank": "3,624",
       "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "bestRank": "3,,624",
+      "bestRank": "3,624",
       "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
       "kd": 0.95,
       "rating": 1.04,
@@ -179,7 +179,7 @@
       "tied": 12,
       "damage": 661202,
       "rounds": 8214,
-      "scrapedAt": "2026-05-14T18:59:59.624Z"
+      "scrapedAt": "2026-05-14T19:50:43.187Z"
     }
   ]
 }

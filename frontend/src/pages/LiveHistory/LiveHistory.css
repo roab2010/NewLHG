@@ -1,0 +1,218 @@
+.live-history-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+.live-history-page__bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 15%, rgba(0, 180, 216, 0.06), transparent 50%),
+    radial-gradient(ellipse at 85% 20%, rgba(168, 85, 247, 0.04), transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(0, 245, 255, 0.03), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.live__highlight {
+  margin-bottom: var(--space-3xl);
+}
+
+.live__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 16px;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.live__main {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.live__item {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* LazyYoutube component styles */
+.lazy-youtube {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lazy-youtube__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.lazy-youtube:hover .lazy-youtube__img {
+  opacity: 1;
+}
+
+.lazy-youtube__play-btn {
+  position: absolute;
+  width: 68px;
+  height: 48px;
+  transition: transform 0.3s ease;
+}
+
+.lazy-youtube:hover .lazy-youtube__play-btn {
+  transform: scale(1.1);
+}
+
+.lazy-youtube__play-bg {
+  transition: fill 0.3s ease;
+  fill: rgba(33, 33, 33, 0.8);
+}
+
+.lazy-youtube:hover .lazy-youtube__play-bg {
+  fill: #ff0000; /* YouTube Red */
+}
+
+.lazy-youtube iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Previous Videos Section */
+.live__previous-section {
+  margin-top: var(--space-3xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.live__section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: var(--space-md);
+}
+
+.live__section-header h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--white);
+  text-transform: uppercase;
+}
+
+.live__view-all {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--white-40);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.live__view-all:hover {
+  color: var(--accent);
+}
+
+.live__previous-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+}
+
+.live__previous-item {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.live__previous-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.live__video-wrapper {
+  aspect-ratio: 16 / 9;
+  position: relative;
+  background: #000;
+}
+
+.live__video-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.live__video-info {
+  padding: var(--space-md);
+}
+
+.live__video-tag {
+  display: block;
+  font-size: 10px;
+  color: var(--white-40);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.live__video-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--white-80);
+}
+
+@media (max-width: 1024px) {
+  .live__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .live__main {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    aspect-ratio: 16 / 9;
+  }
+  .live__previous-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .live__grid {
+    grid-template-columns: 1fr;
+  }
+  .live__main {
+    grid-column: 1 / 2;
+  }
+  .live__previous-grid {
+    grid-template-columns: 1fr;
+  }
+}
