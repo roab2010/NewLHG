@@ -2,7 +2,7 @@
   {
     "nickname": "doanh hyy",
     "tag": "1405",
-    "profileIcon": "/images/icon_non_item.svg",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/685__100.webp",
     "rank": "Platinum 4",
     "lp": "72 LP",
     "winRate": "75%",
@@ -14,12 +14,12 @@
     "flexWinRate": "52%",
     "kda": "1.52",
     "matchesPlayed": 24,
-    "updatedAt": "2026-05-14T13:57:40.023Z"
+    "updatedAt": "2026-05-14T14:16:30.039Z"
   },
   {
     "nickname": "YoneMin999",
     "tag": "999",
-    "profileIcon": "/images/icon_non_item.svg",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/4652__100.webp",
     "rank": "Bronze 3",
     "lp": "48 LP",
     "winRate": "57%",
@@ -31,12 +31,12 @@
     "flexWinRate": "44%",
     "kda": "2.41",
     "matchesPlayed": 14,
-    "updatedAt": "2026-05-14T13:57:46.820Z"
+    "updatedAt": "2026-05-14T14:16:36.594Z"
   },
   {
     "nickname": "TALE12",
     "tag": "2640",
-    "profileIcon": "/images/icon_non_item.svg",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/7__100.webp",
     "rank": "Silver 1",
     "lp": "40 LP",
     "winRate": "52%",
@@ -48,12 +48,12 @@
     "flexWinRate": "50%",
     "kda": "1.79",
     "matchesPlayed": 29,
-    "updatedAt": "2026-05-14T13:57:53.391Z"
+    "updatedAt": "2026-05-14T14:16:43.208Z"
   },
   {
     "nickname": "Trảm Tình",
     "tag": "adc",
-    "profileIcon": "/images/icon_non_item.svg",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/7123__100.webp",
     "rank": "Diamond 3",
     "lp": "84 LP",
     "winRate": "47%",
@@ -65,12 +65,12 @@
     "flexWinRate": "52%",
     "kda": "3.08",
     "matchesPlayed": 215,
-    "updatedAt": "2026-05-14T13:57:59.937Z"
+    "updatedAt": "2026-05-14T14:16:49.792Z"
   },
   {
     "nickname": "Young B",
     "tag": "2010",
-    "profileIcon": "/images/icon_non_item.svg",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/6379__100.webp",
     "rank": "Platinum 2",
     "lp": "57 LP",
     "winRate": "63%",
@@ -82,12 +82,12 @@
     "flexWinRate": "51%",
     "kda": "3.12",
     "matchesPlayed": 24,
-    "updatedAt": "2026-05-14T13:58:06.503Z"
+    "updatedAt": "2026-05-14T14:16:56.557Z"
   },
   {
     "nickname": "Xun Won Tới Chơi",
     "tag": "2404",
-    "profileIcon": "/images/icon_non_item.svg",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/4068__100.webp",
     "rank": "Unranked",
     "lp": "0 LP",
     "winRate": "0%",
@@ -99,12 +99,12 @@
     "flexWinRate": "38%",
     "kda": "2",
     "matchesPlayed": 0,
-    "updatedAt": "2026-05-14T13:58:13.015Z"
+    "updatedAt": "2026-05-14T14:17:03.090Z"
   },
   {
     "nickname": "LHE Shadow",
     "tag": "2010",
-    "profileIcon": "/images/icon_non_item.svg",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/7123__100.webp",
     "rank": "Unranked",
     "lp": "0 LP",
     "winRate": "0%",
@@ -116,6 +116,6 @@
     "flexWinRate": "73%",
     "kda": "2.94",
     "matchesPlayed": 0,
-    "updatedAt": "2026-05-14T13:58:19.478Z"
+    "updatedAt": "2026-05-14T14:17:10.905Z"
   }
 ]

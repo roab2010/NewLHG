@@ -27,7 +27,7 @@ async function scrapeLOLStats() {
     // Optimizing scraping speed by blocking unneeded resources
     await page.setRequestInterception(true);
     page.on('request', (req) => {
-        if(['image', 'stylesheet', 'font', 'media'].includes(req.resourceType())){
+        if(['stylesheet', 'font', 'media'].includes(req.resourceType())){
             req.abort();
         } else {
             req.continue();
@@ -36,7 +36,7 @@ async function scrapeLOLStats() {
 
     for (const player of players) {
         try {
-            console.log(`Scraping LOL stats for ${player.nickname}...`);
+            console.log(`Scraping LOL stats for ${player.name}...`);
             await page.goto(player.url, { waitUntil: 'domcontentloaded', timeout: 30000 });
             
             // Need to wait enough time for JS to render the stats
@@ -45,7 +45,11 @@ async function scrapeLOLStats() {
             const html = await page.content();
             const $ = cheerio.load(html);
 
-            const profileIcon = $('.p__info img').first().attr('src') || '';
+            let profileIcon = $('.p__info img').first().attr('src') || '';
+            // Make relative URLs absolute
+            if (profileIcon && profileIcon.startsWith('/')) {
+                profileIcon = 'https://www.deeplol.gg' + profileIcon;
+            }
 
             const soloBox = $('.sc-hMQzmg.bYvuSn').filter((i, el) => $(el).text().includes('Solo'));
             const soloRank = soloBox.find('.tier_color').text().trim() || 'Unranked';

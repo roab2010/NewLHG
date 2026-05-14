@@ -60,13 +60,13 @@ export default function StatsLOL() {
         setLastUpdated(latestTime.toISOString())
 
         const memberInfo = {
-          'NhanHoang': { color: '#3b82f6' },
-          'KietHoang': { color: '#eab308' },
-          'Tai': { color: '#10b981' },
-          'Luat': { color: '#ec4899' },
-          'Bao': { color: '#f97316' },
-          'Quan': { color: '#8b5cf6' },
-          'Loc': { color: '#14b8a6' }
+          'doanh hyy': { color: '#3b82f6' },
+          'YoneMin999': { color: '#eab308' },
+          'TALE12': { color: '#10b981' },
+          'Trảm Tình': { color: '#ec4899' },
+          'Young B': { color: '#f97316' },
+          'Xun Won Tới Chơi': { color: '#8b5cf6' },
+          'LHE Shadow': { color: '#14b8a6' }
         }
 
         const formattedPlayers = data.map(p => {
@@ -131,13 +131,13 @@ export default function StatsLOL() {
   // Get deep.lol url
   const getDeeplolUrl = (nickname) => {
     const urls = {
-        'NhanHoang': 'https://www.deeplol.gg/summoner/vn/doanh%20hyy-1405',
-        'KietHoang': 'https://www.deeplol.gg/summoner/vn/YoneMin999-999',
-        'Tai': 'https://www.deeplol.gg/summoner/vn/TALE12-2640',
-        'Luat': 'https://www.deeplol.gg/summoner/vn/Tr%E1%BA%A3m%20T%C3%ACnh-adc',
-        'Bao': 'https://www.deeplol.gg/summoner/vn/Young%20B-2010',
-        'Quan': 'https://www.deeplol.gg/summoner/vn/Xun%20Won%20T%E1%BB%9Bi%20Ch%C6%A1i-2404',
-        'Loc': 'https://www.deeplol.gg/summoner/vn/LHE%20Shadow-2010'
+        'doanh hyy': 'https://www.deeplol.gg/summoner/vn/doanh%20hyy-1405',
+        'YoneMin999': 'https://www.deeplol.gg/summoner/vn/YoneMin999-999',
+        'TALE12': 'https://www.deeplol.gg/summoner/vn/TALE12-2640',
+        'Trảm Tình': 'https://www.deeplol.gg/summoner/vn/Tr%E1%BA%A3m%20T%C3%ACnh-adc',
+        'Young B': 'https://www.deeplol.gg/summoner/vn/Young%20B-2010',
+        'Xun Won Tới Chơi': 'https://www.deeplol.gg/summoner/vn/Xun%20Won%20T%E1%BB%9Bi%20Ch%C6%A1i-2404',
+        'LHE Shadow': 'https://www.deeplol.gg/summoner/vn/LHE%20Shadow-2010'
     };
     return urls[nickname] || '#';
   }
@@ -191,12 +191,12 @@ export default function StatsLOL() {
                 <span className="stats__player-rank-badge">#{index + 1}</span>
               </div>
               
-              <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-end' }}>
-                 <div className="stats__rank-tag" style={{ background: '#3b82f6', padding: '2px 6px', borderRadius: '4px', color: '#fff', fontWeight: 'bold', fontSize: '10px' }}>
-                   S: {player.soloRank}
+              <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-end' }}>
+                 <div className="stats__rank-tag" style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)' }}>
+                   ⚔️ {player.soloRank}
                  </div>
-                 <div className="stats__rank-tag" style={{ background: '#10b981', padding: '2px 6px', borderRadius: '4px', color: '#fff', fontWeight: 'bold', fontSize: '10px' }}>
-                   F: {player.flexRank}
+                 <div className="stats__rank-tag" style={{ background: 'linear-gradient(135deg, #10b981, #059669)' }}>
+                   👥 {player.flexRank}
                  </div>
               </div>
             </div>
@@ -351,8 +351,12 @@ export default function StatsLOL() {
         </h3>
         <div className="stats__bars">
           {getSorted().map(player => {
-            const val = player[`${sortBy}Num`] || player.matchesPlayed || 0
-            const maxVal = getMaxVal(`${sortBy}Num`) || getMaxVal('matchesPlayed')
+            const val = sortBy === 'soloRank' ? player.soloRankScore
+              : sortBy === 'matches' ? player.matchesPlayed
+              : (player[`${sortBy}Num`] || 0)
+            const maxVal = sortBy === 'soloRank' ? getMaxVal('soloRankScore')
+              : sortBy === 'matches' ? getMaxVal('matchesPlayed')
+              : getMaxVal(`${sortBy}Num`)
             const width = maxVal > 0 ? (val / maxVal) * 100 : 0
 
             return (
@@ -371,7 +375,7 @@ export default function StatsLOL() {
                   />
                 </div>
                 <span className="stats__bar-value" style={{ color: player.color }}>
-                  {sortBy === 'kda' ? player.kda : sortBy === 'winRate' ? player.winRate : val}
+                  {sortBy === 'kda' ? player.kda : sortBy === 'winRate' ? player.winRate : sortBy === 'soloRank' ? player.soloRank : val}
                 </span>
               </div>
             )
