@@ -11,7 +11,7 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey)
 async function updateAvatars() {
   const avatarMap = {
     'Roab': '/images/avatars/bao.png', // Lâm Quốc Bảo
-    'NhanHoag': '/images/avatars/nhan.png', // Hoàng Hữu Nhân
+    'NhanHoang': '/images/avatars/nhan.png', // Hoàng Hữu Nhân
     'XunWon': '/images/avatars/quan.png', // Nguyễn Anh Xuân Quân
     'TuanKitt': '/images/avatars/kiet.png', // Nguyễn Trương Tuấn Kiệt
     'Taile': '/images/avatars/tai.png', // Phạm Thanh Tài

@@ -5,7 +5,7 @@ import { FaInstagram } from 'react-icons/fa'
 import './Members.css'
 
 const igMap = {
-  'NhanHoag': 'https://www.instagram.com/n.hoang2312/?hl=en',
+  'NhanHoang': 'https://www.instagram.com/n.hoang2312/?hl=en',
   'TuanKitt': 'https://www.instagram.com/ngtrgtnkt/?hl=en',
   'Roab': 'https://www.instagram.com/bao.r_2010/?hl=en',
   'XunWon': 'https://www.instagram/_xun.won/?hl=en',
@@ -16,7 +16,7 @@ const igMap = {
 
 // Vùng hover trên ảnh team (phụ thuộc vào bố cục ảnh, không lưu DB)
 const clipAreaMap = {
-  'NhanHoag': { top: 0, left: 0, width: 25, height: 55 },
+  'NhanHoang': { top: 0, left: 0, width: 25, height: 55 },
   'TuanKitt': { top: 0, left: 22, width: 25, height: 55 },
   'Roab':     { top: 0, left: 45, width: 25, height: 55 },
   'XunWon':   { top: 0, left: 68, width: 32, height: 55 },
@@ -27,7 +27,7 @@ const clipAreaMap = {
 
 // Dữ liệu mẫu dùng khi chưa có dữ liệu từ DB
 const fallbackMembers = [
-  { id: 1, full_name: 'Hoàng Hữu Nhân', nickname: 'NhanHoag', date_of_birth: '2004-12-23', hidden_stat: 'Quan Sát', signature_color: '#3B82F6', role_in_team: 'Scout' },
+  { id: 1, full_name: 'Hoàng Hữu Nhân', nickname: 'NhanHoang', date_of_birth: '2004-12-23', hidden_stat: 'Quan Sát', signature_color: '#3B82F6', role_in_team: 'Scout' },
   { id: 2, full_name: 'Nguyễn Trương Tuấn Kiệt', nickname: 'TuanKitt', date_of_birth: '2004-09-14', hidden_stat: 'Đột Biến', signature_color: '#F97316', role_in_team: 'Entry Fragger' },
   { id: 3, full_name: 'Lâm Quốc Bảo', nickname: 'Roab', date_of_birth: '2004-10-20', hidden_stat: 'Tốc Độ', signature_color: '#EAB308', role_in_team: 'Rifler' },
   { id: 4, full_name: 'Nguyễn Anh Xuân Quân', nickname: 'XunWon', date_of_birth: '2006-04-24', hidden_stat: 'Phản Xạ', signature_color: '#9CA3AF', role_in_team: 'Support' },

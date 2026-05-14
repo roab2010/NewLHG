@@ -171,7 +171,7 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
 -- =====================================================
 INSERT INTO members (full_name, nickname, date_of_birth, role_in_team, hidden_stat, signature_color, position_order)
 VALUES
-  ('Hoàng Hữu Nhân', 'NhanHoag', '2004-12-23', 'Scout', 'Quan Sát', '#3B82F6', 1),
+  ('Hoàng Hữu Nhân', 'NhanHoang', '2004-12-23', 'Scout', 'Quan Sát', '#3B82F6', 1),
   ('Nguyễn Trương Tuấn Kiệt', 'TuanKitt', '2004-09-14', 'Entry Fragger', 'Đột Biến', '#F97316', 2),
   ('Lâm Quốc Bảo', 'Roab', '2004-10-20', 'Rifler', 'Tốc Độ', '#EAB308', 3),
   ('Nguyễn Anh Xuân Quân', 'XunWon', '2006-04-24', 'Support', 'Phản Xạ', '#9CA3AF', 4),

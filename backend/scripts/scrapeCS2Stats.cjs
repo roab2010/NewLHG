@@ -15,7 +15,7 @@ puppeteer.use(StealthPlugin());
 // All team members with their Steam64 IDs
 const PLAYERS = [
   {
-    nickname: 'NhanHoag',
+    nickname: 'NhanHoang',
     realName: 'Hoàng Hữu Nhân',
     steamId: '76561198390172300',
     color: '#3B82F6',
