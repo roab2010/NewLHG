@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { BarChart3, Crosshair, TrendingUp, Award, Skull, Shield, Zap, Eye, ExternalLink, RefreshCw, Target } from 'lucide-react'
+import { BarChart3, Crosshair, TrendingUp, Award, Skull, Shield, Zap, Eye, ExternalLink, RefreshCw, Target, Gamepad2 } from 'lucide-react'
 import { fetchCS2Stats } from '../../services/api'
+import StatsLOL from './StatsLOL'
 import './Stats.css'
 
 export default function Stats() {
+  const [activeTab, setActiveTab] = useState('cs2')
   const [players, setPlayers] = useState([])
   const [lastUpdated, setLastUpdated] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -13,8 +15,10 @@ export default function Stats() {
   const [sortBy, setSortBy] = useState('kd')
 
   useEffect(() => {
-    loadStats()
-  }, [])
+    if (activeTab === 'cs2') {
+      loadStats()
+    }
+  }, [activeTab])
 
   async function loadStats() {
     try {
@@ -27,7 +31,7 @@ export default function Stats() {
       }
     } catch (err) {
       console.error('Failed to load CS2 stats:', err)
-      setError('Không thể tải dữ liệu thống kê. Vui lòng thử lại sau.')
+      setError('Không thể tải dữ liệu thống kê CS2. Vui lòng thử lại sau.')
     } finally {
       setLoading(false)
     }
@@ -88,22 +92,6 @@ export default function Stats() {
     })
   }
 
-  if (loading) {
-    return (
-      <div className="stats-page">
-        <div className="stats-page__bg" />
-        <section className="section" style={{ paddingTop: 'calc(var(--navbar-height) + var(--space-3xl))' }}>
-          <div className="container">
-            <div className="stats__loading">
-              <RefreshCw className="stats__loading-icon" size={40} />
-              <p>Đang tải dữ liệu thống kê...</p>
-            </div>
-          </div>
-        </section>
-      </div>
-    )
-  }
-
   return (
     <div className="stats-page">
       <div className="stats-page__bg" />
@@ -116,20 +104,50 @@ export default function Stats() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="section-title">
-              <Crosshair size={32} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '12px' }} />
-              Thống Kê CS2
+              <BarChart3 size={32} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '12px' }} />
+              Thống Kê Đội Tuyển
             </h1>
             <p className="section-subtitle">
-              Dữ liệu thật từ csstats.gg — Số liệu chiến đấu của các thành viên Long Hải Esports
+              Theo dõi chỉ số phong độ thời gian thực của các thành viên Long Hải Esports
             </p>
           </motion.div>
 
-          {error && (
-            <motion.div className="stats__error" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <p>{error}</p>
-              <button onClick={loadStats}>Thử lại</button>
-            </motion.div>
-          )}
+          {/* Game Selector Tabs */}
+          <div className="stats__game-tabs">
+            <button 
+              className={`stats__game-tab ${activeTab === 'cs2' ? 'active' : ''}`}
+              onClick={() => setActiveTab('cs2')}
+            >
+              <Crosshair size={20} />
+              Counter-Strike 2
+            </button>
+            <button 
+              className={`stats__game-tab ${activeTab === 'lol' ? 'active' : ''}`}
+              onClick={() => setActiveTab('lol')}
+            >
+              <Gamepad2 size={20} />
+              League of Legends
+            </button>
+          </div>
+
+          {activeTab === 'lol' ? (
+            <StatsLOL />
+          ) : (
+            <>
+              {loading ? (
+                <div className="stats__loading">
+                  <RefreshCw className="stats__loading-icon" size={40} />
+                  <p>Đang tải dữ liệu thống kê CS2...</p>
+                </div>
+              ) : (
+                <>
+                  {error && (
+                    <motion.div className="stats__error" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                      <p>{error}</p>
+                      <button onClick={loadStats}>Thử lại</button>
+                    </motion.div>
+                  )}
+
 
           {/* Player Cards Overview */}
           <motion.div
@@ -479,6 +497,10 @@ export default function Stats() {
               * Chế độ Competitive 5v5 • Dữ liệu có thể chưa đầy đủ nếu chưa bật match tracking
             </p>
           </div>
+                </>
+              )}
+            </>
+          )}
         </div>
       </section>
     </div>

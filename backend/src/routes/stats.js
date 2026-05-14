@@ -24,6 +24,25 @@ router.get('/cs2', async (req, res) => {
   }
 })
 
+// GET /api/stats/lol — Get cached LOL stats from scraped data
+router.get('/lol', async (req, res) => {
+  try {
+    const dataPath = path.join(process.cwd(), 'data', 'lolstats.json')
+    console.log('📂 Looking for LOL stats at:', dataPath)
+
+    if (!fs.existsSync(dataPath)) {
+      return res.status(404).json({ error: 'LOL stats not available. Run the scraper first.' })
+    }
+
+    const raw = fs.readFileSync(dataPath, 'utf-8')
+    const data = JSON.parse(raw)
+    res.json(data)
+  } catch (error) {
+    console.error('Error reading LOL stats:', error)
+    res.status(500).json({ error: error.message })
+  }
+})
+
 // GET /api/stats/all — Get all cached stats for all members (legacy)
 router.get('/all', async (req, res) => {
   try {

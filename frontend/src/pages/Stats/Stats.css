@@ -57,6 +57,57 @@
   cursor: pointer;
 }
 
+/* Game Tabs */
+.stats__game-tabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+  padding: 6px;
+  background: var(--dark-300);
+  border-radius: var(--radius-lg);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid var(--white-10);
+}
+
+.stats__game-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 10px 24px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--white-40);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.stats__game-tab:hover {
+  color: var(--white-80);
+  background: var(--white-05);
+}
+
+.stats__game-tab.active {
+  background: var(--dark-100);
+  color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--white-10);
+}
+
+.stats__game-tab svg {
+  transition: transform 0.3s ease;
+}
+
+.stats__game-tab.active svg {
+  transform: scale(1.1);
+}
+
 /* ─── Player Cards Grid ─── */
 .stats__cards-grid {
   display: grid;

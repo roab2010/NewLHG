@@ -7,6 +7,8 @@
     "dev": "nodemon src/app.js",
     "start": "node src/app.js",
     "scrape": "node scripts/scrapeCS2Stats.cjs",
+    "scrape:lol": "node scripts/scrapeLOLStats.cjs",
+    "scrape:all": "npm run scrape && npm run scrape:lol",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

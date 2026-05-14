@@ -1,4 +1,4 @@
-name: Scrape CS2 Stats
+name: Scrape Esports Stats
 
 on:
   schedule:
@@ -27,9 +27,13 @@ jobs:
         working-directory: ./backend
         run: npm ci
 
-      - name: Run Scraper
+      - name: Run CS2 Scraper
         working-directory: ./backend
         run: npm run scrape
+
+      - name: Run LOL Scraper
+        working-directory: ./backend
+        run: node scripts/scrapeLOLStats.cjs
 
       - name: Check for changes
         id: git-check
@@ -42,6 +46,6 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add backend/data/cs2stats.json
-          git commit -m "chore: auto-update CS2 stats [skip ci]"
+          git add backend/data/*.json
+          git commit -m "chore: auto-update esports stats [skip ci]"
           git push

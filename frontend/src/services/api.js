@@ -100,6 +100,13 @@ export async function fetchCS2Stats() {
   return res.json()
 }
 
+// ── LOL Stats (scraped from deeplol.gg) ──
+export async function fetchLOLStats() {
+  const res = await fetch(`${API_URL}/stats/lol`)
+  if (!res.ok) throw new Error('Failed to fetch LOL stats')
+  return res.json()
+}
+
 // ── Admin ──
 export async function fetchAdminDashboard(token) {
   const res = await fetch(`${API_URL}/admin/dashboard`, {
