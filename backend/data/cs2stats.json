@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "lastUpdated": "2026-05-14T19:50:45.365Z",
+=======
+  "lastUpdated": "2026-05-14T19:46:34.706Z",
+>>>>>>> 64c116eab0896862df6d3438b3e2235fd92f1343
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +33,11 @@
       "tied": 15,
       "damage": 785523,
       "rounds": 10837,
+<<<<<<< HEAD
       "scrapedAt": "2026-05-14T19:50:08.368Z"
+=======
+      "scrapedAt": "2026-05-14T19:45:53.804Z"
+>>>>>>> 64c116eab0896862df6d3438b3e2235fd92f1343
     },
     {
       "nickname": "Roab",
@@ -59,7 +67,11 @@
       "tied": 13,
       "damage": 838857,
       "rounds": 9178,
+<<<<<<< HEAD
       "scrapedAt": "2026-05-14T19:50:15.525Z"
+=======
+      "scrapedAt": "2026-05-14T19:46:02.656Z"
+>>>>>>> 64c116eab0896862df6d3438b3e2235fd92f1343
     },
     {
       "nickname": "YenOi",
@@ -89,7 +101,11 @@
       "tied": 2,
       "damage": 37292,
       "rounds": 577,
+<<<<<<< HEAD
       "scrapedAt": "2026-05-14T19:50:22.284Z"
+=======
+      "scrapedAt": "2026-05-14T19:46:10.571Z"
+>>>>>>> 64c116eab0896862df6d3438b3e2235fd92f1343
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +135,11 @@
       "tied": 5,
       "damage": 130858,
       "rounds": 1697,
+<<<<<<< HEAD
       "scrapedAt": "2026-05-14T19:50:29.211Z"
+=======
+      "scrapedAt": "2026-05-14T19:46:18.517Z"
+>>>>>>> 64c116eab0896862df6d3438b3e2235fd92f1343
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +169,11 @@
       "tied": 1,
       "damage": 124627,
       "rounds": 1748,
+<<<<<<< HEAD
       "scrapedAt": "2026-05-14T19:50:36.107Z"
+=======
+      "scrapedAt": "2026-05-14T19:46:25.837Z"
+>>>>>>> 64c116eab0896862df6d3438b3e2235fd92f1343
     },
     {
       "nickname": "XunWon",
@@ -179,7 +203,11 @@
       "tied": 12,
       "damage": 661202,
       "rounds": 8214,
+<<<<<<< HEAD
       "scrapedAt": "2026-05-14T19:50:43.187Z"
+=======
+      "scrapedAt": "2026-05-14T19:46:32.597Z"
+>>>>>>> 64c116eab0896862df6d3438b3e2235fd92f1343
     }
   ]
 }
