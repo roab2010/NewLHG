@@ -2,8 +2,8 @@ name: Scrape CS2 Stats
 
 on:
   schedule:
-    # Chạy tự động mỗi 12 tiếng (lúc 0h và 12h giờ UTC)
-    - cron: '0 0,12 * * *'
+    # Chạy tự động mỗi 1 tiếng
+    - cron: '0 * * * *'
   workflow_dispatch: # Cho phép bấm chạy thủ công trên giao diện Github
 
 jobs:
