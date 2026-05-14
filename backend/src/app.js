@@ -20,7 +20,11 @@ const PORT = process.env.PORT || 5000
 // Middleware
 app.use(helmet())
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: [
+    'http://localhost:5173', 
+    'http://localhost:3000',
+    /\.vercel\.app$/ // Cho phép tất cả các domain kết thúc bằng .vercel.app
+  ],
   credentials: true,
 }))
 app.use(morgan('dev'))
