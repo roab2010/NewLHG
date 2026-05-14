@@ -1,0 +1,47 @@
+name: Scrape CS2 Stats
+
+on:
+  schedule:
+    # Chạy tự động mỗi 12 tiếng (lúc 0h và 12h giờ UTC)
+    - cron: '0 0,12 * * *'
+  workflow_dispatch: # Cho phép bấm chạy thủ công trên giao diện Github
+
+jobs:
+  scrape-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Run Scraper
+        working-directory: ./backend
+        run: npm run scrape
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git status --porcelain
+          echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+
+      - name: Commit and Push changes
+        if: steps.git-check.outputs.changed > 0
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add backend/data/cs2stats.json
+          git commit -m "chore: auto-update CS2 stats [skip ci]"
+          git push
