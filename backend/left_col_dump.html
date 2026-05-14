@@ -1,0 +1,2665 @@
+
+                        <div id="header-outer">
+    <div id="header-top">
+        <div id="header-logo">
+            <a id="logo" class="ripple" href=" https://csstats.gg">
+                cs<span class="stats">stats</span>.gg
+            </a>
+        </div>
+
+        <div id="user-nav">
+
+                                    <div id="notifications-icon" style="color:#fff;" class="notvisited">
+<style>
+
+    #notifications-icon .icon {
+    width:32px; height:32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .2s;
+    border-radius:50%;
+    background-color: rgba(255,255,255,.06);
+    }
+
+    #notifications-icon.notvisited .icon {
+        background-color: #F93E32;
+    }
+
+    #notifcations-popup {
+        display:none;
+        position:absolute;
+    }
+
+    #notifications-icon:hover #notifcations-popup {
+        display:block;
+    }
+</style>
+    <script type="text/javascript">
+        if(!Cookies.get('NotificationSeen')) {
+            $('#notifications-icon').addClass('notvisited');
+        }
+        function showNotification() {
+            Cookies.set('NotificationSeen',true, { expires: 365 });
+            $('#notifications-icon').removeClass('notvisited');
+        }
+    </script>
+    <span onmouseover="if (!window.__cfRLUnblockHandlers) return false; showNotification()" style="position: relative; display: block;">
+        <div class="icon">
+            <span class="glyphicon glyphicon-bell"></span>
+        </div>
+    </span>
+    <div id="notifcations-popup" style="margin-top:-32px; padding-top:48px; margin-left:-100px;">
+        <div class="container" style="position:relative; box-shadow: 0 0 3px 0 rgba(0,0,0,0.5); z-index:9999; background-color: #181A26;">
+            <div class="row">
+
+                <div style="position:relative; color:#fff; text-transform: uppercase; text-align:center; font-size:19px; font-weight:black; font-family:Roboto Condensed; font-size:24px;">Introducing<br> Steam Bot<span style="position:relative;
+                        left: 8px;border-radius:3px; padding:4px 8px; background:#3872FC; color:#fff;">Beta!</span></div>
+                <div style="padding:12px 0; text-align:center; color:#fff;">Faster Tracking &amp; Match Notifications</div>
+                <img src="https://static.csstats.gg/images/steam-bot.png" style="max-width:100%;">
+
+                <div style="padding:12px;">
+                    <span style="display:block; text-align:right; padding-bottom:8px; font-size:10px; display:block;">44 slots remaining</span>
+                    <a href="https://s.team/p/dtwh-rkhd/KPWVJNRP" style="background:#3872FC;" class="ripple discord-button" target="_blank" rel="noopener noreferrer nofollow"><span class="nav-button-span">
+                                    <span class="glyphicon glyphicon-user"> </span>
+                                    <span class="glyphicon glyphicon-plus" style="font-size:8px; padding-right:6px; left:-2px;"> </span>
+                                    Add to Friends</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <div id="discord-icon">
+    <script type="text/javascript">
+        if(Cookies.get('DiscordSeen')) {
+            $('#discord-icon').addClass('visited');
+        }
+        function seenDiscord() {
+            Cookies.set('DiscordSeen',true, { expires: 365 });
+            $('#discord-icon').addClass('visited');
+        }
+    </script>
+    <a href="https://discord.gg/BXf2eMEqGZ" onmouseover="if (!window.__cfRLUnblockHandlers) return false; seenDiscord()" target="_blank" rel="noopener noreferrer nofollow" style="position: relative; display: block;" data-toggle="tooltip-html" data-placement="bottom" title="" data-original-title="&lt;p style='text-align:left; padding:.25rem;'&gt;
+            Join our discord for
+        &lt;ul style='text-align:left; margin:0; padding:.25rem; list-style:none;'&gt;
+            &lt;li&gt;Match Notifications&lt;/li&gt;
+            &lt;li&gt;Bans Notifications&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;/p&gt;">
+        <span class="notification">1</span>
+        <div class="icon">
+            <img src="https://static.csstats.gg/images/discord.svg" height="14">
+        </div>
+    </a>
+</div>
+            
+
+                            <div id="user-locale" class="btn-group">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/uk.png" height="14">
+                                                                    <img src="https://static.csstats.gg/images/flags/us.png" height="14">
+                                                                                                            <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" style="max-height:200px; overflow:auto; text-align:right;">
+                                                                                    <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/bg/player/76561199167690122">
+                                        <span style="margin-right:10px;">Български</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/bg.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/zh/player/76561199167690122">
+                                        <span style="margin-right:10px;">简体中文</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/cn.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/cs/player/76561199167690122">
+                                        <span style="margin-right:10px;">Čeština</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/cs.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/hr/player/76561199167690122">
+                                        <span style="margin-right:10px;">Hrvatski</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/hr.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/da/player/76561199167690122">
+                                        <span style="margin-right:10px;">Dansk</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/da.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/de/player/76561199167690122">
+                                        <span style="margin-right:10px;">Deutsch</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/de.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/player/76561199167690122">
+                                        <span style="margin-right:10px;">English</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/uk.png" height="9" style="margin-right:5px;">
+                                                                                            <img src="https://static.csstats.gg/images/flags/us.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/es/player/76561199167690122">
+                                        <span style="margin-right:10px;">Español</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/es.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/et/player/76561199167690122">
+                                        <span style="margin-right:10px;">eesti keel</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/et.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/el/player/76561199167690122">
+                                        <span style="margin-right:10px;">Ελληνικά</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/el.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/hu/player/76561199167690122">
+                                        <span style="margin-right:10px;">Magyar</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/hu.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/it/player/76561199167690122">
+                                        <span style="margin-right:10px;">Italiano</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/it.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/fil-PH/player/76561199167690122">
+                                        <span style="margin-right:10px;">Filipino</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/fil-PH.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/fr/player/76561199167690122">
+                                        <span style="margin-right:10px;">Français</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/fr.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/hi/player/76561199167690122">
+                                        <span style="margin-right:10px;">हिन्दी</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/hi.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/ja/player/76561199167690122">
+                                        <span style="margin-right:10px;">日本語</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/ja.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/kk/player/76561199167690122">
+                                        <span style="margin-right:10px;">қазақ</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/kk.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/lv/player/76561199167690122">
+                                        <span style="margin-right:10px;">Latviešu</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/lv.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/mn/player/76561199167690122">
+                                        <span style="margin-right:10px;">монгол</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/mn.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/ms/player/76561199167690122">
+                                        <span style="margin-right:10px;">Melayu</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/ms.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/nl/player/76561199167690122">
+                                        <span style="margin-right:10px;">Nederland</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/nl.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/no/player/76561199167690122">
+                                        <span style="margin-right:10px;">Norsk</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/no.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/pl/player/76561199167690122">
+                                        <span style="margin-right:10px;">Polski</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/pl.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/pt-BR/player/76561199167690122">
+                                        <span style="margin-right:10px;">Português</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/pt.png" height="9" style="margin-right:5px;">
+                                                                                            <img src="https://static.csstats.gg/images/flags/br.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/ro/player/76561199167690122">
+                                        <span style="margin-right:10px;">Română</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/ro.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/ru-RU/player/76561199167690122">
+                                        <span style="margin-right:10px;">Русский</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/ru.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/sk/player/76561199167690122">
+                                        <span style="margin-right:10px;">Slovenčina</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/sk.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/sl/player/76561199167690122">
+                                        <span style="margin-right:10px;">Slovenščina</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/sl.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/sr/player/76561199167690122">
+                                        <span style="margin-right:10px;">Srpski</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/sr.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/fi/player/76561199167690122">
+                                        <span style="margin-right:10px;">Suomi</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/fi.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/sv/player/76561199167690122">
+                                        <span style="margin-right:10px;">Svenska</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/sv.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/th/player/76561199167690122">
+                                        <span style="margin-right:10px;">ภาษาอังกฤษ</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/th.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/tr/player/76561199167690122">
+                                        <span style="margin-right:10px;">Türkçe</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/tr.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/uk-UA/player/76561199167690122">
+                                        <span style="margin-right:10px;">Українська</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/ua.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                                                                <li>
+                                    <a style="padding:3px 10px;" class="dropdown-item" href="https://csstats.gg/vi/player/76561199167690122">
+                                        <span style="margin-right:10px;">Tiếng Việt</span>
+                                                                                                                                    <img src="https://static.csstats.gg/images/flags/vi.png" height="9" style="margin-right:5px;">
+                                                                                                                        </a>
+                                </li>
+                                                                        </ul>
+                </div>
+            
+            <div class="user-nav-split"> </div>
+
+                            <a href="https://csstats.gg/login" id="login-with-steam" class="ripple">
+                    <span id="signin-text">Sign in with Steam</span>
+                </a>
+            
+        </div>
+
+        <div id="header-search-bar">
+            <div id="search-display">
+                <form action="https://csstats.gg/player" id="search-box" method="post" onsubmit="if (!window.__cfRLUnblockHandlers) return false; return check_for_sharecode();">
+                    <div id="search-box-inner">
+                        <input name="steam_id" type="text" id="search-input" placeholder="Search for a player (Steam ID / Steam Profile Link / Custom Steam URL) or add a match">
+                        <input type="hidden" name="_token" value="u50q0vtspNME8ZV2uroyMJDLM1bMx0q4NOZ4X23K" autocomplete="off">                        <div id="search-hidden"></div>
+                        <div id="search-display-items">
+                            <div id="search-more" data-format="+:more more"></div>
+                        </div>
+                        <div id="search-options">
+                            <button id="search-button" class="glyphicon glyphicon-search"></button>
+                            <span id="search-split"></span>
+                            <span class="glyphicon glyphicon-remove" id="search-remove" onclick="if (!window.__cfRLUnblockHandlers) return false; resetSearch();"></span>
+                        </div>
+                    </div>
+                    <div id="power-bar-search-icon" onclick="if (!window.__cfRLUnblockHandlers) return false; $('#search-box').submit();">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div id="header-nav-outer">
+    <div id="header-nav" class="navbar-default">
+        <nav class="navbar navbar-main">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">navigation.toggle</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar-collapse-1">
+                <ul class="nav navbar-nav" id="main-nav">
+                    <li><a href="https://csstats.gg" class="ripple">Home</a></li>
+                    <li><a href="https://csstats.gg/leaderboards" class="ripple">Leaderboards</a></li>
+                    <li><a href="https://csstats.gg/match" class="ripple">All Matches</a></li>
+                    <li><a href="https://csstats.gg/bans" class="ripple">Ban Stats</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle ripple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tools <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="ripple" href="https://steamcommunity.com/sharedfiles/filedetails/?id=3070389038" rel="nofollow" target="_blank">Training Map</a></li>
+                            <li><a class="ripple" href="https://csstats.gg/spray-patterns">Spray Patterns</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="clearfix"></div>
+    </div>
+</div>        <div id="outer-wrapper">
+            <div id="content-wrapper">
+                <div id="topbar-spacer"></div>
+                    <style type="text/css">
+        .tracking-bar {
+            background: rgba(235,127,42,0.12);
+            border-bottom: 2px solid rgba(235,127,42,0.35);
+            padding: 14px 24px;
+            font-size: 14px;
+        }
+        .tracking-bar.is-error {
+            background: rgba(208,65,67,0.12);
+            border-bottom-color: rgba(208,65,67,0.35);
+        }
+        .tracking-bar-inner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .tracking-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        .tracking-badge-error {
+            background: rgba(208,65,67,0.15);
+            border: 1px solid rgba(208,65,67,0.3);
+            color: rgba(208,65,67,1);
+        }
+        .tracking-badge-warning {
+            background: rgba(235,127,42,0.15);
+            border: 1px solid rgba(235,127,42,0.3);
+            color: rgba(235,127,42,1);
+        }
+        .tracking-desc {
+            color: rgba(255,255,255,0.6);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* --- Shared button styles --- */
+        .tracking-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+            border-radius: 6px;
+            color: #fff;
+            padding: 7px 16px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background .15s;
+        }
+        .tracking-btn-steam {
+            background: #2EA043;
+        }
+        .tracking-btn-steam:hover {
+            background: #3CB352;
+            color: #fff;
+            text-decoration: none;
+        }
+        .tracking-btn-action {
+            background: #4A7DFF;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .tracking-btn-action:hover {
+            background: #5C8CFF;
+            color: #fff;
+            text-decoration: none;
+        }
+        .tracking-btn svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        .bot-connect-bar {
+            background: rgba(74,125,255,0.06);
+            border-bottom: 2px solid rgba(74,125,255,0.2);
+            padding: 24px 24px;
+        }
+        .bot-connect-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .bot-connect-content {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .bot-connect-text {
+            flex: 1;
+            min-width: 280px;
+        }
+        .bot-connect-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin: 10px 0 6px;
+        }
+        .bot-connect-desc {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0 0 16px;
+        }
+        .bot-connect-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .bot-connect-dismiss {
+            color: rgba(255,255,255,0.3);
+            font-size: 13px;
+            cursor: pointer;
+            transition: color .15s;
+        }
+        .bot-connect-dismiss:hover {
+            color: rgba(255,255,255,0.6);
+        }
+        .bot-connect-preview {
+            flex-shrink: 0;
+            width: 320px;
+        }
+
+        .steam-chat {
+            background: #171a21;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            font-size: 13px;
+        }
+        .steam-chat-chrome {
+            display: flex;
+            align-items: flex-end;
+            gap: 0;
+            padding: 0 6px;
+            background: #1e2229;
+        }
+        .steam-chat-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #171a21;
+            padding: 5px 10px;
+            border-radius: 3px 3px 0 0;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            position: relative;
+        }
+        .steam-chat-tab img {
+            border-radius: 2px;
+        }
+        .steam-chat-tab-close {
+            color: rgba(255,255,255,0.25);
+            font-size: 13px;
+            line-height: 1;
+            margin-left: 2px;
+        }
+        .steam-chat-body {
+            padding: 12px 10px;
+        }
+        .steam-chat-msg {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+        .steam-chat-avatar {
+            border-radius: 2px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .steam-chat-meta {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            margin-bottom: 2px;
+        }
+        .steam-chat-sender {
+            color: #57cbde;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .steam-chat-time {
+            color: rgba(255,255,255,0.2);
+            font-size: 11px;
+        }
+        .steam-chat-text {
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+            line-height: 1.45;
+        }
+        .steam-chat-link {
+            color: #5b9bd5;
+        }
+
+        @media (max-width: 640px) {
+            .bot-connect-preview {
+                display: none;
+            }
+        }
+
+        #played-with-show-vac {
+            display: inline-block;
+        }
+
+        #played-with-show-all {
+            display: none;
+        }
+
+        #played-with-outer.only-vac #played-with-show-vac {
+            display: none;
+        }
+
+        #played-with-outer.only-vac #played-with-show-all {
+            display: inline-block;
+        }
+
+        .loader-outer {
+            padding: 16px 0;
+            display: none;
+            position: absolute;
+            left: 0;
+            z-index: 100;
+            right: 0;
+            top: auto;
+            bottom: 100px;
+        }
+
+
+        .loading .loader-outer {
+            display: block;
+        }
+
+        .loader {
+            position: relative;
+            margin: 0 auto;
+            width: 100px;
+        }
+
+        .loader:before {
+            content: '';
+            display: block;
+            padding-top: 100%;
+        }
+
+        .circular {
+            animation: rotate 2s linear infinite;
+            height: 100%;
+            transform-origin: center center;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        .path {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+            animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+            stroke-linecap: round;
+            stroke: #fff;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -35px;
+            }
+            100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124px;
+            }
+        }
+
+    </style>
+    <div id="player-outer">
+        
+                <div class="tracking-bar is-error">
+            <div class="tracking-bar-inner">
+                                    <span class="tracking-badge tracking-badge-error">Tracking Not Enabled</span>
+                    <span class="tracking-desc">
+                                                    Statistics may be incomplete. Is this you? Claim your profile to enable match tracking.
+                                            </span>
+                                            <a href="https://csstats.gg/login" class="tracking-btn tracking-btn-steam"><svg viewBox="0 0 256 259" xmlns="http://www.w3.org/2000/svg"><path d="M127.779 0C60.42 0 5.24 52.412 0 119.014l68.724 28.674a35.812 35.812 0 0 1 20.426-6.366c.682 0 1.356.019 2.022.057l30.56-44.792v-.63c0-26.513 21.397-48.074 47.71-48.074 26.312 0 47.71 21.561 47.71 48.131 0 26.57-21.398 48.132-47.71 48.132h-1.099l-43.677 31.489c0 .543.038 1.093.038 1.636 0 19.856-15.96 35.978-35.614 35.978-17.2 0-31.623-12.322-35.007-28.674L1.548 162.075C19.924 217.473 69.95 258.248 127.779 258.248c70.575 0 127.774-57.772 127.774-129.124C255.553 57.772 198.354 0 127.779 0" fill="#fff"></path></svg> Sign in with Steam</a>
+                                                </div>
+        </div>
+        
+        
+        <div id="player">
+            <div id="player-profile">
+    <div id="player-data">
+
+        <div id="player-avatar">
+            <img src="https://avatars.steamstatic.com/f7fb5b3ce29d1dff226aaa9c329b855b8eb1501e_full.jpg" width="122" height="122" class="img-responsive">
+        </div>
+
+        <div id="player-info">
+            <div id="player-name">
+                MONALISA PEEK
+            </div>
+            <div id="other-profiles">
+                <div class="icon">
+                    <a href="https://steamcommunity.com/profiles/76561199167690122" rel="nofollow noopener noreferrer" target="_blank">
+                        <span class="steam-icon" style="width:15px; height:15px; "></span>
+                    </a>
+                </div>
+                                                                            </div>
+        </div>
+    </div>
+            <div id="player-ranks">
+
+                <div class="header" style="padding:.25rem 0; border-bottom:1px solid rgba(255,255,255,.1)">
+        <div class="icon" style="justify-content: flex-start;">
+            <img alt="CS2" width="40" height="18" src="https://static.csstats.gg/images/logo-cs2.png" class="img-responsive" style="margin-bottom: -2px">
+        </div>
+        <div>Rank</div>
+        <div>Best</div>
+    </div>
+        
+
+        
+            <div class="ranks">
+                <div class="over">
+                    <div class="icon">
+                                                    <img src="https://static.csstats.gg/images/premier.png" alt="Premier - Season 4" title="Premier - Season 4">
+                                            </div>
+                                        <div class="icon" style="flex-basis: 0;flex-grow: inherit;">
+                        S4
+                    </div>
+                                        <div class="rank">
+                                                    <div class="cs2rating common sm " style="background-image: url(https://static.csstats.gg/images/ranks/cs2/rating.common.png)">
+    <span class="">
+        ---<small></small>
+    </span>
+</div>
+
+                        
+                    </div>
+                    <div class="best">
+                                                                                    <div class="cs2rating common sm " style="background-image: url(https://static.csstats.gg/images/ranks/cs2/rating.common.png)">
+    <span class="">
+        ---<small></small>
+    </span>
+</div>
+
+                                                                        </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="date">
+                        <span>17 hours ago</span>
+                    </div>
+                    <div class="wins">
+                        <span>Wins: <b>5</b></span>
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+
+            </div>
+        
+            <div class="ranks">
+                <div class="over">
+                    <div class="icon">
+                                                    <img src="https://static.csstats.gg/images/premier.png" alt="Premier - Season 3" title="Premier - Season 3">
+                                            </div>
+                                        <div class="icon" style="flex-basis: 0;flex-grow: inherit;">
+                        S3
+                    </div>
+                                        <div class="rank">
+                                                    <div class="cs2rating rare sm " style="background-image: url(https://static.csstats.gg/images/ranks/cs2/rating.rare.png)">
+    <span class="">
+        10<small>,740</small>
+    </span>
+</div>
+
+                        
+                    </div>
+                    <div class="best">
+                                                                                    <div class="cs2rating rare sm " style="background-image: url(https://static.csstats.gg/images/ranks/cs2/rating.rare.png)">
+    <span class="">
+        10<small>,740</small>
+    </span>
+</div>
+
+                                                                        </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="date">
+                        <span>Mon 20th Oct 25</span>
+                    </div>
+                    <div class="wins">
+                        <span>Wins: <b>10</b></span>
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+
+            </div>
+        
+            <div class="ranks">
+                <div class="over">
+                    <div class="icon">
+                                                    <img src="https://static.csstats.gg/images/premier.png" alt="Premier - Season 2" title="Premier - Season 2">
+                                            </div>
+                                        <div class="icon" style="flex-basis: 0;flex-grow: inherit;">
+                        S2
+                    </div>
+                                        <div class="rank">
+                                                    <div class="cs2rating uncommon sm " style="background-image: url(https://static.csstats.gg/images/ranks/cs2/rating.uncommon.png)">
+    <span class="">
+        6<small>,104</small>
+    </span>
+</div>
+
+                        
+                    </div>
+                    <div class="best">
+                                                                                    <div class="cs2rating rare sm " style="background-image: url(https://static.csstats.gg/images/ranks/cs2/rating.rare.png)">
+    <span class="">
+        10<small>,120</small>
+    </span>
+</div>
+
+                                                                        </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="date">
+                        <span>Wed 9th Jul 25</span>
+                    </div>
+                    <div class="wins">
+                        <span>Wins: <b>101</b></span>
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+
+            </div>
+        
+            <div class="ranks">
+                <div class="over">
+                    <div class="icon">
+                                                    <img src="https://static.csstats.gg/images/premier.png" alt="Premier" title="Premier">
+                                            </div>
+                                        <div class="icon" style="flex-basis: 0;flex-grow: inherit;">
+                        S1
+                    </div>
+                                        <div class="rank">
+                                                    <div class="cs2rating uncommon sm " style="background-image: url(https://static.csstats.gg/images/ranks/cs2/rating.uncommon.png)">
+    <span class="">
+        8<small>,156</small>
+    </span>
+</div>
+
+                        
+                    </div>
+                    <div class="best">
+                                                                                    <div class="cs2rating rare sm " style="background-image: url(https://static.csstats.gg/images/ranks/cs2/rating.rare.png)">
+    <span class="">
+        12<small>,817</small>
+    </span>
+</div>
+
+                                                                        </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="date">
+                        <span>Wed 10th Apr 24</span>
+                    </div>
+                    <div class="wins">
+                        <span>Wins: <b>94</b></span>
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+
+            </div>
+        
+            <div class="ranks">
+                <div class="over">
+                    <div class="icon">
+                                                                                                                <img src="https://static.csstats.gg/images/maps/icons/cs2/de_mirage.png" alt="de_mirage" title="de_mirage">
+                                                                        </div>
+                                        <div class="rank">
+                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/5.png" height="18">
+                        
+                    </div>
+                    <div class="best">
+                                                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/7.png" height="18">
+                                                                        </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="date">
+                        <span>Tue 26th Aug 25</span>
+                    </div>
+                    <div class="wins">
+                        <span>Wins: <b>7</b></span>
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+
+            </div>
+        
+            <div class="ranks">
+                <div class="over">
+                    <div class="icon">
+                                                                                                                <img src="https://static.csstats.gg/images/maps/icons/de_dust2_v2.png" alt="de_dust2" title="de_dust2">
+                                                                        </div>
+                                        <div class="rank">
+                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/0.png" height="18">
+                        
+                    </div>
+                    <div class="best">
+                                                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/2.png" height="18">
+                                                                        </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="date">
+                        <span>Thu 7th May 26</span>
+                    </div>
+                    <div class="wins">
+                        <span>Wins: <b>6</b></span>
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+
+            </div>
+        
+            <div class="ranks">
+                <div class="over">
+                    <div class="icon">
+                                                                                                                <img src="https://static.csstats.gg/images/maps/icons/cs2/de_inferno.png" alt="de_inferno" title="de_inferno">
+                                                                        </div>
+                                        <div class="rank">
+                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/4.png" height="18">
+                        
+                    </div>
+                    <div class="best">
+                                                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/10.png" height="18">
+                                                                        </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="date">
+                        <span>Thu 7th May 26</span>
+                    </div>
+                    <div class="wins">
+                        <span>Wins: <b>3</b></span>
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+
+            </div>
+        
+            <div class="ranks">
+                <div class="over">
+                    <div class="icon">
+                                                                                                                <img src="https://static.csstats.gg/images/maps/icons/de_vertigo_1.png" alt="de_vertigo" title="de_vertigo">
+                                                                        </div>
+                                        <div class="rank">
+                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/0.png" height="18">
+                        
+                    </div>
+                    <div class="best">
+                                                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/0.png" height="18">
+                                                                        </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="date">
+                        <span>Fri 11th Apr 25</span>
+                    </div>
+                    <div class="wins">
+                        <span>Wins: <b>1</b></span>
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+
+            </div>
+        
+            <div class="ranks">
+                <div class="over">
+                    <div class="icon">
+                                                                                                                <img src="https://static.csstats.gg/images/maps/icons/cs2/de_overpass.png" alt="de_overpass" title="de_overpass">
+                                                                        </div>
+                                        <div class="rank">
+                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/0.png" height="18">
+                        
+                    </div>
+                    <div class="best">
+                                                                                    <img class="rank" src="https://static.csstats.gg/images/ranks/0.png" height="18">
+                                                                        </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="date">
+                        <span>Tue 15th Apr 25</span>
+                    </div>
+                    <div class="wins">
+                        <span>Wins: <b>0</b></span>
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+
+            </div>
+            
+        <div class="header" style="margin-top:2rem; padding:.25rem 0; border-bottom:1px solid rgba(255,255,255,.1)">
+        <div class="icon" style="justify-content: flex-start;">
+            <img width="40" height="18" alt="CS:GO" src="https://static.csstats.gg/images/logo-csgo.png" class="img-responsive" style="margin-bottom: -2px">
+        </div>
+        <div>Rank</div>
+        <div>Best</div>
+    </div>
+    <div class="ranks">
+        <div class="over">
+        <div class="icon">
+
+        </div>
+
+        <div class="rank">
+                            <img src="https://static.csstats.gg/images/ranks/13.png" height="18">
+                    </div>
+        <div class="best">
+                    </div>
+        </div>
+        <div class="bottom">
+            <div class="date">
+                                    <span>Tue 26th Sep 23</span>
+                            </div>
+            <div class="wins">
+                                    <span>Wins: <b>254</b></span>
+                            </div>
+            <div>&nbsp;</div>
+        </div>
+    </div>
+    </div>
+    <script type="text/javascript">
+        function dismissConnect() {
+            $('#faceit-connect').hide();
+            var request = $.ajax({
+                url: "/user/faceit/hide",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    _token: 'u50q0vtspNME8ZV2uroyMJDLM1bMx0q4NOZ4X23K'
+                }
+            });
+        }
+    </script>
+</div>            <div id="player-outer-section">
+                <div>
+                <div id="player-loading-section" class="loading">
+                    <div id="loader-outer" class="loader-outer">
+                        <div class="loader">
+                            <svg class="circular" viewBox="25 25 50 50">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div id="player-login-required" style="padding: 40px; text-align: center; color: #fff;display:none;">
+                    <h1>Please login to view player stats</h1>
+                    <p>Due to our increased web traffic, we've had to put player stats behind auth. Please <a href="/login">login</a> to continue</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <style>.q_169a5741f6090b176839f37049ec276c { background-image:url('https://static.csstats.gg/images/ranks/1.png'); }.q_02318d24a1180b6109e9c516f8db7722 { background-image:url('https://static.csstats.gg/images/ranks/2.png'); }.q_3bd355e9305469f554e16d96ddec1b6b { background-image:url('https://static.csstats.gg/images/ranks/3.png'); }.q_cb89ac87ee22426d78102b558b31e7a1 { background-image:url('https://static.csstats.gg/images/ranks/4.png'); }.q_edac09d75ac851161d70ad103c0ebfda { background-image:url('https://static.csstats.gg/images/ranks/5.png'); }.q_d2b000341a7958ea5441a2bac4e9f593 { background-image:url('https://static.csstats.gg/images/ranks/6.png'); }.q_4528eeb0b51464aeb7255f3d7b5132fa { background-image:url('https://static.csstats.gg/images/ranks/7.png'); }.q_611244feb610827e7775f7a3c76fa3e0 { background-image:url('https://static.csstats.gg/images/ranks/8.png'); }.q_d99b12ef513f94b7cb7aab1247aa0686 { background-image:url('https://static.csstats.gg/images/ranks/9.png'); }.q_422570b42eb973065548e930ecb2f198 { background-image:url('https://static.csstats.gg/images/ranks/10.png'); }.q_a9cc8913f8fb59af649cf92faae1eafb { background-image:url('https://static.csstats.gg/images/ranks/11.png'); }.q_eb5b535751761c277bede8942c21c0ad { background-image:url('https://static.csstats.gg/images/ranks/12.png'); }.q_3121c89edd4eb1cf59bbf142d9be7ca4 { background-image:url('https://static.csstats.gg/images/ranks/13.png'); }.q_326e0e8683165a234950290756436c55 { background-image:url('https://static.csstats.gg/images/ranks/14.png'); }.q_3093b0f3b0eae327557e464156c92f02 { background-image:url('https://static.csstats.gg/images/ranks/15.png'); }.q_73703445b8b82805d6d2c803a4cd77ca { background-image:url('https://static.csstats.gg/images/ranks/16.png'); }.q_f7f3d225a351c9f65204eae95b53847c { background-image:url('https://static.csstats.gg/images/ranks/17.png'); }.q_bface1b7a30749f9a4f6873a93edf4d9 { background-image:url('https://static.csstats.gg/images/ranks/18.png'); }</style>
+    <style>
+        #live-match-section {
+            display: none;
+            position: relative;
+        }
+
+        .match-side-ad, .large-match-side-ad {
+            position: absolute;
+            right: 0;
+            width: 120px;
+            height: 600px;
+            top: 24px;
+        }
+
+        #header-ad {
+            width: 860px;
+            position: absolute;
+            left: 50%;
+            margin-left: -400px;
+            top: 14px;
+        }
+
+        @media screen and (max-width: 1900px) {
+            .large-match-side-ad {
+                margin-top: 150px;
+            }
+
+            .match-side-ad {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 1600px) {
+            .large-match-side-ad {
+                display: none;
+            }
+
+        }
+
+        @media screen and (max-width: 1600px) {
+            #header-ad {
+                width: 700px;
+                margin-left: -300px;
+            }
+        }
+
+        @media screen and (max-width: 1300px) {
+            #header-ad {
+                position: static;
+                width: auto;
+                height: auto;
+                left: auto;
+                margin-left: 0;
+                top: auto;
+            }
+        }
+
+    </style>
+
+    <script type="text/javascript" src="https://static.csstats.gg/js/Chart.2.6.0.min.js"></script>
+    <script type="text/javascript">
+        stats_loading = false;
+        function getStats() {
+            if (!stats_loading) {
+                stats_loading = true;
+                var statsPath = "/player/76561199167690122";
+                                var request = $.ajax({
+                    url: statsPath + "/stats" + window.location.search,
+                    method: "GET"
+                })
+                .done(function (msg) {
+                    $('#player-loading-section').removeClass('loading');
+                    $('#player-loading-section').html(msg);
+                })
+
+                .fail(function (jqXHR, textStatus) {
+                    $('#player-loading-section').removeClass('loading');
+
+                    if (jqXHR.status === 403) {
+                        $('#player-loading-section').hide();
+                        $('#player-login-required').show();
+                    }
+                    stats_loading = false;
+                });
+            }
+        }
+        window.setTimeout(function() {
+            getStats();
+        }, 100);
+    </script>
+            </div>
+            <footer class="v2-footer">
+                <div class="v2-footer-content">
+                                        <div class="btn-group" id="footer-locale" style="width:160px; margin:0 auto 20px;">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size:9px; padding:10px 0; float:none;">
+                                                                                                                                        <img src="https://static.csstats.gg/images/flags/uk.png" height="12" style="margin-right:5px;">
+                                                                            <img src="https://static.csstats.gg/images/flags/us.png" height="12" style="margin-right:5px;">
+                                                                                                                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                                                                                                                            <li>
+                                <a class="dropdown-item" href="https://csstats.gg/bg/player/76561199167690122">
+                                    <span style="margin-right:10px;">Български</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/bg.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/zh/player/76561199167690122">
+                                    <span style="margin-right:10px;">简体中文</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/cn.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/cs/player/76561199167690122">
+                                    <span style="margin-right:10px;">Čeština</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/cs.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/hr/player/76561199167690122">
+                                    <span style="margin-right:10px;">Hrvatski</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/hr.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/da/player/76561199167690122">
+                                    <span style="margin-right:10px;">Dansk</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/da.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/de/player/76561199167690122">
+                                    <span style="margin-right:10px;">Deutsch</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/de.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/player/76561199167690122">
+                                    <span style="margin-right:10px;">English</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/uk.png" height="9" style="margin-right:5px;">
+                                                                                    <img src="https://static.csstats.gg/images/flags/us.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/es/player/76561199167690122">
+                                    <span style="margin-right:10px;">Español</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/es.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/et/player/76561199167690122">
+                                    <span style="margin-right:10px;">eesti keel</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/et.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/el/player/76561199167690122">
+                                    <span style="margin-right:10px;">Ελληνικά</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/el.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/hu/player/76561199167690122">
+                                    <span style="margin-right:10px;">Magyar</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/hu.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/it/player/76561199167690122">
+                                    <span style="margin-right:10px;">Italiano</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/it.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/fil-PH/player/76561199167690122">
+                                    <span style="margin-right:10px;">Filipino</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/fil-PH.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/fr/player/76561199167690122">
+                                    <span style="margin-right:10px;">Français</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/fr.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/hi/player/76561199167690122">
+                                    <span style="margin-right:10px;">हिन्दी</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/hi.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/ja/player/76561199167690122">
+                                    <span style="margin-right:10px;">日本語</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/ja.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/kk/player/76561199167690122">
+                                    <span style="margin-right:10px;">қазақ</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/kk.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/lv/player/76561199167690122">
+                                    <span style="margin-right:10px;">Latviešu</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/lv.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/mn/player/76561199167690122">
+                                    <span style="margin-right:10px;">монгол</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/mn.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/ms/player/76561199167690122">
+                                    <span style="margin-right:10px;">Melayu</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/ms.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/nl/player/76561199167690122">
+                                    <span style="margin-right:10px;">Nederland</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/nl.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/no/player/76561199167690122">
+                                    <span style="margin-right:10px;">Norsk</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/no.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/pl/player/76561199167690122">
+                                    <span style="margin-right:10px;">Polski</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/pl.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/pt-BR/player/76561199167690122">
+                                    <span style="margin-right:10px;">Português</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/pt.png" height="9" style="margin-right:5px;">
+                                                                                    <img src="https://static.csstats.gg/images/flags/br.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/ro/player/76561199167690122">
+                                    <span style="margin-right:10px;">Română</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/ro.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/ru-RU/player/76561199167690122">
+                                    <span style="margin-right:10px;">Русский</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/ru.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/sk/player/76561199167690122">
+                                    <span style="margin-right:10px;">Slovenčina</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/sk.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/sl/player/76561199167690122">
+                                    <span style="margin-right:10px;">Slovenščina</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/sl.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/sr/player/76561199167690122">
+                                    <span style="margin-right:10px;">Srpski</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/sr.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/fi/player/76561199167690122">
+                                    <span style="margin-right:10px;">Suomi</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/fi.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/sv/player/76561199167690122">
+                                    <span style="margin-right:10px;">Svenska</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/sv.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/th/player/76561199167690122">
+                                    <span style="margin-right:10px;">ภาษาอังกฤษ</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/th.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/tr/player/76561199167690122">
+                                    <span style="margin-right:10px;">Türkçe</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/tr.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/uk-UA/player/76561199167690122">
+                                    <span style="margin-right:10px;">Українська</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/ua.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                                    <li>
+                                <a class="dropdown-item" href="https://csstats.gg/vi/player/76561199167690122">
+                                    <span style="margin-right:10px;">Tiếng Việt</span>
+                                                                                                                        <img src="https://static.csstats.gg/images/flags/vi.png" height="9" style="margin-right:5px;">
+                                                                                                            </a>
+                            </li>
+                                                                                                                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                                        <div class="v2-footer-socials">
+                        <span>Follow Us!</span>
+                        <a href="http://steamcommunity.com/groups/csstats-gg" target="_blank" rel="nofollow noopener noreferrer" title="Steam">
+                            <span class="steam-icon"></span>
+                        </a>
+                        <a href="https://twitter.com/cs2stats" target="_blank" rel="nofollow noopener noreferrer" title="X/Twitter">
+                            <span class="twitter-icon"></span>
+                        </a>
+                        <a href="https://www.facebook.com/csstats.gg" target="_blank" rel="nofollow noopener noreferrer" title="Facebook">
+                            <span class="facebook-icon"></span>
+                        </a>
+                    </div>
+                    <p class="v2-footer-copyright">Copyright © 2016-2026 ESL FACEIT GROUP LIMITED</p>
+                    <p class="v2-footer-description"><span class="highlight">csstats.gg</span> is an online service for CS2 stat tracking. Time to start tracking your competitive CS2 match history.</p>
+                    <nav class="v2-footer-nav">
+                        <a href="https://csstats.gg/terms-of-use">Terms of Use</a>
+                        <a href="https://csstats.gg/privacy-policy">Privacy Policy</a>
+                        <a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; UC_UI.showFirstLayer(); return false;">Privacy Settings</a>
+                        <a href="https://csstats.gg/dmca-policy">DMCA Policy</a>
+                        <a href="https://csgostats.gg/cs2">CS2 Stats</a>
+                    </nav>
+                    <p class="v2-footer-contact">For feedback contact me at: support(at)csstats(dot)gg.</p>
+                    <p class="v2-footer-powered">
+                        <a target="_blank" rel="nofollow noopener noreferrer" href="https://steampowered.com">Powered by Steam</a>. This site is not affiliated with Valve.
+                    </p>
+                </div>
+            </footer>
+        
+        <div id="replay-overlay" style="background:rgba(0,0,0,0.8); position:fixed; top:0; left:0; right:0; bottom:0; z-index:9998; display:none;">
+            <div style="padding:32px;">
+               <div style="max-width:789px; margin:auto; position: relative; text-align:right;">
+                   <button onclick="if (!window.__cfRLUnblockHandlers) return false; return dismissReplay();" style="background:rgba(255,255,255,0.1); border:none; color:#fff; font-size:24px; cursor:pointer; padding:8px 12px; border-radius:4px; z-index:9999;">
+                       <span class="glyphicon glyphicon-remove"></span>
+                   </button>
+                    <a href="/faceit/replay" style="display:block; margin-top:12px;">
+                        <img src="https://static.csstats.gg/images/faceit-replay-ready.png" style="width:100%; height:auto;">
+                    </a>
+               </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        $(this).parent().siblings().removeClass('open');
+                        $(this).parent().toggleClass('open');
+                    });
+                                    });
+            })(jQuery);
+
+            function dismissReplay() {
+                document.getElementById('replay-overlay').style.display='none';
+                var request = $.ajax({
+                    url: "/replay/dismiss",
+                    method: "POST",
+                    dataType: "json"
+                });
+            }
+
+            function check_for_sharecode(inputSource='search-input') {
+                const search = document.getElementById(inputSource);
+
+                if(search.value.match(/(CSGO-\w{5}-\w{5}-\w{5}-\w{5}-\w{5})/)
+                    || search.value.match(/steam:\/\/rungame\/730\/76561202255233023\/\+csgo_download_match%20(CSGO-\w{5}-\w{5}-\w{5}-\w{5}-\w{5})/)
+                ) {
+
+                    add_match(search.value);
+                    search.value = "";
+                    if(inputSource==='cs2-matches-input') {
+                        document.getElementById('cs2-matches-group').classList.remove('has-error')
+                    }
+
+                    return false;
+
+                } else {
+
+                    if(inputSource==='cs2-matches-input') {
+                        document.getElementById('cs2-matches-group').classList.add('has-error');
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            var message = document.createElement('div');
+            message.innerHTML = "";
+            if(message.innerHTML) {
+                document.body.appendChild(message);
+                message.id = 'message';
+            }
+
+            var fixed_index = 0;
+            var stored = Cookies.getJSON('matches');
+            var matches = [];
+
+            var match_list_ping = false;
+
+            $(function() {
+                if(!match_list_ping) {
+                    match_list_ping = match_list_timeout();
+                }
+                if(stored) {
+                    for(var i=0; i<stored.length; i++) {
+                        stored[i].index = fixed_index;
+                        ui_add_match(stored[i]);
+                        matches.push(stored[i]);
+                        fixed_index++;
+                    }
+                }
+            });
+
+            function add_by_sharecode(ele) {
+                var code = false;
+                if(document.getElementById('add-match-sharecode')) {
+                    code = document.getElementById('add-match-sharecode').value;
+                }
+                // validate?
+                if(code) {
+                    add_match(code);
+                }
+                return false;
+            }
+
+            function ui_add_match(match_obj) {
+                // in Queue
+                //Error _ Unable to retrieve demo file. This match is over 7 days old, so it's likely the demo is no longer hosted on valve servers.
+
+                var html =
+                "<div class=\"add-match-list-item-inner\">" +
+                    "<div class=\"status-icon\">" +
+                        "<span class=\"glyphicon glyphicon-time\"></span>" +
+                        "<span class=\"glyphicon glyphicon-ok\"></span>" +
+                        "<span class=\"glyphicon glyphicon-warning-sign\"></span>" +
+                    "</div>" +
+                    "<div>" +
+                        "<span class=\"add-match-name\">"+match_obj.sharecode+"</span>" +
+                        "<div class=\"add-match-message\" style=\"padding-bottom:8px; display:block;\">" +
+                            "<span class=\"add-match-message-state\"></span>" +
+                            "<a class=\"add-match-view\"></a>" +
+                        "</div>" +
+                    "</div>" +
+                    "<div class=\"match-list-item-actions\">" +
+                        "<span class=\"match-list-item-action\" onclick=\"remove_match(this);\">" +
+                            "<span class=\"glyphicon glyphicon-remove\"></span>" +
+                        "</span>" +
+                    "</div>" +
+                "</div>";
+                var ele = document.createElement('div');
+                ele.innerHTML = html;
+                ele.setAttribute('data-index', match_obj.index);
+                ele.className = 'add-match-list-item';
+                document.getElementById('match-queue-list-inner').appendChild(ele);
+                ui_update_match(match_obj);
+            }
+
+            function ui_update_match(match_obj) {
+                var ele = false;
+                var match_eles = document.getElementById('match-queue-list-inner').getElementsByTagName('div');
+                for(var i=0; i<match_eles.length; i++) {
+                    if(match_eles[i].getAttribute('data-index') >= 0) {
+                        if(match_eles[i].getAttribute('data-index') == match_obj.index) {
+                            ele = match_eles[i];
+                        }
+                    }
+                }
+
+                if(ele) {
+                    var msg = "Queuing";
+                    if(match_obj.msg) {
+                        msg = match_obj.msg;
+                    }
+                    ele.className = 'add-match-list-item '+match_obj.status;
+
+                    var eles = ele.getElementsByTagName('span');
+                    for(var i=0; i<eles.length; i++) {
+                        if(eles[i].className == "add-match-name") {
+                            eles[i].innerHTML = match_obj.sharecode;
+                        } else if(eles[i].className == 'add-match-message-state') {
+                            eles[i].innerHTML = msg;
+                        }
+                    }
+
+                    var eles = ele.getElementsByTagName('a');
+                    for(var i=0; i<eles.length; i++) {
+                        if(eles[i].className == 'add-match-view') {
+                            //console.log(match_obj);
+                            if(match_obj.hasOwnProperty('url') && match_obj.url && match_obj.id) {
+                                eles[i].href = match_obj.url;
+                                eles[i].innerHTML = "View";
+                            }
+                        }
+                    }
+                }
+            }
+
+            function match_queued(data) {
+                var item = false;
+                for(var i=0; i<matches.length; i++) {
+                    if(data.data.index == matches[i].index) {
+                        item = i;
+                    }
+                }
+
+                if(item !== false) {
+                    matches[item].sharecode = data.data.sharecode;
+                    matches[item].status = data.status;
+                    matches[item].queue_id = data.data.queue_id;
+                    matches[item].id = data.data.demo_id;
+                    matches[item].error = parseInt(data.error);
+                    matches[item].start = parseInt(data.data.start);
+                    matches[item].msg = data.data.msg;
+                    if(data.data.hasOwnProperty('url')) {
+                        matches[item].url = data.data.url;
+                    }
+                    if(data.data.hasOwnProperty('in_queue')) {
+                        matches[item].in_queue = data.data.in_queue;
+                    } else {
+                        matches[item].in_queue = 0;
+                    }
+                    ui_update_match(matches[item]);
+                }
+                Cookies.set('matches', matches);
+                if(!match_list_ping) {
+                    match_list_ping = match_list_timeout();
+                }
+            }
+
+            var allow_match_list_refresh = false;
+            var hidden, visibilityChange;
+            if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
+                hidden = "hidden";
+                visibilityChange = "visibilitychange";
+            } else if (typeof document.msHidden !== "undefined") {
+                hidden = "msHidden";
+                visibilityChange = "msvisibilitychange";
+            } else if (typeof document.webkitHidden !== "undefined") {
+                hidden = "webkitHidden";
+                visibilityChange = "webkitvisibilitychange";
+            }
+
+            function match_list_check() {
+                allow_match_list_refresh = false;
+                var matches_processing = [];
+                for (var i = 0; i < matches.length; i++) {
+                    if (!matches[i].id && matches[i].queue_id && matches[i].in_queue) {
+                        matches_processing.push(matches[i].queue_id);
+                    }
+                }
+                if (matches_processing.length) {
+                    if(typeof document[hidden] === "undefined" || !document[hidden]) {
+                        var request = $.ajax({
+                            url: "/match/processing/ajax",
+                            method: "POST",
+                            data: {matches: matches_processing},
+                            dataType: "json"
+                        })
+                            .done(function (data) {
+                                match_list_update(data);
+                            })
+                            .fail(function (jqXHR, textStatus) {
+                                //	alert( "Request failed: " + textStatus );
+                            });
+                    } else {
+                        allow_match_list_refresh = true;
+                        window.clearInterval(match_list_ping);
+                        match_list_ping = false;
+                    }
+                } else {
+                    window.clearInterval(match_list_ping);
+                    match_list_ping = false;
+                }
+            }
+
+            document.addEventListener(visibilityChange, function() {
+                if(!document[hidden] && allow_match_list_refresh === true && match_list_ping === false) {
+                    match_list_check();
+                    match_list_ping = match_list_timeout();
+                }
+            }, false);
+
+            function match_list_timeout() {
+                //return window.setInterval(match_list_check, 60000);
+            }
+
+            function match_list_update(data) {
+                var updates = 0;
+                for(var i=0; i<data.length; i++) {
+                    for(var z=0; z<matches.length; z++) {
+                        if(matches[z].queue_id == data[i].data.queue_id) {
+                            matches[z].id = data[i].data.demo_id;
+                            matches[z].queue_pos = data[i].data.queue_pos;
+                            matches[z].error = parseInt(data[i].error);
+                            matches[z].status = data[i].status;
+                            matches[z].msg = data[i].data.msg;
+                            if(data[i].data.hasOwnProperty('url')) {
+                                matches[z].url = data[i].data.url;
+                            }
+                            if(data[i].data.hasOwnProperty('in_queue')) {
+                                matches[z].in_queue = data[i].data.in_queue;
+                            } else {
+                                matches[z].in_queue = 0;
+                            }
+                            updates++;
+                            ui_update_match(matches[z]);
+                            break;
+                        }
+                    }
+                }
+                if(updates) {
+                    Cookies.set('matches', matches);
+                }
+            }
+
+            function isNumeric(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            }
+
+            function add_match(sharecode) {
+                // Add by queue id
+                $('body').addClass('open-match-queue');
+
+                if(sharecode.substr(0, 1) == "#" && isNumeric(sharecode.substr(1, sharecode.length))) {
+                    var queue_id = sharecode.substr(1, sharecode.length);
+                    for (var i = 0; i < matches.length; i++) {
+                        if (matches[i].queue_id == queue_id) {
+                            return;
+                        }
+                    }
+                    var match = {'sharecode': sharecode, 'queue_id': queue_id, 'id': false, 'index': fixed_index, 'error': 0, 'in_queue': 1};
+                    ui_add_match(match);
+                    matches.push(match);
+                    Cookies.set('matches', matches);
+                    if(!match_list_ping) {
+                        match_list_ping = match_list_timeout();
+                    }
+                } else {
+                    for (var i = 0; i < matches.length; i++) {
+                        if (matches[i].sharecode == sharecode) {
+                            return;
+                        }
+                    }
+
+                    var match = {'sharecode': sharecode, 'queue_id': false, 'id': false, 'index': fixed_index, 'in_queue': 1};
+                    ui_add_match(match);
+                    matches.push(match);
+                    Cookies.set('matches', matches);
+
+                    var request = $.ajax({
+                        url: "/match/upload/ajax",
+                        method: "POST",
+                        data: {sharecode: sharecode, index: fixed_index},
+                        dataType: "json"
+                    })
+
+                        .done(function (msg) {
+                            match_queued(msg);
+                        })
+
+                        .fail(function (jqXHR, textStatus) {
+                            //	console.log(jqXHR);
+                            //	console.log(textStatus);
+                            //	alert( "Request failed: " + textStatus );
+                        });
+                }
+                fixed_index++;
+                return false;
+            }
+
+            function remove_match(ele) {
+                var item = ele.parentNode.parentNode.parentNode;
+                for(var i=0; i<matches.length; i++) {
+                    if(item.getAttribute('data-index') == matches[i].index) {
+                        matches.splice(i, 1);
+                    }
+                }
+                $(item).slideToggle();
+                Cookies.set('matches', matches);
+            }
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+                $('[data-toggle="tooltip-html"]').tooltip({
+                    html: true,
+                });
+            });
+        </script>
+                <div id="match-queue">
+            <div id="match-queue-list">
+                    <div style="
+            border: solid 1px #141825; padding:10px 0px 27px; position:relative;
+            background-color: #0E1020; ">
+                    <div style="padding:0 25px;">
+                        <span class="match-queue-header">Match Queue</span>
+                        <div class="match-queue-close" onclick="if (!window.__cfRLUnblockHandlers) return false; $('body').toggleClass('open-match-queue');">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </div>
+                    </div>
+                    <div style="max-height:420px; overflow-y:auto;">
+                        <div id="match-queue-list-inner"></div>
+                    </div>
+                    <div style="padding:0 25px 0; font-size:12px; line-height:1.15em;  text-align:right;">
+                        <a style="color:rgba(255,255,255,0.3);" href="mailto:bugs@csgostats.gg"><span class="glyphicon glyphicon-exclamation-sign"></span> Report a problem</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            #privacy-update {
+                position: fixed; bottom:12px; left:12px; right:12px; z-index:9999;
+            }
+            #privacy-update-text {
+                background: rgba(0,0,0,.9);
+                padding: 24px;
+                position: relative;
+                border-radius: 8px;
+            }
+            #privacy-update-text-inner {
+                margin-right:200px;
+            }
+            #privacy-update-button {
+                width:200px; position:absolute; right: 12px; bottom:12px; text-align:right;
+            }
+            #privacy-update-button a {
+                cursor:pointer; background-color: #7ead1d;
+                color: #fff;
+                padding:4px 12px; text-decoration: none!important; display:inline-block;  border-radius:4px;
+            }
+
+            @media screen and (max-width:720px) {
+                #privacy-update {
+                    left:0;
+                    right:0;
+                    bottom:0;
+                }
+
+                #privacy-update-text {
+                    background: rgba(0, 0, 0, 1);
+                }
+
+                #privacy-update-text-inner {
+                    margin:0;
+                }
+
+                #privacy-update-button {
+                    position:relative;
+                    padding-top:12px;
+                    width:auto;
+                    text-align:center;
+                }
+            }
+        </style>
+                
+                        <style>
+            @media screen and (max-width:720px) {
+                #event-notif {
+                    display:none;
+                }
+            }
+        </style>
+        <script type="text/javascript">
+            function dismissEvent() {
+                var request = $.ajax({
+                    url: "/dismiss/event",
+                    method: "POST",
+                    dataType: "json"
+                });
+
+                if(typeof(ga) != "undefined") {
+                    ga('send', 'event', 'faceitevent', 'dismiss', 'event_1681395000', {
+                        'transport': 'beacon'
+                    });
+                }
+                $('#event-notif').hide();
+            }
+            function joinEvent() {
+                if(typeof(ga) != "undefined") {
+                    ga('send', 'event', 'faceitevent', 'click', 'event_1681395000', {
+                        'transport': 'beacon'
+                    });
+                }
+                return true;
+            }
+            function hideSurvey() {
+                var banner = document.getElementById('nps-banner');
+                if (banner) {
+                    banner.classList.remove('nps-visible');
+                    setTimeout(function(){ banner.style.display = 'none'; }, 400);
+                }
+            }
+            function dismissSurvey() {
+                hideSurvey();
+                $.ajax({
+                    url: "/feedback/dismiss",
+                    method: "GET",
+                    dataType: "json"
+                });
+            }
+
+            function dismissBot() {
+                var request = $.ajax({
+                    url: "/bot/dismiss",
+                    method: "POST",
+                    dataType: "json"
+                });
+                $('#player-bot-connect').hide();
+            }
+
+        </script>
+        <script type="text/javascript">
+            var keysup = [];
+            var listening = false;
+            window.addEventListener('keydown', function (e) { if(listening) { keysup[e.key] = 1; } });
+            (function(c,l){typeof exports=="object"&&typeof module<"u"?l(exports):typeof define=="function"&&define.amd?define(["exports"],l):(c=typeof globalThis<"u"?globalThis:c||self,l(c.keystrokes={onInactive: function(e) {console.log(e)}}))})(this,function(c){"use strict";var Y=Object.defineProperty;var Z=(c,l,K)=>l in c?Y(c,l,{enumerable:!0,configurable:!0,writable:!0,value:K}):c[l]=K;var r=(c,l,K)=>(Z(c,typeof l!="symbol"?l+"":l,K),K);const l={addEventListener:(...o)=>{},removeEventListener:(...o)=>{},dispatchEvent:(...o)=>{}},K={userAgent:""},k=()=>typeof document<"u"?document:l,O=()=>typeof navigator<"u"?navigator:K,W=()=>O().userAgent.toLowerCase().includes("mac");let S=!1;const L=o=>{!W()||o.key!=="Meta"||(S=!0)},T=o=>{!S||o.key!=="Meta"||(S=!1,A())},v=new Map,z=o=>{v.set(o.key,o)},U=o=>{v.delete(o.key)},A=()=>{for(const o of v.values()){const e=new KeyboardEvent("keyup",{key:o.key,code:o.code,bubbles:!0,cancelable:!0});k().dispatchEvent(e)}v.clear()},R=o=>{try{const e=()=>o();return addEventListener("focus",e),()=>{removeEventListener("focus",e)}}catch{}},E=o=>{try{const e=()=>{A(),o()};return addEventListener("blur",e),()=>removeEventListener("blur",e)}catch{}},q=o=>{try{const e=t=>{z(t),L(t),o({key:t.key,aliases:[`@${t.code}`],originalEvent:t,composedPath:()=>t.composedPath(),preventDefault:()=>t.preventDefault()})};return k().addEventListener("keydown",e),()=>k().removeEventListener("keydown",e)}catch{}},I=o=>{try{const e=t=>{U(t),T(t),o({key:t.key,aliases:[`@${t.code}`],originalEvent:t,composedPath:()=>t.composedPath(),preventDefault:()=>t.preventDefault()})};return k().addEventListener("keyup",e),()=>k().removeEventListener("keyup",e)}catch{}};class P{constructor(e){r(this,"_onPressed");r(this,"_onPressedWithRepeat");r(this,"_onReleased");r(this,"_isPressed");r(this,"_identity");this._isPressed=!1,this._identity=e,typeof e=="function"?this._onPressedWithRepeat=e:(this._onPressed=e.onPressed,this._onPressedWithRepeat=e.onPressedWithRepeat,this._onReleased=e.onReleased)}get isEmpty(){return!this._onPressed&&!this._onPressedWithRepeat&&!this._onReleased}isOwnHandler(e){return this._identity===e}executePressed(e){var t,s;this._isPressed||(t=this._onPressed)==null||t.call(this,e),this._isPressed=!0,(s=this._onPressedWithRepeat)==null||s.call(this,e)}executeReleased(e){var t;this._isPressed&&((t=this._onReleased)==null||t.call(this,e)),this._isPressed=!1}}const d=class d{constructor(e,t,s={}){r(this,"_normalizedKeyCombo");r(this,"_parsedKeyCombo");r(this,"_handlerState");r(this,"_keyComboEventMapper");r(this,"_movingToNextSequenceAt");r(this,"_sequenceIndex");r(this,"_unitIndex");r(this,"_lastActiveKeyPresses");r(this,"_lastActiveKeyCount");r(this,"_isPressedWithFinalUnit");this._normalizedKeyCombo=d.normalizeKeyCombo(e),this._parsedKeyCombo=d.parseKeyCombo(e),this._handlerState=new P(s),this._keyComboEventMapper=t,this._movingToNextSequenceAt=0,this._sequenceIndex=0,this._unitIndex=0,this._lastActiveKeyPresses=[],this._lastActiveKeyCount=0,this._isPressedWithFinalUnit=null}static parseKeyCombo(e){if(d._parseCache[e])return d._parseCache[e];const t=e.toLowerCase();let s="",i=[],n=[i],a=[n];const y=[a];let m=!1;for(let h=0;h<e.length;h+=1)if(t[h]==="\\")m=!0;else if((t[h]==="+"||t[h]===">"||t[h]===",")&&!m){if(s)throw new Error("cannot have two operators in a row");s=t[h]}else t[h].match(/[^\s]/)&&(s&&(s===","?(i=[],n=[i],a=[n],y.push(a)):s===">"?(i=[],n=[i],a.push(n)):s==="+"&&(i=[],n.push(i)),s=""),m=!1,i.push(t[h]));const f=y.map(h=>h.map(b=>b.map(C=>C.join(""))));return d._parseCache[e]=f,f}static stringifyKeyCombo(e){return e.map(t=>t.map(s=>s.map(i=>i==="+"?"\\+":i===">"?"\\>":i===","?"\\,":i).join("+")).join(">")).join(",")}static normalizeKeyCombo(e){if(d._normalizationCache[e])return d._normalizationCache[e];const t=this.stringifyKeyCombo(this.parseKeyCombo(e));return d._normalizationCache[e]=t,t}get isPressed(){return!!this._isPressedWithFinalUnit}get sequenceIndex(){return this.isPressed?this._parsedKeyCombo.length:this._sequenceIndex}isOwnHandler(e){return this._handlerState.isOwnHandler(e)}executePressed(e){var t,s;!((t=this._isPressedWithFinalUnit)!=null&&t.has(e.key))&&!((s=e.aliases)!=null&&s.some(i=>{var n;return(n=this._isPressedWithFinalUnit)==null?void 0:n.has(i)}))||this._handlerState.executePressed(this._wrapEvent(this._lastActiveKeyPresses,{key:e.key,aliases:new Set(e.aliases),event:e}))}executeReleased(e){var t,s;!((t=this._isPressedWithFinalUnit)!=null&&t.has(e.key))&&!((s=e.aliases)!=null&&s.some(i=>{var n;return(n=this._isPressedWithFinalUnit)==null?void 0:n.has(i)}))||(this._handlerState.executeReleased(this._wrapEvent(this._lastActiveKeyPresses,{key:e.key,aliases:new Set(e.aliases),event:e})),this._isPressedWithFinalUnit=null)}updateState(e,t){const s=e.length,i=s<this._lastActiveKeyCount;this._lastActiveKeyCount=s;const n=this._parsedKeyCombo[this._sequenceIndex],a=n.slice(0,this._unitIndex),y=n.slice(this._unitIndex),m=()=>{this._movingToNextSequenceAt=0,this._sequenceIndex=0,this._unitIndex=0,this._lastActiveKeyPresses.length=0,this._handlerState.isEmpty&&(this._isPressedWithFinalUnit=null)};let f=0;if(i){if(this._movingToNextSequenceAt===0)return m();if(this._movingToNextSequenceAt+t<Date.now()||s!==0)return;this._movingToNextSequenceAt=0,this._sequenceIndex+=1,this._unitIndex=0;return}for(const h of a){for(const b of h){let C=!1;for(let _=f;_<e.length&&_<f+h.length;_+=1)if(e[_].key===b||e[_].aliases.has(b)){C=!0;break}if(!C)return m()}f+=h.length}if(this._movingToNextSequenceAt===0){for(const h of y){for(const b of h){let C=!1;for(let _=f;_<e.length&&_<f+h.length;_+=1)if(e[_].key===b||e[_].aliases.has(b)){C=!0;break}if(!C)return}this._unitIndex+=1,f+=h.length}if(f<s-1)return m();if(this._lastActiveKeyPresses[this._sequenceIndex]=e.slice(0),this._sequenceIndex<this._parsedKeyCombo.length-1){this._movingToNextSequenceAt=Date.now();return}this._isPressedWithFinalUnit=new Set(n[n.length-1])}}_wrapEvent(e,t){return{...this._keyComboEventMapper(e,t),keyCombo:this._normalizedKeyCombo,keyEvents:e.flat().map(i=>i.event),finalKeyEvent:t.event}}};r(d,"_parseCache",{}),r(d,"_normalizationCache",{});let u=d;const B=1e3;class g{constructor(e={}){r(this,"sequenceTimeout");r(this,"_isActive");r(this,"_unbinder");r(this,"_onActiveBinder");r(this,"_onInactiveBinder");r(this,"_onKeyPressedBinder");r(this,"_onKeyReleasedBinder");r(this,"_keyComboEventMapper");r(this,"_selfReleasingKeys");r(this,"_keyRemap");r(this,"_handlerStates");r(this,"_keyComboStates");r(this,"_keyComboStatesArray");r(this,"_activeKeyPresses");r(this,"_activeKeyMap");r(this,"_watchedKeyComboStates");this.sequenceTimeout=B,this._isActive=!0,this._onActiveBinder=()=>{},this._onInactiveBinder=()=>{},this._onKeyPressedBinder=()=>{},this._onKeyReleasedBinder=()=>{},this._keyComboEventMapper=()=>({}),this._selfReleasingKeys=[],this._keyRemap={},this._handlerStates={},this._keyComboStates={},this._keyComboStatesArray=[],this._activeKeyPresses=[],this._activeKeyMap=new Map,this._watchedKeyComboStates={},this.bindEnvironment(e)}get pressedKeys(){return this._activeKeyPresses.map(e=>e.key)}bindKey(e,t){var i;if(typeof e=="object"){for(const n of e)this.bindKey(n,t);return}e=e.toLowerCase();const s=new P(t);(i=this._handlerStates)[e]??(i[e]=[]),this._handlerStates[e].push(s)}unbindKey(e,t){if(typeof e=="object"){for(const i of e)this.unbindKey(i,t);return}e=e.toLowerCase();const s=this._handlerStates[e];if(s)if(t)for(let i=0;i<s.length;i+=1)s[i].isOwnHandler(t)&&(s.splice(i,1),i-=1);else s.length=0}bindKeyCombo(e,t){var i;if(typeof e=="object"){for(const n of e)this.bindKeyCombo(n,t);return}e=u.normalizeKeyCombo(e);const s=new u(e,this._keyComboEventMapper,t);(i=this._keyComboStates)[e]??(i[e]=[]),this._keyComboStates[e].push(s),this._keyComboStatesArray.push(s)}unbindKeyCombo(e,t){if(typeof e=="object"){for(const i of e)this.unbindKeyCombo(i,t);return}e=u.normalizeKeyCombo(e);const s=this._keyComboStates[e];if(s)if(t){for(let i=0;i<s.length;i+=1)if(s[i].isOwnHandler(t)){for(let n=0;n<this._keyComboStatesArray.length;n+=1)this._keyComboStatesArray[n]===s[i]&&(this._keyComboStatesArray.splice(n,1),n-=1);s.splice(i,1),i-=1}}else s.length=0}checkKey(e){return e=e.toLowerCase(),this._activeKeyPresses.some(t=>t.key===e||t.aliases.has(e))}checkKeyCombo(e){return this._ensureCachedKeyComboState(e).isPressed}checkKeyComboSequenceIndex(e){return this._ensureCachedKeyComboState(e).sequenceIndex}bindEnvironment(e={}){this.unbindEnvironment(),this._onActiveBinder=e.onActive??R,this._onInactiveBinder=e.onInactive??E,this._onKeyPressedBinder=e.onKeyPressed??q,this._onKeyReleasedBinder=e.onKeyReleased??I,this._keyComboEventMapper=e.mapKeyComboEvent??(()=>({})),this._selfReleasingKeys=e.selfReleasingKeys??[],this._keyRemap=e.keyRemap??{};const t=this._onActiveBinder(()=>{this._isActive=!0}),s=this._onInactiveBinder(()=>{this._isActive=!1}),i=this._onKeyPressedBinder(a=>{this._handleKeyPress(a)}),n=this._onKeyReleasedBinder(a=>{this._handleKeyRelease(a)});this._unbinder=()=>{t==null||t(),s==null||s(),i==null||i(),n==null||n()}}unbindEnvironment(){var e;(e=this._unbinder)==null||e.call(this)}_ensureCachedKeyComboState(e){e=u.normalizeKeyCombo(e),this._watchedKeyComboStates[e]||(this._watchedKeyComboStates[e]=new u(e,this._keyComboEventMapper));const t=this._watchedKeyComboStates[e];return t.updateState(this._activeKeyPresses,this.sequenceTimeout),t}_handleKeyPress(e){var n;if(!this._isActive)return;e={...e,key:e.key.toLowerCase(),aliases:((n=e.aliases)==null?void 0:n.map(a=>a.toLowerCase()))??[]};const t=this._keyRemap[e.key];t&&(e.key=t);for(let a=0;a<e.aliases.length;a+=1){const y=this._keyRemap[e.aliases[a]];y&&(e.aliases[a]=y)}const s=this._handlerStates[e.key];if(s)for(const a of s)a.executePressed(e);for(let a=0;a<e.aliases.length;a+=1){const y=this._handlerStates[e.aliases[a]];if(y)for(const m of y)m.executePressed(e)}const i=this._activeKeyMap.get(e.key);if(i)i.event=e;else{const a={key:e.key,aliases:new Set(e.aliases),event:e};this._activeKeyMap.set(e.key,a),this._activeKeyPresses.push(a)}this._updateKeyComboStates();for(const a of this._keyComboStatesArray)a.executePressed(e)}_handleKeyRelease(e){var i;e={...e,key:e.key.toLowerCase(),aliases:((i=e.aliases)==null?void 0:i.map(n=>n.toLowerCase()))??[]};const t=this._keyRemap[e.key];if(t&&(e.key=t),e.aliases)for(let n=0;n<e.aliases.length;n+=1){const a=this._keyRemap[e.aliases[n]];a&&(e.aliases[n]=a)}const s=this._handlerStates[e.key];if(s)for(const n of s)n.executeReleased(e);for(let n=0;n<e.aliases.length;n+=1){const a=this._handlerStates[e.aliases[n]];if(a)for(const y of a)y.executeReleased(e)}if(this._activeKeyMap.has(e.key)){this._activeKeyMap.delete(e.key);for(let n=0;n<this._activeKeyPresses.length;n+=1)if(this._activeKeyPresses[n].key===e.key){this._activeKeyPresses.splice(n,1),n-=1;break}}this._tryReleaseSelfReleasingKeys(),this._updateKeyComboStates();for(const n of this._keyComboStatesArray)n.executeReleased(e)}_updateKeyComboStates(){for(const e of this._keyComboStatesArray)e.updateState(this._activeKeyPresses,this.sequenceTimeout)}_tryReleaseSelfReleasingKeys(){for(const e of this._activeKeyPresses)for(const t of this._selfReleasingKeys)e.key===t&&this._handleKeyRelease(e.event)}}let M,w;const x=o=>{w=o??new g(M)},p=()=>(w||x(),w),F=o=>{M=o},H=(...o)=>p().bindKey(...o),j=(...o)=>p().unbindKey(...o),N=(...o)=>p().bindKeyCombo(...o),D=(...o)=>p().unbindKeyCombo(...o),G=(...o)=>p().checkKey(...o),$=(...o)=>p().checkKeyCombo(...o),J=u.normalizeKeyCombo,Q=u.stringifyKeyCombo,V=u.parseKeyCombo,X=(o={})=>{let e,t,s,i;return Object.assign(new g({...o,onActive(a){e=a},onInactive(a){t=a},onKeyPressed(a){s=a},onKeyReleased(a){i=a}}),{activate(){e()},deactivate(){t()},press(a){s({composedPath:()=>[],...a})},release(a){i({composedPath:()=>[],...a})}})};c.HandlerState=P,c.KeyComboState=u,c.Keystrokes=g,c.bindKey=H,c.bindKeyCombo=N,c.browserOnActiveBinder=R,c.browserOnInactiveBinder=E,c.browserOnKeyPressedBinder=q,c.browserOnKeyReleasedBinder=I,c.checkKey=G,c.checkKeyCombo=$,c.createTestKeystrokes=X,c.defaultSequenceTimeout=B,c.getGlobalKeystrokes=p,c.normalizeKeyCombo=J,c.parseKeyCombo=V,c.setGlobalKeystrokes=x,c.setGlobalKeystrokesOptions=F,c.stringifyKeyCombo=Q,c.unbindKey=j,c.unbindKeyCombo=D,Object.defineProperty(c,Symbol.toStringTag,{value:"Module"})});
+
+            keystrokes.onInactive(function(e) {
+               console.log(e);
+            });
+
+            const screenshotSingle = ["PrintScreen"];
+            const screenshotCombos = [
+                "control + p",
+                "meta + shift + s",
+                "control + shift + s",
+                "meta + shift",
+            //    "meta + shift",
+            ];
+
+            const handler = (e = null) => {
+                if (e) {
+                    if(e.keyCombo != "meta+shift" || Object.keys(keysup).length == 1 ) {
+                        var request = $.ajax({
+                            url: "/user/event",
+                            method: "POST",
+                            dataType: "json",
+                            data: {u: 'player/76561199167690122', h: e.keyCombo},
+                        });
+                    }
+                    keysup = [];
+                }
+                listening = false;
+            };
+
+            const list = (e = null) => {
+                keysup = [];
+                listening = true;
+            }
+
+            screenshotSingle.forEach((single) => keystrokes.bindKey(single, {onReleased: handler}));
+            screenshotCombos.forEach((combo) => keystrokes.bindKeyCombo(combo, {onPressed: list, onReleased: handler}));
+        </script>
+        <!-- Template for the sticky ad banner. -->
+<div id="sticky-banner" class="sticky-banner-container hidden" role="complementary" aria-label="Advertisement">
+    <button id="sticky-banner-close-btn" class="sticky-banner-close" type="button" aria-label="Close advertisement">
+        <div aria-hidden="true"></div>
+        <div aria-hidden="true"></div>
+    </button>
+    <div id="desktopStickyAd" class="sticky-banner-ad-slot"></div>
+    <div id="mobileStickyAd" class="sticky-banner-ad-slot"></div>
+</div>
+<script type="text/javascript">
+/**
+ * IIFE wrapper to encapsulate the sticky banner ad logic
+ */   
+(() => {
+    /**
+     * Constants
+     */
+    const AD_SLOT_PARAMETERS = {
+        desktop: ["/21974715207/web-dt-csstats-bottom-anchor", [728, 90], 'desktopStickyAd'],
+        mobile: ["/21974715207/web-mw-csstats-bottom-anchor", [[320, 50], [300, 50], [300, 100], [320, 100]], 'mobileStickyAd']
+    };
+    const BREAKPOINT_DESKTOP = 730;
+    const REFRESH_TIMEOUT_MS = 30000;
+
+    /**
+     * State of the sticky banner ad
+     */
+    const state = {
+        isBannerClosedByUser: false,
+        adSlot: null,
+        refreshInterval: null,
+        isTabVisible: !document.hidden,
+        remainingTime: REFRESH_TIMEOUT_MS,
+        lastScheduleTime: null,
+    }
+
+    /**
+     * DOM Elements References
+     */
+    const stickyBanner = document.getElementById('sticky-banner');
+    const closeButton = document.getElementById('sticky-banner-close-btn');
+
+    /**
+     * Helper function to determine if the current screen size is desktop
+     */
+    function getIsDesktop() {
+        return window.innerWidth > BREAKPOINT_DESKTOP;
+    }
+
+    /**
+     * Defines the ad slot based on screen size
+     */
+    function defineAdSlot() {
+        const isDesktop = getIsDesktop()
+        pbjs.que.push(() => {
+            pbjs.addAdUnits(isDesktop ? prebidConfig.adUnitsDesktop : prebidConfig.adUnitsMobile);
+        });
+        googletag.cmd.push(() => {
+            const parameters = isDesktop? AD_SLOT_PARAMETERS.desktop : AD_SLOT_PARAMETERS.mobile;
+            state.adSlot = googletag.defineSlot(...parameters).addService(googletag.pubads());
+            if (!state.adSlot) return;
+
+            googletag.pubads().disableInitialLoad(); // Prevents GPT from fetching ads before Prebid
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    }
+
+    /**
+     * Removes the existing ad slot before redefining it
+     */
+    function removeAdSlot() {
+        if (!state.adSlot) return;
+
+        const adUnitCodes = getIsDesktop() ? prebidConfig.adUnitsDesktop.map(unit => unit.code) : prebidConfig.adUnitsMobile.map(unit => unit.code);
+        pbjs.que.push(() => {
+            pbjs.removeAdUnit([adUnitCodes]);
+        });
+        googletag.cmd.push(() => {
+            googletag.destroySlots([state.adSlot]);
+            state.adSlot = null;
+        });
+    }
+
+    /**
+     * Refreshes the ad slot by requesting new bids from Prebid and then refreshing the GPT slot
+     */
+    function refreshAd() {
+        if (!state.adSlot || state.isBannerClosedByUser) return;
+        pbjs.que.push(() => {
+            pbjs.requestBids({
+                adUnits: getIsDesktop() ? prebidConfig.adUnitsDesktop : prebidConfig.adUnitsMobile,
+                bidsBackHandler: bids => {
+                    googletag.cmd.push(() => {
+                        pbjs.setTargetingForGPTAsync();
+                        googletag.pubads().refresh([state.adSlot]); 
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Attaches event listeners to the ad slot to handle visibility based on ad content
+     */
+    function attachEventListenersToAdSlot() {
+        googletag.cmd.push(() => {
+            googletag.pubads().addEventListener('slotRenderEnded', e => {
+                if (e.slot !== state.adSlot) return;
+                if (e.isEmpty) {
+                    stickyBanner.classList.add("hidden");
+                    stickyBanner.classList.remove("show");
+                } else {
+                    stickyBanner.classList.remove("hidden");
+                    stickyBanner.classList.add("show");
+                }
+            });
+        });
+    }
+
+    /**
+     * Schedules the ad refresh at regular intervals
+     */
+    function scheduleAdRefresh() {
+        state.refreshInterval = setTimeout(() => {
+            refreshAd();
+            // Reset the remaining time and schedule the next refresh
+            state.remainingTime = REFRESH_TIMEOUT_MS;
+            scheduleAdRefresh();
+        }, state.remainingTime);
+        
+        state.lastScheduleTime = Date.now();
+    }
+
+    function clearAdRefreshInterval() {
+        if (state.refreshInterval) {
+            clearTimeout(state.refreshInterval);
+            state.refreshInterval = null;
+        }
+    }
+    
+    /**
+     * Pauses the ad refresh timer by calculating remaining time
+     */
+    function pauseAdRefresh() {
+        if (state.refreshInterval && state.lastScheduleTime) {
+            const elapsed = Date.now() - state.lastScheduleTime;
+            state.remainingTime = Math.max(0, state.remainingTime - elapsed);
+            clearAdRefreshInterval();
+        }
+    }
+    
+    /**
+     * Resumes the ad refresh timer from where it was paused
+     */
+    function resumeAdRefresh() {
+        if (!state.isBannerClosedByUser && state.adSlot) {
+            scheduleAdRefresh();
+        }
+    }
+
+    /**
+     * Makes the intial ad fetch and sets up the interval for refreshing the ad
+     */
+    function startAdRefresh() {
+        pbjs.que.push(() => {
+            const { consentManagement: _, ...configWithoutConsent } = prebidConfig.config;
+
+            let regionConsentConfig;
+
+            if (window.__usCmp) {
+                // UC V3 provides consent via GPP (section 7: usnat).
+                // __uspapi exists but returns null — set USP to static to
+                // prevent Prebid from auto-detecting it and erroring out.
+
+                // Read GPP consent data
+                let gppConsentData = { gppString: '', applicableSections: [], parsedSections: {} };
+                if (typeof window.__gpp === 'function') {
+                    window.__gpp('ping', function(pingData) {
+                        if (pingData && pingData.gppString) {
+                            gppConsentData = {
+                                gppString: pingData.gppString,
+                                applicableSections: pingData.applicableSections || [],
+                                parsedSections: pingData.parsedSections || {}
+                            };
+                        }
+                    });
+                }
+
+                // UC SDK bug: applicableSections stays empty even after init.
+                // Section 7 (usnat) always applies to US users.
+                if (gppConsentData.gppString && gppConsentData.applicableSections.length === 0) {
+                    gppConsentData.applicableSections = [7];
+                }
+
+                regionConsentConfig = {
+                    gdpr: { cmpApi: 'static', consentData: { getTCData: { tcString: '', gdprApplies: false } } },
+                    gpp: { cmpApi: 'static', consentData: gppConsentData },
+                    usp: { cmpApi: 'static', consentData: { getUSPData: { uspString: '1---' } } }
+                };
+            } else {
+                // ROW: GDPR via IAB (TCF), USP/GPP as static (not applicable)
+                regionConsentConfig = {
+                    gdpr: prebidConfig.config.consentManagement.gdpr,
+                    usp: { cmpApi: 'static', consentData: { getUSPData: { uspString: '1---' } } },
+                    gpp: { cmpApi: 'static', consentData: { gppString: '', applicableSections: [], parsedSections: {} } }
+                };
+            }
+
+            pbjs.setConfig({
+                ...configWithoutConsent,
+                consentManagement: regionConsentConfig,
+            });
+        });
+
+        googletag.cmd.push(() => {
+            // Initial display call is needed for the slot to be rendered the first time.
+            // Subsequent calls will be handled by refresh().
+            googletag.display(state.adSlot.getSlotElementId());
+            refreshAd();
+        });
+
+        scheduleAdRefresh();
+    }
+
+    /**
+     * Attaches event listeners to the close button to handle user interaction
+     */
+    function attachEventListenersToElements() {
+        if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            stickyBanner.classList.toggle("sticky-banner-container-hidden");
+            const isHidden = stickyBanner.classList.contains("sticky-banner-container-hidden");
+            state.isBannerClosedByUser = isHidden;
+            if (isHidden) {
+                // Stop refreshing the ad when banner is closed
+                clearAdRefreshInterval();
+            } else {
+                // Refresh and restart refreshing the ad when banner is opened
+                refreshAd();
+                scheduleAdRefresh();
+            }
+        });
+        }
+    }
+    
+    /**
+     * Attaches media query listeners to handle screen size changes to redefine the ad slot
+     */
+    function attachMediaQueryListeners() {
+        window.matchMedia(`(max-width: ${BREAKPOINT_DESKTOP}px)`).addEventListener('change', e => {
+        // Stop refreshing the ad when banner is hidden
+        clearAdRefreshInterval();
+        // Redefine the ad slot for the new screen size
+        removeAdSlot();
+        defineAdSlot();
+
+        // start refreshing the ad for the new slot if the banner is not closed by user
+        if (!state.isBannerClosedByUser) {
+            refreshAd();
+            scheduleAdRefresh();
+        }
+        
+        });        
+    }
+
+    /**
+     * Attaches visibility change listener to pause/resume ad refresh based on tab visibility
+     */
+    function attachVisibilityChangeListeners() {
+        document.addEventListener('visibilitychange', () => {
+            state.isTabVisible = !document.hidden;
+            if (state.isTabVisible) {
+                // Tab became visible - resume the refresh timer from where it was paused
+                resumeAdRefresh();
+            } else {
+                // Tab became hidden - pause the refresh timer
+                pauseAdRefresh();
+            }
+        });
+    }
+
+    function initGlobals() {
+        // Initialize the global var here to avoid errors in ads code
+        window.pbjs = window.pbjs || {};
+        window.pbjs.que = pbjs.que || [];
+
+        window.googletag = window.googletag || {};
+        window.googletag.cmd = googletag.cmd || [];
+    }
+    function loadAdsScripts() {
+        const prebidConfigScript = document.createElement('script');
+        prebidConfigScript.src = 'https://static.csstats.gg/js/csstats-prebid-config-04.js';
+        prebidConfigScript.async = true;
+        prebidConfigScript.onload = () => {
+            window.dispatchEvent(new CustomEvent('prebidConfigReady', { detail: window.prebidConfig }));
+        };
+        document.head.appendChild(prebidConfigScript);
+
+        const prebidScript = document.createElement('script');
+        prebidScript.src = 'https://static.csstats.gg/js/prebid-02.js';
+        prebidScript.async = true;
+        document.head.appendChild(prebidScript);
+
+        const gptScript = document.createElement('script');
+        gptScript.src = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js';
+        gptScript.async = true;
+        document.head.appendChild(gptScript);
+
+        const blockThroughScript = document.createElement('script');
+        blockThroughScript.src = 'https://btloader.com/tag?o=5163601465966592&upapi=true';
+        blockThroughScript.async = true;
+        document.head.appendChild(blockThroughScript);
+    }
+
+    function loadPrebidSetup() {
+        initGlobals();
+        loadAdsScripts();
+        attachEventListenersToAdSlot();
+        attachEventListenersToElements();
+        attachMediaQueryListeners();
+        attachVisibilityChangeListeners();
+
+        function onConfigReady() {
+            defineAdSlot();
+            startAdRefresh();
+        }
+
+        if (window.prebidConfig) {
+            onConfigReady();
+        } else {
+            window.addEventListener('prebidConfigReady', onConfigReady, { once: true });
+        }
+    }
+
+    /**
+     * Logic Execution Starts Here
+     */
+
+        /**
+         * US users: wait for UC_UI_INITIALIZED so that __uspapi and __gpp
+         * have real consent data, then load Prebid with static config.
+         */
+        if (window.__usCmp) {
+            window.addEventListener('UC_UI_INITIALIZED', function () {
+                loadPrebidSetup();
+            }, { once: true });
+            return;
+        }
+
+        window.addEventListener('ucEvent', function () {
+            loadPrebidSetup();
+        }, { once: true });
+
+})()
+</script>
+  
+        <link href="https://cdn.jsdelivr.net/npm/video.js@7.20.2/dist/video-js.min.css" rel="stylesheet">
+<style>
+    #prebid-video-container {
+        width: 400px;
+        max-width: calc(100vw - 40px);
+        aspect-ratio: 400 / 225;
+        padding: 2px 6px 6px 6px;
+        position: fixed;
+        bottom: 120px;
+        left: 20px;
+        z-index: 99999;
+        display: none;
+        box-sizing: border-box;
+        overflow: visible;
+    }
+    @media (max-width: 430px) {
+        #prebid-video-container {
+            width: calc(100vw - 16px);
+            max-width: none;
+            left: 8px;
+            right: 8px;
+            bottom: 130px;
+        }
+    }
+    #prebid-video-container.visible {
+        display: block;
+    }
+    #prebid-video-close-btn {
+        position: absolute;
+        font-size: 23px;
+        line-height: 22px;
+        text-align: center;
+        z-index: 100000;
+        padding: 0;
+        top: -26px;
+        right: 6px;
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+    }
+</style>
+    <div id="prebid-video-container">
+        <div id="prebid-video-close-btn" aria-label="Close video ad">×</div>
+    </div>
+    <script type="text/javascript">
+        /**
+         * Prebid Video Ad Integration
+         * Render this template after ad-sticky template to ensure Prebid.js is loaded.
+         * Uses the Prebid video module for IMA/VAST ad rendering.
+         * Refresh logic:
+         *   - Ad received & played → on complete, request new ad immediately
+         *   - No ad / error / skip → retry after cooldown (default 20s)
+         */
+        (() => {
+            const params = new URLSearchParams(window.location.search);
+            const forcePrebidOutstream = params.get('forcePrebidOutstream') === 'true';
+            const forcePrimis = params.get('forcePrimis') === 'true';
+            if (forcePrimis) return;
+            if (!forcePrebidOutstream && window.adsAbVariant !== 'prebid') return;
+            const CONTAINER_ID = 'prebid-video-container';
+            const PLAYER_ID = 'prebid-video-player';
+            const DEFAULT_RETRY_INTERVAL = 20000;
+
+            const SCRIPT_SOURCES = Object.freeze([
+                'https://imasdk.googleapis.com/js/sdkloader/ima3.js',
+                'https://cdn.jsdelivr.net/npm/video.js@7.20.2/dist/video.min.js',
+                'https://cdn.jsdelivr.net/npm/videojs-playlist@5.2.0/dist/videojs-playlist.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/6.9.0/videojs-contrib-ads.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/1.11.0/videojs.ima.js',
+            ]);
+
+            const container = document.getElementById(CONTAINER_ID);
+            let retryTimer = null;
+            let player = null;
+            let adPlaying = false;
+            let dismissedByUser = false;
+
+            const showContainer = () => {
+                if (dismissedByUser) return;
+                container?.classList.add('visible');
+            };
+
+            const hideContainer = () => {
+                container?.classList.remove('visible');
+            };
+
+            const dismissContainer = () => {
+                dismissedByUser = true;
+                hideContainer();
+                if (retryTimer) {
+                    clearTimeout(retryTimer);
+                    retryTimer = null;
+                }
+                if (player) {
+                    if (adPlaying && player.ima) {
+                        player.ima.pauseAd();
+                    }
+                    player.pause();
+                }
+            };
+
+            document.getElementById('prebid-video-close-btn')?.addEventListener('click', dismissContainer);
+
+            const loadScript = (src) =>
+                new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.src = src;
+                    script.async = true;
+                    script.onload = resolve;
+                    script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+                    document.body.appendChild(script);
+                });
+
+            const loadScriptsSequentially = (sources) =>
+                sources.reduce(
+                    (promise, src) => promise.then(() => loadScript(src)),
+                    Promise.resolve()
+                );
+
+            const renderVideoSlot = () => {
+                if (!container) return null;
+
+                const videoElement = document.createElement('video-js');
+                videoElement.classList.add('video-js');
+                videoElement.id = PLAYER_ID;
+                videoElement.style.width = '100%';
+                videoElement.style.height = '100%';
+                videoElement.setAttribute('playsinline', '');
+                container.appendChild(videoElement);
+
+                return videoElement;
+            };
+
+            const setupPlaylist = (player) => {
+                if (!player?.playlist) return;
+
+                const playlistItems = window.prebidConfig?.PrebidVideoSettings?.playlist ?? [];
+                if (!playlistItems.length) return;
+
+                const shuffledPlaylist = [...playlistItems]
+                    .sort(() => 0.5 - Math.random())
+                    .map(el => ({ sources: [{ ...el }] }));
+
+                player.playlist(shuffledPlaylist);
+                player.playlist.repeat(true);
+                player.playlist.autoadvance(0);
+                player.playlist.first();
+            };
+
+            const waitForPrebidConfig = () => {
+                return new Promise((resolve) => {
+                    if (window.prebidConfig?.adUnitVideo?.length) {
+                        return resolve(window.prebidConfig);
+                    }
+
+                    window.addEventListener('prebidConfigReady', (e) => {
+                        resolve(e.detail);
+                    }, { once: true });
+                });
+            };
+
+            const playAdWithIMA = (adTagUrl) => {
+                if (!player?.ima) return;
+                player.ima.changeAdTag(adTagUrl);
+                player.ima.requestAds();
+            };
+
+            const requestAd = (videoAdUnits) => {
+                if (document.visibilityState === 'hidden') {
+                    return;
+                }
+
+                if (retryTimer) {
+                    clearTimeout(retryTimer);
+                    retryTimer = null;
+                }
+
+                const settings = window.prebidConfig?.PrebidVideoSettings ?? {};
+                const baseAdTagUrl = settings.VASTFallbackUrl || '';
+
+                window.pbjs.requestBids({
+                    adUnits: videoAdUnits,
+                    timeout: window.prebidConfig?.prebidTimeout || 3000,
+                    bidsBackHandler: (bidsResponse) => {
+                        const adUnitCode = videoAdUnits[0]?.code;
+                        const bids = bidsResponse?.[adUnitCode]?.bids || [];
+
+                        let adTagUrl;
+                        if (bids.length > 0) {
+                            adTagUrl = window.pbjs.adServers.dfp.buildVideoUrl({
+                                adUnit: videoAdUnits[0],
+                                url: baseAdTagUrl,
+                            });
+                        } else {
+                            adTagUrl = baseAdTagUrl;
+                        }
+
+                        if (adTagUrl) {
+                            playAdWithIMA(adTagUrl);
+                        } else {
+                            scheduleRetry(videoAdUnits);
+                        }
+                    },
+                });
+            };
+
+            const scheduleRetry = (videoAdUnits) => {
+                if (document.visibilityState === 'hidden') {
+                    return;
+                }
+
+                if (retryTimer) {
+                    clearTimeout(retryTimer);
+                }
+                const cooldown = window.prebidConfig?.PrebidVideoSettings?.videoRequestCooldown || DEFAULT_RETRY_INTERVAL;
+                retryTimer = setTimeout(() => requestAd(videoAdUnits), cooldown);
+            };
+
+            const setupRefreshEvents = (videoAdUnits) => {
+                // Track ad state
+                player.on('ads-ad-started', () => { adPlaying = true; });
+                player.on('adend', () => {
+                    adPlaying = false;
+                    requestAd(videoAdUnits);
+                });
+
+                // Ad error / skipped → retry after cooldown
+                player.on('adserror', () => {
+                    adPlaying = false;
+                    scheduleRetry(videoAdUnits);
+                });
+
+                // Pause/resume ad and retry timer on tab visibility
+                document.addEventListener('visibilitychange', () => {
+                    if (dismissedByUser) return;
+                    if (document.visibilityState === 'hidden') {
+                        if (retryTimer) {
+                            clearTimeout(retryTimer);
+                            retryTimer = null;
+                        }
+                        if (player) {
+                            if (adPlaying && player.ima) {
+                                player.ima.pauseAd();
+                            } else if (!player.paused()) {
+                                player.pause();
+                            }
+                        }
+                    } else {
+                        if (player) {
+                            if (adPlaying && player.ima) {
+                                player.ima.resumeAd();
+                            } else if (player.paused()) {
+                                player.play();
+                            }
+                        }
+                        if (!retryTimer) {
+                            scheduleRetry(videoAdUnits);
+                        }
+                    }
+                });
+            };
+
+            const init = async () => {
+                window.pbjs = window.pbjs || {};
+                window.pbjs.que = window.pbjs.que || [];
+
+                await waitForPrebidConfig();
+
+                const videoAdUnits = window.prebidConfig?.adUnitVideo ?? [];
+                if (!videoAdUnits.length) return;
+
+                await loadScriptsSequentially(SCRIPT_SOURCES);
+                renderVideoSlot();
+
+                const settings = window.prebidConfig?.PrebidVideoSettings ?? {};
+                const fallbackAdTag = settings.VASTFallbackUrl || '';
+
+                // Run Prebid auction FIRST, then create the player with the bid-backed URL.
+                // IMA requires a valid adTagUrl to initialize its ad infrastructure.
+                window.pbjs.que.push(() => {
+                    window.pbjs.addAdUnits(videoAdUnits);
+
+                    window.pbjs.requestBids({
+                        adUnits: videoAdUnits,
+                        timeout: window.prebidConfig?.prebidTimeout || 3000,
+                        bidsBackHandler: (bidsResponse) => {
+                            const adUnitCode = videoAdUnits[0]?.code;
+                            const bids = bidsResponse?.[adUnitCode]?.bids || [];
+
+                            let initialAdTag;
+                            if (bids.length > 0) {
+                                initialAdTag = window.pbjs.adServers.dfp.buildVideoUrl({
+                                    adUnit: videoAdUnits[0],
+                                    url: fallbackAdTag,
+                                });
+                            } else {
+                                initialAdTag = fallbackAdTag;
+                            }
+
+                            // Create player with bid-backed URL so IMA initializes fully
+                            player = window.videojs(PLAYER_ID, {
+                                controls: true,
+                                autoplay: true,
+                                muted: true,
+                                preload: 'auto',
+                            });
+                            player.ima({
+                                id: PLAYER_ID,
+                                adTagUrl: initialAdTag,
+                                debug: false,
+                            });
+
+                            player.one('readyforpreroll', () => {
+                                player.ima.initializeAdDisplayContainer();
+                            });
+
+                            player.ready(() => {
+                                showContainer();
+                                setupPlaylist(player);
+                                setupRefreshEvents(videoAdUnits);
+                            });
+                        },
+                    });
+                });
+            };
+
+            init().catch(error => {
+                console.error('Failed to initialize video ad:', error);
+            });
+        })();
+    </script>
+        <div id="primis-video-container"></div>
+<script type="text/javascript">
+    (function() {
+        const params = new URLSearchParams(window.location.search);
+        const forcePrimis = params.get('forcePrimis') === 'true';
+        const forcePrebidOutstream = params.get('forcePrebidOutstream') === 'true';
+        if (forcePrebidOutstream) return;
+        if (!forcePrimis && window.adsAbVariant !== 'primis') return;
+
+        let adSlot = null;
+        const adUnit = ['/41188963/Primis_VID_OUT_CSSTATS', [1, 1], 'primis-video-container'];
+        window.googletag = window.googletag || {cmd: []};
+        googletag.cmd.push(() => {
+            adSlot = googletag.defineSlot(...adUnit).addService(googletag.pubads());
+            window.googletag.pubads().disableInitialLoad();
+            window.googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+        googletag.cmd.push(() => {
+            console.log(window.googletag);
+            window.googletag.pubads().refresh([adSlot]);
+        }); 
+    })();
+</script>
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJXLKNB"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9fb9aec9db8a273f',t:'MTc3ODc1OTM5OQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; visibility: hidden;"></iframe><script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;500908763f964d65b46a05586ae44aa9&quot;,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+
+
+<iframe name="__tcfapiLocator" style="display: none;"></iframe><div aria-hidden="true" id="usercentrics-root" data-created-at="1778759401789" style="visibility: hidden;"></div>

@@ -93,6 +93,13 @@ export async function fetchGameStats() {
   return data
 }
 
+// ── CS2 Stats (scraped from csstats.gg) ──
+export async function fetchCS2Stats() {
+  const res = await fetch(`${API_URL}/stats/cs2`)
+  if (!res.ok) throw new Error('Failed to fetch CS2 stats')
+  return res.json()
+}
+
 // ── Admin ──
 export async function fetchAdminDashboard(token) {
   const res = await fetch(`${API_URL}/admin/dashboard`, {
