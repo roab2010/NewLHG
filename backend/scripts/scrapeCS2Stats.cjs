@@ -120,7 +120,7 @@ async function scrapePlayer(browser, player) {
             // Get all child nodes to reconstruct the text
             span.childNodes.forEach(node => {
                if (node.nodeType === 3) text += node.textContent.trim();
-               if (node.nodeName === 'SMALL') text += ',' + node.textContent.trim();
+               if (node.nodeName === 'SMALL') text += node.textContent.trim();
             });
           }
           text = text.replace(/^,|,$/g, '').trim(); // clean up

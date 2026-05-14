@@ -69,8 +69,33 @@ export default function Stats() {
   }
 
   const renderRank = (url, bg, name, fallback = 'Unranked') => {
+    const cleanName = name ? name.replace(/,,/g, ',') : '';
     if (bg) {
-      return <div className="stats__premier-rank" style={{ background: bg, padding: '4px 8px', borderRadius: '4px', color: '#fff', fontWeight: 'bold', fontSize: '14px' }}>{name}</div>
+      return (
+        <div 
+          className="stats__premier-rank" 
+          style={{ 
+            backgroundImage: `url(${bg})`, 
+            backgroundSize: '100% 100%',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            width: '68px',
+            height: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#fff', 
+            fontWeight: '800', 
+            fontSize: '13px',
+            fontStyle: 'italic',
+            paddingLeft: '4px',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
+          }}
+          title={cleanName}
+        >
+          {cleanName}
+        </div>
+      );
     }
     if (url && url.indexOf('ranks/0') === -1) {
       return <img src={url} alt="rank" className="stats__player-card-rank-img" title={getRankName(url)} style={{ height: '32px' }} />
