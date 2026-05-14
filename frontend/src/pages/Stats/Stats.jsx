@@ -12,7 +12,7 @@ export default function Stats() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [selectedPlayer, setSelectedPlayer] = useState(null)
-  const [sortBy, setSortBy] = useState('kd')
+  const [sortBy, setSortBy] = useState('rank')
 
   useEffect(() => {
     if (activeTab === 'cs2') {
@@ -37,8 +37,18 @@ export default function Stats() {
     }
   }
 
+  const parseRank = (r) => {
+    if (!r) return 0;
+    const clean = r.replace(/,,/g, ',');
+    if (/^[\d,]+$/.test(clean)) return parseInt(clean.replace(/,/g, ''), 10) || 0;
+    const m = clean.match(/ranks\/(\d+)\.png/);
+    if (m) return parseInt(m[1], 10);
+    return 0;
+  };
+
   const getSorted = () => {
     return [...players].sort((a, b) => {
+      if (sortBy === 'rank') return parseRank(b.currentRank) - parseRank(a.currentRank)
       if (sortBy === 'kd') return (b.kd || 0) - (a.kd || 0)
       if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0)
       if (sortBy === 'kills') return (b.kills || 0) - (a.kills || 0)
@@ -49,7 +59,7 @@ export default function Stats() {
     })
   }
 
-  const getMaxVal = (key) => Math.max(...players.map(p => p[key] || 0))
+  const getMaxVal = (key) => Math.max(...players.map(p => key === 'rank' ? parseRank(p.currentRank) : (p[key] || 0)))
 
   const getRankName = (rankUrl) => {
     if (!rankUrl) return 'Unranked'
@@ -382,6 +392,7 @@ export default function Stats() {
           >
             <span className="stats__sort-label">Sắp xếp theo:</span>
             {[
+              { key: 'rank', label: 'Rank' },
               { key: 'kd', label: 'K/D' },
               { key: 'rating', label: 'Rating' },
               { key: 'kills', label: 'Kills' },
@@ -484,8 +495,8 @@ export default function Stats() {
             </h3>
             <div className="stats__bars">
               {getSorted().map(player => {
-                const val = player[sortBy === 'hs' ? 'hsPercent' : sortBy] || 0
-                const maxVal = getMaxVal(sortBy === 'hs' ? 'hsPercent' : sortBy)
+                const val = sortBy === 'rank' ? parseRank(player.currentRank) : player[sortBy === 'hs' ? 'hsPercent' : sortBy] || 0
+                const maxVal = getMaxVal(sortBy === 'rank' ? 'rank' : sortBy === 'hs' ? 'hsPercent' : sortBy)
                 const width = maxVal > 0 ? (val / maxVal) * 100 : 0
 
                 return (
@@ -505,7 +516,7 @@ export default function Stats() {
                       />
                     </div>
                     <span className="stats__bar-value" style={{ color: player.color }}>
-                      {sortBy === 'kd' || sortBy === 'rating' ? val.toFixed(2) : sortBy === 'hs' || sortBy === 'winRate' ? `${val}%` : formatNumber(val)}
+                      {sortBy === 'kd' || sortBy === 'rating' ? val.toFixed(2) : sortBy === 'hs' || sortBy === 'winRate' ? `${val}%` : sortBy === 'rank' ? (player.currentRank?.replace(/,,/g, ',') || 'Unranked') : formatNumber(val)}
                     </span>
                   </div>
                 )
