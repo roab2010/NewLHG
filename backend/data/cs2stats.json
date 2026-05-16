@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-16T07:00:39.007Z",
+  "lastUpdated": "2026-05-16T08:05:03.924Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 15,
       "damage": 793439,
       "rounds": 10958,
-      "scrapedAt": "2026-05-16T07:00:05.880Z"
+      "scrapedAt": "2026-05-16T08:04:24.214Z"
     },
     {
       "nickname": "Roab",
@@ -59,7 +59,7 @@
       "tied": 13,
       "damage": 849665,
       "rounds": 9299,
-      "scrapedAt": "2026-05-16T07:00:13.252Z"
+      "scrapedAt": "2026-05-16T08:04:35.389Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 44593,
       "rounds": 698,
-      "scrapedAt": "2026-05-16T07:00:19.086Z"
+      "scrapedAt": "2026-05-16T08:04:41.946Z"
     },
     {
       "nickname": "LocMaster",
@@ -105,21 +105,21 @@
       "bestRank": null,
       "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
       "kd": 0.94,
-      "rating": 1.04,
-      "winRate": 46,
+      "rating": 1.05,
+      "winRate": 47,
       "hsPercent": 38,
       "adr": 77,
-      "kills": 1195,
-      "deaths": 1273,
-      "assists": 368,
-      "headshots": 453,
-      "played": 82,
-      "won": 38,
+      "kills": 1212,
+      "deaths": 1292,
+      "assists": 377,
+      "headshots": 465,
+      "played": 83,
+      "won": 39,
       "lost": 39,
       "tied": 5,
-      "damage": 130858,
-      "rounds": 1697,
-      "scrapedAt": "2026-05-16T07:00:25.046Z"
+      "damage": 133156,
+      "rounds": 1727,
+      "scrapedAt": "2026-05-16T08:04:49.730Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 124627,
       "rounds": 1748,
-      "scrapedAt": "2026-05-16T07:00:30.873Z"
+      "scrapedAt": "2026-05-16T08:04:55.503Z"
     },
     {
       "nickname": "XunWon",
@@ -160,26 +160,26 @@
       "csstatsUrl": "https://csstats.gg/player/76561198877435442",
       "playerName": "360HZ PEEK",
       "avatar": "https://avatars.steamstatic.com/97e463a36f2693f6158631fb69c4074694019c20_full.jpg",
-      "currentRank": "4,675",
-      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "bestRank": "4,790",
-      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
+      "currentRank": "5,112",
+      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.uncommon.png",
+      "bestRank": "5,112",
+      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.uncommon.png",
       "kd": 0.95,
       "rating": 1.05,
       "winRate": 48,
       "hsPercent": 34,
       "adr": 81,
-      "kills": 6160,
-      "deaths": 6473,
-      "assists": 1685,
-      "headshots": 2107,
-      "played": 391,
-      "won": 188,
+      "kills": 6177,
+      "deaths": 6494,
+      "assists": 1693,
+      "headshots": 2110,
+      "played": 392,
+      "won": 189,
       "lost": 191,
       "tied": 12,
-      "damage": 670683,
-      "rounds": 8312,
-      "scrapedAt": "2026-05-16T07:00:36.907Z"
+      "damage": 672502,
+      "rounds": 8342,
+      "scrapedAt": "2026-05-16T08:05:01.815Z"
     }
   ]
 }
