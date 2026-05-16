@@ -127,12 +127,13 @@
 
 .product-card__image {
   position: relative;
-  height: 200px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--dark-300), var(--dark-400));
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--dark-300), var(--dark-400));
-  color: var(--white-20);
 }
 
 .product-card__image img {

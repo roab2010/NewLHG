@@ -6,81 +6,8 @@ import { useAuth } from '../../context/AuthContext'
 import { fetchProducts } from '../../services/api'
 import './Shop.css'
 
-const sampleProducts = [
-  {
-    id: 1,
-    name: 'Áo Jersey LHE 2026',
-    description: 'Áo thi đấu chính thức của Long Hải Esports, chất liệu polyester cao cấp.',
-    price: 450000,
-    image_url: '/images/shop/jersey.png',
-    category: 'Áo',
-    rating: 4.8,
-    stock: 25,
-  },
-  {
-    id: 2,
-    name: 'Mousepad LHE XL',
-    description: 'Mousepad gaming kích thước lớn, bề mặt mịn, đế cao su chống trượt.',
-    price: 250000,
-    image_url: '/images/shop/mousepad.png',
-    category: 'Phụ kiện',
-    rating: 4.5,
-    stock: 50,
-  },
-  {
-    id: 3,
-    name: 'Sticker Pack LHE',
-    description: 'Bộ 10 sticker logo và mascot Long Hải Esports, chống nước.',
-    price: 80000,
-    image_url: '/images/shop/sticker.png',
-    category: 'Sticker',
-    rating: 4.9,
-    stock: 100,
-  },
-  {
-    id: 4,
-    name: 'Nón LHE Snapback',
-    description: 'Nón snapback thêu logo LHE, phong cách urban streetwear.',
-    price: 200000,
-    image_url: '/images/shop/non.png',
-    category: 'Phụ kiện',
-    rating: 4.7,
-    stock: 30,
-  },
-  {
-    id: 5,
-    name: 'Hoodie LHE Limited',
-    description: 'Hoodie limited edition, chất liệu cotton premium, in họa tiết gaming.',
-    price: 550000,
-    image_url: '/images/shop/hoodie.png',
-    category: 'Áo',
-    rating: 5.0,
-    stock: 10,
-  },
-  {
-    id: 6,
-    name: 'Wristband LHE',
-    description: 'Vòng tay gaming co giãn, thấm mồ hôi, logo LHE thêu nổi.',
-    price: 60000,
-    image_url: '/images/shop/wristband.png',
-    category: 'Phụ kiện',
-    rating: 4.3,
-    stock: 80,
-  },
-  {
-    id: 7,
-    name: 'Áo Thun LHE Black',
-    description: 'Áo thun đen cổ tròn, in logo Long Hải Esports trước ngực, chất cotton 100% thoáng mát.',
-    price: 280000,
-    image_url: '/images/shop/tshirt.png',
-    category: 'Áo',
-    rating: 4.9,
-    stock: 40,
-  }
-]
-
 export default function Shop() {
-  const [products, setProducts] = useState(sampleProducts)
+  const [products, setProducts] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('Tất cả')
   const [searchTerm, setSearchTerm] = useState('')
   const { isAuthenticated, user } = useAuth()
@@ -243,15 +170,19 @@ export default function Shop() {
                 whileHover={{ y: -8, transition: { duration: 0.3 } }}
               >
                 <div className="product-card__image">
-                  {product.image_url ? (
-                    <img src={product.image_url} alt={product.name} />
-                  ) : (
-                    <Package size={48} />
-                  )}
+                  <Link to={`/shop/${product.id}`}>
+                    {product.image_url ? (
+                      <img src={product.image_url} alt={product.name} />
+                    ) : (
+                      <Package size={48} />
+                    )}
+                  </Link>
                   <span className="product-card__category">{product.category}</span>
                 </div>
                 <div className="product-card__body">
-                  <h3 className="product-card__name">{product.name}</h3>
+                  <Link to={`/shop/${product.id}`}>
+                    <h3 className="product-card__name">{product.name}</h3>
+                  </Link>
                   <p className="product-card__desc">{product.description}</p>
                   <div className="product-card__meta">
                     <div className="product-card__rating">

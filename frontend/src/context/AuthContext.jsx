@@ -4,6 +4,7 @@ import { supabase } from '../services/supabase'
 const AuthContext = createContext({})
 
 export function AuthProvider({ children }) {
+  const [session, setSession] = useState(null)
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -39,6 +40,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     // Lấy session hiện tại khi mount
     supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
       if (session?.user) {
         setUser(session.user)
         fetchProfile(session.user.id)
@@ -50,10 +52,11 @@ export function AuthProvider({ children }) {
     // Lắng nghe thay đổi auth (login, logout, token refresh)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        setSession(session)
         // Chỉ xử lý SIGNED_IN và SIGNED_OUT, bỏ qua TOKEN_REFRESHED và INITIAL_SESSION
         if (event === 'SIGNED_IN') {
-          setUser(session.user)
-          fetchProfile(session.user.id)
+          setUser(session?.user ?? null)
+          if (session?.user) fetchProfile(session.user.id)
         } else if (event === 'SIGNED_OUT') {
           setUser(null)
           setProfile(null)
@@ -93,6 +96,7 @@ export function AuthProvider({ children }) {
     // Xóa state ngay lập tức TRƯỚC khi gọi API
     setUser(null)
     setProfile(null)
+    setSession(null)
 
     try {
       await supabase.auth.signOut()
@@ -106,12 +110,14 @@ export function AuthProvider({ children }) {
   }
 
   const value = {
+    session,
     user,
     profile,
     loading,
     signUp,
     signIn,
     signOut,
+    token: session?.access_token,
     isAdmin: profile?.role === 'admin',
     isMember: profile?.role === 'member' || profile?.role === 'admin',
     isAuthenticated: !!user,

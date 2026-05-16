@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { User, ShoppingBag, Package, Edit2, Save, X, Lock } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
@@ -52,7 +52,7 @@ export default function Profile() {
     setLoading(true)
     const { data, error } = await supabase
       .from('orders')
-      .select('*, order_items(quantity, price, products(name, image_url))')
+      .select('*, order_items(quantity, price, product_id, products(name, image_url))')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       
@@ -346,6 +346,15 @@ export default function Profile() {
                             <div className="item-price">
                               {formatPrice(item.price * item.quantity)}
                             </div>
+                            {order.status === 'delivered' && (
+                              <Link 
+                                to={`/shop/${item.product_id}`} 
+                                className="btn btn-primary btn--sm"
+                                style={{ marginLeft: '1rem', whiteSpace: 'nowrap' }}
+                              >
+                                Đánh giá
+                              </Link>
+                            )}
                           </div>
                         ))}
                       </div>

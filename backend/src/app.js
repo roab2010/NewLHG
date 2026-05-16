@@ -11,6 +11,7 @@ import orderRoutes from './routes/orders.js'
 import postRoutes from './routes/posts.js'
 import statsRoutes from './routes/stats.js'
 import adminRoutes from './routes/admin.js'
+import reviewRoutes from './routes/reviews.js'
 
 dotenv.config()
 
@@ -39,6 +40,7 @@ app.use('/api/orders', orderRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/api/stats', statsRoutes)
 app.use('/api/admin', adminRoutes)
+app.use('/api/reviews', reviewRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -107,6 +107,37 @@ export async function fetchLOLStats() {
   return res.json()
 }
 
+// ── Reviews ──
+export async function fetchReviews(productId) {
+  const res = await fetch(`${API_URL}/reviews/${productId}`)
+  if (!res.ok) throw new Error('Failed to fetch reviews')
+  return res.json()
+}
+
+export async function checkCanReview(productId, token) {
+  const res = await fetch(`${API_URL}/reviews/${productId}/can-review`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to check review status')
+  return res.json()
+}
+
+export async function submitReview(reviewData, token) {
+  const res = await fetch(`${API_URL}/reviews`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(reviewData),
+  })
+  if (!res.ok) {
+    const error = await res.json()
+    throw new Error(error.error || 'Failed to submit review')
+  }
+  return res.json()
+}
+
 // ── Admin ──
 export async function fetchAdminDashboard(token) {
   const res = await fetch(`${API_URL}/admin/dashboard`, {

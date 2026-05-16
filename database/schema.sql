@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS profiles (
   display_name TEXT,
   avatar_url TEXT,
   role TEXT DEFAULT 'customer' CHECK (role IN ('customer', 'member', 'admin')),
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  phone TEXT,
+  address TEXT
 );
 
 -- 2. Team Members
@@ -41,7 +43,8 @@ CREATE TABLE IF NOT EXISTS products (
   stock INT DEFAULT 0,
   is_active BOOLEAN DEFAULT true,
   created_by UUID REFERENCES profiles(id),
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  rating DECIMAL(3,1) DEFAULT 0
 );
 
 -- 4. Orders
@@ -86,6 +89,16 @@ CREATE TABLE IF NOT EXISTS game_stats (
   fetched_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- 8. Reviews
+CREATE TABLE IF NOT EXISTS reviews (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  product_id UUID REFERENCES products(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  rating INT CHECK (rating >= 1 AND rating <= 5),
+  comment TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- =====================================================
 -- ENABLE ROW LEVEL SECURITY
 -- =====================================================
@@ -96,6 +109,7 @@ ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE game_stats ENABLE ROW LEVEL SECURITY;
+ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
 
 -- =====================================================
 -- RLS POLICIES
@@ -124,10 +138,13 @@ CREATE POLICY "Users can create orders" ON orders FOR INSERT WITH CHECK (auth.ui
 CREATE POLICY "Admin can see all orders" ON orders FOR SELECT USING (
   EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
 );
+CREATE POLICY "Admin can update orders" ON orders FOR UPDATE USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
 
 -- Order Items: same as orders
 CREATE POLICY "Order items follow order access" ON order_items FOR SELECT USING (
-  EXISTS (SELECT 1 FROM orders WHERE orders.id = order_items.order_id AND orders.user_id = auth.uid())
+  EXISTS (SELECT 1 FROM orders WHERE orders.id = order_items.order_id AND (orders.user_id = auth.uid() OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')))
 );
 CREATE POLICY "Users can create order items" ON order_items FOR INSERT WITH CHECK (
   EXISTS (SELECT 1 FROM orders WHERE orders.id = order_items.order_id AND orders.user_id = auth.uid())
@@ -145,6 +162,10 @@ CREATE POLICY "Admin can manage all posts" ON posts FOR ALL USING (
 
 -- Game Stats: readable by all
 CREATE POLICY "Game stats are viewable by everyone" ON game_stats FOR SELECT USING (true);
+
+-- Reviews: readable by all, insertable by owner with validation
+CREATE POLICY "Reviews are viewable by everyone" ON reviews FOR SELECT USING (true);
+CREATE POLICY "Users can create reviews" ON reviews FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- =====================================================
 -- TRIGGER: Auto-create profile on signup
@@ -177,15 +198,5 @@ VALUES
   ('Nguyễn Anh Xuân Quân', 'XunWon', '2006-04-24', 'Support', 'Phản Xạ', '#9CA3AF', 4),
   ('Đặng Thành Lộc', 'LocMaster', '2004-11-14', 'IGL / Analyst', 'Phân Tích', '#EF4444', 5),
   ('Hoàng Trí Luật', 'YenOi', '2004-01-01', 'Lurker', 'Phán Đoán', '#A855F7', 6),
-  ('Phạm Thanh Tài', 'Taile', '2004-06-12', 'AWPer', 'Rình Ai Tắm', '#EC4899', 7);
-
-CREATE POLICY "Admin can see all order items" ON order_items FOR SELECT USING (
-  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-);
-
-CREATE POLICY "Admin can update orders" ON orders FOR UPDATE USING (
-  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-);
-
-ALTER TABLE profiles ADD COLUMN phone TEXT;
-ALTER TABLE profiles ADD COLUMN address TEXT;
+  ('Phạm Thanh Tài', 'Taile', '2004-06-12', 'AWPer', 'Rình Ai Tắm', '#EC4899', 7)
+ON CONFLICT DO NOTHING;
