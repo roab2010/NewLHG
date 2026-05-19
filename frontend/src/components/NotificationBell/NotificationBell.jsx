@@ -133,7 +133,7 @@ export default function NotificationBell() {
   const markAsRead = async (id) => {
     try {
       await fetch(`${API_URL}/notifications/${id}/read`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: { Authorization: `Bearer ${token}` },
       })
       setNotifications((prev) =>
@@ -148,7 +148,7 @@ export default function NotificationBell() {
   const markAllAsRead = async () => {
     try {
       await fetch(`${API_URL}/notifications/read-all`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: { Authorization: `Bearer ${token}` },
       })
       setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })))

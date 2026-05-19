@@ -79,7 +79,7 @@ export default function Checkout() {
     setCouponError('')
     try {
       const data = await validateCoupon(couponCode, token)
-      setCouponApplied(data)
+      setCouponApplied(data.coupon)
       setCouponError('')
     } catch (err) {
       setCouponError(err.message)
