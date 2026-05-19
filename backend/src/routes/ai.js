@@ -188,9 +188,35 @@ QUY TẮC PHẢN HỒI:
       history: geminiHistory,
     })
 
-    const result = await chat.sendMessage(message)
-    const response = await result.response
-    const replyText = response.text()
+    let result;
+    let response;
+    let replyText;
+    const maxRetries = 3;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        result = await chat.sendMessage(message)
+        response = await result.response
+        replyText = response.text()
+        break; // Thành công thì thoát khỏi vòng lặp
+      } catch (error) {
+        const isTemporaryError = 
+          error.status === 503 || 
+          error.status === 429 ||
+          error.message?.includes('503') || 
+          error.message?.includes('429') || 
+          error.message?.includes('demand') || 
+          error.message?.includes('overloaded');
+        
+        if (isTemporaryError && attempt < maxRetries) {
+          const delay = attempt * 600; // 600ms, 1200ms
+          console.warn(`[Gemini AI] Thử lại lần thứ ${attempt} do lỗi tạm thời (503/429/Quá tải). Đang chờ ${delay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        } else {
+          throw error; // Ném lỗi ra ngoài nếu không phải lỗi tạm thời hoặc hết lượt thử
+        }
+      }
+    }
 
     res.json({ reply: replyText })
 
