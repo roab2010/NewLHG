@@ -23,6 +23,18 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 
+// Disable etag caching
+app.disable('etag')
+
+// Cache control middleware for dynamic APIs
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  res.setHeader('Pragma', 'no-cache')
+  res.setHeader('Expires', '0')
+  res.setHeader('Surrogate-Control', 'no-store')
+  next()
+})
+
 // Middleware
 app.use(helmet())
 app.use(cors({

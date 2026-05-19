@@ -525,24 +525,26 @@ export default function Admin() {
                           <RefreshCw className="loading-spinner" size={24} />
                         </div>
                       )}
-                      <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                          <defs>
-                            <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                              <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
-                            </linearGradient>
-                          </defs>
-                          <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
-                          <XAxis dataKey="date" stroke="var(--white-40)" tick={{ fontSize: 11 }} />
-                          <YAxis stroke="var(--white-40)" tick={{ fontSize: 11 }} />
-                          <Tooltip 
-                            contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
-                            labelStyle={{ color: 'var(--white)' }}
-                          />
-                          <Line type="monotone" dataKey="revenue" name="Doanh thu (VND)" stroke="#10B981" strokeWidth={3} activeDot={{ r: 8 }} />
-                        </LineChart>
-                      </ResponsiveContainer>
+                      <div className="analytics-chart" style={{ width: '100%', height: '300px', position: 'relative' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart data={revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                            <defs>
+                              <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
+                                <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                              </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
+                            <XAxis dataKey="date" stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                            <YAxis stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                            <Tooltip 
+                              contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
+                              labelStyle={{ color: 'var(--white)' }}
+                            />
+                            <Line type="monotone" dataKey="revenue" name="Doanh thu (VND)" stroke="#10B981" strokeWidth={3} activeDot={{ r: 8 }} />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </div>
                     </div>
 
                     {/* Area Chart: User Growth */}
@@ -553,23 +555,25 @@ export default function Admin() {
                           <RefreshCw className="loading-spinner" size={24} />
                         </div>
                       )}
-                      <ResponsiveContainer width="100%" height={300}>
-                        <AreaChart data={usersGrowthData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                          <defs>
-                            <linearGradient id="userGrad" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.5}/>
-                              <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/>
-                            </linearGradient>
-                          </defs>
-                          <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
-                          <XAxis dataKey="date" stroke="var(--white-40)" tick={{ fontSize: 11 }} />
-                          <YAxis stroke="var(--white-40)" tick={{ fontSize: 11 }} />
-                          <Tooltip 
-                            contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
-                          />
-                          <Area type="monotone" dataKey="count" name="Người dùng mới" stroke="#8B5CF6" fillOpacity={1} fill="url(#userGrad)" strokeWidth={2} />
-                        </AreaChart>
-                      </ResponsiveContainer>
+                      <div className="analytics-chart" style={{ width: '100%', height: '300px', position: 'relative' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <AreaChart data={usersGrowthData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                            <defs>
+                              <linearGradient id="userGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.5}/>
+                                <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/>
+                              </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
+                            <XAxis dataKey="date" stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                            <YAxis stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                            <Tooltip 
+                              contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
+                            />
+                            <Area type="monotone" dataKey="count" name="Người dùng mới" stroke="#8B5CF6" fillOpacity={1} fill="url(#userGrad)" strokeWidth={2} />
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      </div>
                     </div>
 
                     {/* Bar Chart: Top Products */}
@@ -580,21 +584,23 @@ export default function Admin() {
                           <RefreshCw className="loading-spinner" size={24} />
                         </div>
                       )}
-                      <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={topProductsData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
-                          <XAxis dataKey="name" stroke="var(--white-40)" tick={{ fontSize: 9 }} />
-                          <YAxis stroke="var(--white-40)" tick={{ fontSize: 11 }} />
-                          <Tooltip 
-                            contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
-                          />
-                          <Bar dataKey="total_sold" name="Đã bán" fill="#F59E0B" radius={[4, 4, 0, 0]}>
-                            {topProductsData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                          </Bar>
-                        </BarChart>
-                      </ResponsiveContainer>
+                      <div className="analytics-chart" style={{ width: '100%', height: '300px', position: 'relative' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={topProductsData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
+                            <XAxis dataKey="name" stroke="var(--white-40)" tick={{ fontSize: 9 }} />
+                            <YAxis stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                            <Tooltip 
+                              contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
+                            />
+                            <Bar dataKey="total_sold" name="Đã bán" fill="#F59E0B" radius={[4, 4, 0, 0]}>
+                              {topProductsData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
                     </div>
 
                     {/* Pie Chart: Order Status */}
@@ -605,28 +611,30 @@ export default function Admin() {
                           <RefreshCw className="loading-spinner" size={24} />
                         </div>
                       )}
-                      <ResponsiveContainer width="100%" height={300}>
-                        <PieChart>
-                          <Pie
-                            data={ordersStatusData}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={60}
-                            outerRadius={80}
-                            paddingAngle={5}
-                            dataKey="count"
-                            nameKey="status"
-                          >
-                            {ordersStatusData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                          </Pie>
-                          <Tooltip 
-                            contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
-                          />
-                          <Legend />
-                        </PieChart>
-                      </ResponsiveContainer>
+                      <div className="analytics-chart" style={{ width: '100%', height: '300px', position: 'relative' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={ordersStatusData}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={80}
+                              paddingAngle={5}
+                              dataKey="count"
+                              nameKey="status"
+                            >
+                              {ordersStatusData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                              ))}
+                            </Pie>
+                            <Tooltip 
+                              contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
+                            />
+                            <Legend />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
                     </div>
                   </div>
 

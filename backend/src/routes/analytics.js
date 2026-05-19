@@ -17,7 +17,7 @@ router.get('/revenue', async (req, res) => {
 
     const { data: orders, error } = await supabase
       .from('orders')
-      .select('total, created_at')
+      .select('total_amount, created_at')
       .eq('status', 'delivered')
       .gte('created_at', startDateStr)
 
@@ -27,7 +27,7 @@ router.get('/revenue', async (req, res) => {
     const revenueMap = {}
     for (const order of orders) {
       const date = order.created_at.split('T')[0]
-      revenueMap[date] = (revenueMap[date] || 0) + (order.total || 0)
+      revenueMap[date] = (revenueMap[date] || 0) + (Number(order.total_amount) || 0)
     }
 
     const revenue = Object.entries(revenueMap)
