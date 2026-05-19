@@ -338,23 +338,58 @@ export async function updateOrderStatus(orderId, status, token) {
 }
 
 export async function fetchAdminAIConfig(token) {
-  const res = await fetch(`${API_URL}/ai/admin-config`, {
-    headers: { Authorization: `Bearer ${token}` },
-  })
-  if (!res.ok) throw new Error('Failed to fetch admin AI config')
-  return res.json()
+  try {
+    const res = await fetch(`${API_URL}/ai/admin-config`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    
+    if (!res.ok) {
+      if (res.status === 401) {
+        throw new Error('Phiên đăng nhập đã hết hạn hoặc không hợp lệ. Vui lòng đăng nhập lại!')
+      }
+      if (res.status === 403) {
+        throw new Error('Bạn không có quyền quản trị viên để xem cấu hình AI!')
+      }
+      const data = await res.json().catch(() => ({}))
+      throw new Error(data.error || `Lỗi tải cấu hình (Mã lỗi: ${res.status})`)
+    }
+    return res.json()
+  } catch (err) {
+    if (err.message.includes('Failed to fetch') || err.message.includes('fetch failed')) {
+      throw new Error('Không thể kết nối đến máy chủ API. Vui lòng kiểm tra kết nối mạng của bạn!')
+    }
+    throw err
+  }
 }
 
 export async function updateAdminAIConfig(config, token) {
-  const res = await fetch(`${API_URL}/ai/admin-config`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(config),
-  })
-  if (!res.ok) throw new Error('Failed to update admin AI config')
-  return res.json()
+  try {
+    const res = await fetch(`${API_URL}/ai/admin-config`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(config),
+    })
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        throw new Error('Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại để cập nhật cấu hình AI!')
+      }
+      if (res.status === 403) {
+        throw new Error('Tài khoản của bạn không có quyền quản trị viên để lưu cấu hình AI!')
+      }
+      const data = await res.json().catch(() => ({}))
+      throw new Error(data.error || `Lỗi lưu cấu hình (Mã lỗi: ${res.status})`)
+    }
+    return res.json()
+  } catch (err) {
+    if (err.message.includes('Failed to fetch') || err.message.includes('fetch failed')) {
+      throw new Error('Không thể kết nối đến máy chủ API để lưu cấu hình. Vui lòng kiểm tra xem server backend có đang chạy không!')
+    }
+    throw err
+  }
 }
+
 

@@ -259,12 +259,31 @@ export default function Admin() {
     e.preventDefault()
     setAiSaving(true)
     try {
+      if (!aiConfig.bot_name || !aiConfig.bot_name.trim()) {
+        throw new Error('Tên hiển thị của Bot không được để trống!')
+      }
+      if (!aiConfig.welcome_message || !aiConfig.welcome_message.trim()) {
+        throw new Error('Lời chào mặc định không được để trống!')
+      }
+      if (!aiConfig.system_prompt || !aiConfig.system_prompt.trim()) {
+        throw new Error('Chỉ thị huấn luyện AI không được để trống!')
+      }
+      if (!token) {
+        throw new Error('Không tìm thấy token phiên làm việc của Admin. Vui lòng đăng nhập lại!')
+      }
+
       const data = await updateAdminAIConfig(aiConfig, token)
       setAiConfig(data.config)
-      setAlertDialog({ isOpen: true, message: 'Đã cập nhật cấu hình huấn luyện AI thành công!' })
+      setAlertDialog({ 
+        isOpen: true, 
+        message: '🎉 Cập nhật bản huấn luyện AI thành công!\n\nThông tin huấn luyện mới đã được đồng bộ và lưu trực tiếp vào file cấu hình "ai_config.json" ở máy chủ backend thành công. Hệ thống AI Chatbot đã tự động làm mới tức thì để sẵn sàng trò chuyện cùng khách hàng!' 
+      })
     } catch (err) {
       console.error('Lỗi khi lưu cấu hình AI:', err)
-      setAlertDialog({ isOpen: true, message: err.message || 'Lỗi khi cập nhật cấu hình AI!' })
+      setAlertDialog({ 
+        isOpen: true, 
+        message: `❌ Lưu cấu hình thất bại!\n\nChi tiết lỗi: ${err.message || 'Lỗi không xác định khi ghi file cấu hình.'}` 
+      })
     } finally {
       setAiSaving(false)
     }
