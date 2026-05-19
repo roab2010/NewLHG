@@ -83,6 +83,8 @@ export default function Admin() {
   const [reviewLoading, setReviewLoading] = useState(false)
   const [reviewFilterRating, setReviewFilterRating] = useState('all')
   const [reviewSearchQuery, setReviewSearchQuery] = useState('')
+  const [reviewPage, setReviewPage] = useState(1)
+  const reviewsPerPage = 8
 
   // Modal States
   const [productModal, setProductModal] = useState({ isOpen: false, data: null })
@@ -221,6 +223,11 @@ export default function Admin() {
     }
     loadReviewsData()
   }, [profile, activeTab, token])
+
+  // Reset page when filters change
+  useEffect(() => {
+    setReviewPage(1)
+  }, [reviewSearchQuery, reviewFilterRating])
 
   // Product CRUD Handlers
   const handleDeleteProduct = (id) => {
@@ -925,166 +932,247 @@ export default function Admin() {
           )}
           
           {/* TAB: REVIEW MANAGEMENT */}
-          {activeTab === 'reviews' && (
-            <motion.div
-              key="reviews"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.25 }}
-            >
-              <div className="admin-section glass-card">
-                <div className="admin-section__header-flex">
-                  <h2>Quản Lý Đánh Giá từ Khách Hàng</h2>
-                  <div className="admin-filters">
-                    {/* Ô Tìm Kiếm */}
-                    <input
-                      type="text"
-                      placeholder="Tìm theo sản phẩm, khách hàng..."
-                      value={reviewSearchQuery}
-                      onChange={(e) => setReviewSearchQuery(e.target.value)}
-                      className="admin-search-input"
-                    />
-                    
-                    {/* Bộ lọc Rating */}
-                    <select
-                      value={reviewFilterRating}
-                      onChange={(e) => setReviewFilterRating(e.target.value)}
-                      className="admin-select"
-                    >
-                      <option value="all">Tất cả sao</option>
-                      <option value="5">⭐⭐⭐⭐⭐ (5 sao)</option>
-                      <option value="4">⭐⭐⭐⭐ (4 sao)</option>
-                      <option value="3">⭐⭐⭐ (3 sao)</option>
-                      <option value="2">⭐⭐ (2 sao)</option>
-                      <option value="1">⭐ (1 sao)</option>
-                    </select>
+          {activeTab === 'reviews' && (() => {
+            // Tối ưu lọc mảng đánh giá: Chỉ lọc duy nhất 1 lần
+            const filteredReviews = reviews.filter(r => {
+              if (reviewFilterRating !== 'all' && r.rating !== parseInt(reviewFilterRating)) {
+                return false;
+              }
+              if (reviewSearchQuery.trim() !== '') {
+                const q = reviewSearchQuery.toLowerCase();
+                const userName = r.profiles?.display_name?.toLowerCase() || '';
+                const userEmail = r.profiles?.email?.toLowerCase() || '';
+                const productName = r.products?.name?.toLowerCase() || '';
+                const comment = r.comment?.toLowerCase() || '';
+                return userName.includes(q) || userEmail.includes(q) || productName.includes(q) || comment.includes(q);
+              }
+              return true;
+            });
+
+            // Tính toán nhanh thống kê đánh giá
+            const totalReviewsCount = reviews.length;
+            const avgRating = reviews.length > 0 
+              ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1) 
+              : '0.0';
+            const positiveReviewsCount = reviews.filter(r => r.rating >= 4).length;
+            const positivePercent = reviews.length > 0 
+              ? Math.round((positiveReviewsCount / reviews.length) * 100) 
+              : 0;
+
+            // Xử lý phân trang
+            const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
+            const currentReviews = filteredReviews.slice((reviewPage - 1) * reviewsPerPage, reviewPage * reviewsPerPage);
+
+            return (
+              <motion.div
+                key="reviews"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.25 }}
+              >
+                {/* Stats Cards cho Reviews */}
+                <div className="admin-review-stats-grid">
+                  <div className="admin-review-stat-card glass-card">
+                    <div className="admin-review-stat-icon" style={{ background: 'rgba(0, 180, 216, 0.1)', color: 'var(--accent)' }}>
+                      <Star size={22} fill="var(--accent)" />
+                    </div>
+                    <div className="admin-review-stat-info">
+                      <h3>Tổng Đánh Giá</h3>
+                      <p>{totalReviewsCount}</p>
+                      <span>Từ khách hàng LHE</span>
+                    </div>
+                  </div>
+
+                  <div className="admin-review-stat-card glass-card">
+                    <div className="admin-review-stat-icon" style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#F59E0B' }}>
+                      <Star size={22} fill="#F59E0B" />
+                    </div>
+                    <div className="admin-review-stat-info">
+                      <h3>Điểm Trung Bình</h3>
+                      <p>{avgRating} <span className="star-unit">★</span></p>
+                      <span>Chất lượng sản phẩm</span>
+                    </div>
+                  </div>
+
+                  <div className="admin-review-stat-card glass-card">
+                    <div className="admin-review-stat-icon" style={{ background: 'rgba(16, 185, 129, 0.1)', color: 'var(--success)' }}>
+                      <Star size={22} fill="var(--success)" />
+                    </div>
+                    <div className="admin-review-stat-info">
+                      <h3>Tích Cực (4-5★)</h3>
+                      <p>{positivePercent}%</p>
+                      <span>Tỷ lệ hài lòng cực cao</span>
+                    </div>
                   </div>
                 </div>
 
-                {reviewLoading ? (
-                  <div className="admin-loading-spinner-wrapper">
-                    <RefreshCw className="loading-spinner" size={24} />
-                    <p>Đang tải danh sách đánh giá...</p>
+                <div className="admin-section glass-card">
+                  <div className="admin-section__header-flex">
+                    <h2>Danh Sách Đánh Giá Chi Tiết</h2>
+                    <div className="admin-filters">
+                      {/* Ô Tìm Kiếm */}
+                      <input
+                        type="text"
+                        placeholder="Tìm theo sản phẩm, khách hàng..."
+                        value={reviewSearchQuery}
+                        onChange={(e) => setReviewSearchQuery(e.target.value)}
+                        className="admin-search-input"
+                      />
+                      
+                      {/* Bộ lọc Rating */}
+                      <select
+                        value={reviewFilterRating}
+                        onChange={(e) => setReviewFilterRating(e.target.value)}
+                        className="admin-select"
+                      >
+                        <option value="all">Tất cả sao</option>
+                        <option value="5">⭐⭐⭐⭐⭐ (5 sao)</option>
+                        <option value="4">⭐⭐⭐⭐ (4 sao)</option>
+                        <option value="3">⭐⭐⭐ (3 sao)</option>
+                        <option value="2">⭐⭐ (2 sao)</option>
+                        <option value="1">⭐ (1 sao)</option>
+                      </select>
+                    </div>
                   </div>
-                ) : (
-                  <div className="admin-table-container" style={{ overflowX: 'auto' }}>
-                    <table className="admin-table">
-                      <thead>
-                        <tr>
-                          <th>Khách hàng</th>
-                          <th>Sản phẩm</th>
-                          <th style={{ width: '120px' }}>Đánh giá</th>
-                          <th>Nội dung nhận xét</th>
-                          <th style={{ width: '150px' }}>Thời gian</th>
-                          <th style={{ width: '80px', textAlign: 'center' }}>Thao tác</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {reviews
-                          .filter(r => {
-                            if (reviewFilterRating !== 'all' && r.rating !== parseInt(reviewFilterRating)) {
-                              return false;
-                            }
-                            if (reviewSearchQuery.trim() !== '') {
-                              const q = reviewSearchQuery.toLowerCase();
-                              const userName = r.profiles?.display_name?.toLowerCase() || '';
-                              const userEmail = r.profiles?.email?.toLowerCase() || '';
-                              const productName = r.products?.name?.toLowerCase() || '';
-                              const comment = r.comment?.toLowerCase() || '';
-                              return userName.includes(q) || userEmail.includes(q) || productName.includes(q) || comment.includes(q);
-                            }
-                            return true;
-                          })
-                          .length === 0 ? (
+
+                  {reviewLoading ? (
+                    <div className="admin-loading-spinner-wrapper">
+                      <RefreshCw className="loading-spinner" size={24} />
+                      <p>Đang tải danh sách đánh giá...</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="admin-table-container" style={{ overflowX: 'auto' }}>
+                        <table className="admin-table">
+                          <thead>
                             <tr>
-                              <td colSpan="6" style={{ textAlign: 'center', padding: 'var(--space-2xl)', color: 'var(--white-40)' }}>
-                                Không tìm thấy đánh giá nào phù hợp.
-                              </td>
+                              <th>Khách hàng</th>
+                              <th>Sản phẩm</th>
+                              <th style={{ width: '120px' }}>Đánh giá</th>
+                              <th>Nội dung nhận xét</th>
+                              <th style={{ width: '150px' }}>Thời gian</th>
+                              <th style={{ width: '80px', textAlign: 'center' }}>Thao tác</th>
                             </tr>
-                          ) : (
-                            reviews
-                              .filter(r => {
-                                if (reviewFilterRating !== 'all' && r.rating !== parseInt(reviewFilterRating)) return false;
-                                if (reviewSearchQuery.trim() !== '') {
-                                  const q = reviewSearchQuery.toLowerCase();
-                                  const userName = r.profiles?.display_name?.toLowerCase() || '';
-                                  const userEmail = r.profiles?.email?.toLowerCase() || '';
-                                  const productName = r.products?.name?.toLowerCase() || '';
-                                  const comment = r.comment?.toLowerCase() || '';
-                                  return userName.includes(q) || userEmail.includes(q) || productName.includes(q) || comment.includes(q);
-                                }
-                                return true;
-                              })
-                              .map(r => (
-                                <tr key={r.id} className="admin-review-row">
-                                  <td>
-                                    <div className="admin-user-profile-flex">
-                                      <img
-                                        src={r.profiles?.avatar_url || '/images/default-avatar.png'}
-                                        alt="Avatar"
-                                        className="admin-user-avatar-small"
-                                        onError={(e) => { e.target.src = '/images/default-avatar.png' }}
-                                      />
-                                      <div>
-                                        <p className="admin-user-name-bold">{r.profiles?.display_name || 'Khách hàng LHE'}</p>
-                                        <span className="admin-user-email-sub">{r.profiles?.email || 'customer@lhe.vn'}</span>
-                                      </div>
-                                    </div>
+                          </thead>
+                          <tbody style={{ position: 'relative' }}>
+                            <AnimatePresence mode="popLayout">
+                              {currentReviews.length === 0 ? (
+                                <motion.tr 
+                                  key="empty-reviews"
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  exit={{ opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                >
+                                  <td colSpan="6" style={{ textAlign: 'center', padding: 'var(--space-2xl)', color: 'var(--white-40)' }}>
+                                    Không tìm thấy đánh giá nào phù hợp.
                                   </td>
-                                  <td>
-                                    <div className="admin-product-profile-flex">
-                                      <img
-                                        src={r.products?.image_url || '/images/default-product.png'}
-                                        alt="Product"
-                                        className="admin-product-img-small"
-                                        onError={(e) => { e.target.src = '/images/default-product.png' }}
-                                      />
-                                      <p className="admin-product-name-bold">{r.products?.name || 'Sản phẩm LHE'}</p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="admin-rating-stars-flex">
-                                      {[...Array(5)].map((_, i) => (
-                                        <Star
-                                          key={i}
-                                          size={14}
-                                          fill={i < r.rating ? "#F59E0B" : "none"}
-                                          stroke={i < r.rating ? "#F59E0B" : "var(--white-20)"}
+                                </motion.tr>
+                              ) : (
+                                currentReviews.map(r => (
+                                  <motion.tr
+                                    key={r.id}
+                                    layout
+                                    initial={{ opacity: 0, y: 12 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -12, scale: 0.96 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="admin-review-row"
+                                  >
+                                    <td>
+                                      <div className="admin-user-profile-flex">
+                                        <img
+                                          src={r.profiles?.avatar_url || '/images/default-avatar.png'}
+                                          alt="Avatar"
+                                          className="admin-user-avatar-small"
+                                          onError={(e) => { e.target.src = '/images/default-avatar.png' }}
                                         />
-                                      ))}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <p className="admin-review-comment">{r.comment || <em style={{color:'var(--white-20)'}}>Không có nhận xét</em>}</p>
-                                  </td>
-                                  <td>
-                                    <span className="admin-review-date">{formatDate(r.created_at)}</span>
-                                  </td>
-                                  <td>
-                                    <div className="admin-table__actions" style={{ justifyContent: 'center' }}>
-                                      <button
-                                        className="admin-action-btn admin-action-btn--danger"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleDeleteReview(r.id);
-                                        }}
-                                        title="Xóa đánh giá này"
-                                      >
-                                        <Trash2 size={16} />
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))
-                          )}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
+                                        <div>
+                                          <p className="admin-user-name-bold">{r.profiles?.display_name || 'Khách hàng LHE'}</p>
+                                          <span className="admin-user-email-sub">{r.profiles?.email || 'customer@lhe.vn'}</span>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="admin-product-profile-flex">
+                                        <img
+                                          src={r.products?.image_url || '/images/default-product.png'}
+                                          alt="Product"
+                                          className="admin-product-img-small"
+                                          onError={(e) => { e.target.src = '/images/default-product.png' }}
+                                        />
+                                        <p className="admin-product-name-bold" title={r.products?.name}>{r.products?.name || 'Sản phẩm LHE'}</p>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="admin-rating-stars-flex">
+                                        {[...Array(5)].map((_, i) => (
+                                          <Star
+                                            key={i}
+                                            size={14}
+                                            fill={i < r.rating ? "#F59E0B" : "none"}
+                                            stroke={i < r.rating ? "#F59E0B" : "var(--white-20)"}
+                                          />
+                                        ))}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <p className="admin-review-comment">{r.comment || <em style={{color:'var(--white-20)'}}>Không có nhận xét</em>}</p>
+                                    </td>
+                                    <td>
+                                      <span className="admin-review-date">{formatDate(r.created_at)}</span>
+                                    </td>
+                                    <td>
+                                      <div className="admin-table__actions" style={{ justifyContent: 'center' }}>
+                                        <button
+                                          className="admin-action-btn admin-action-btn--danger"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteReview(r.id);
+                                          }}
+                                          title="Xóa đánh giá này"
+                                        >
+                                          <Trash2 size={16} />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </motion.tr>
+                                ))
+                              )}
+                            </AnimatePresence>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* Phân Trang Premium */}
+                      {totalPages > 1 && (
+                        <div className="admin-pagination-flex">
+                          <button
+                            className="admin-pagination-btn"
+                            onClick={() => setReviewPage(p => Math.max(1, p - 1))}
+                            disabled={reviewPage === 1}
+                          >
+                            Trước
+                          </button>
+                          <div className="admin-pagination-info">
+                            Trang <strong>{reviewPage}</strong> / {totalPages} (Có {filteredReviews.length} đánh giá)
+                          </div>
+                          <button
+                            className="admin-pagination-btn"
+                            onClick={() => setReviewPage(p => Math.min(totalPages, p + 1))}
+                            disabled={reviewPage === totalPages}
+                          >
+                            Sau
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })()}
 
           {/* TAB 6 & 7: UNIMPLEMENTED PLACEHOLDERS */}
           {(activeTab === 'members' || activeTab === 'posts') && (

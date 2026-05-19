@@ -4,13 +4,12 @@ import { authMiddleware, requireRole } from '../middleware/auth.js'
 
 const router = express.Router()
 
-// GET /api/reviews/:productId - Lấy danh sách đánh giá của sản phẩm
-router.get('/:productId', async (req, res) => {
+// 1. GET /api/reviews - Lấy TẤT CẢ đánh giá (Chỉ dành cho Admin) - Đặt lên đầu tiên!
+router.get('/', authMiddleware, requireRole('admin'), async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('reviews')
-      .select('*, profiles(display_name, avatar_url)')
-      .eq('product_id', req.params.productId)
+      .select('*, profiles(display_name, avatar_url), products(id, name, image_url)')
       .order('created_at', { ascending: false })
 
     if (error) throw error
@@ -20,7 +19,7 @@ router.get('/:productId', async (req, res) => {
   }
 })
 
-// GET /api/reviews/:productId/can-review
+// 2. GET /api/reviews/:productId/can-review - Kiểm tra xem user có quyền đánh giá sản phẩm không
 router.get('/:productId/can-review', authMiddleware, async (req, res) => {
   try {
     const { productId } = req.params
@@ -68,7 +67,23 @@ router.get('/:productId/can-review', authMiddleware, async (req, res) => {
   }
 })
 
-// POST /api/reviews
+// 3. GET /api/reviews/:productId - Lấy danh sách đánh giá của một sản phẩm
+router.get('/:productId', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('*, profiles(display_name, avatar_url)')
+      .eq('product_id', req.params.productId)
+      .order('created_at', { ascending: false })
+
+    if (error) throw error
+    res.json(data)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// 4. POST /api/reviews - Tạo đánh giá mới (Người dùng)
 router.post('/', authMiddleware, async (req, res) => {
   try {
     const { product_id, rating, comment } = req.body
@@ -112,27 +127,12 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 })
 
-// GET /api/reviews - Lấy TẤT CẢ đánh giá (Chỉ dành cho Admin)
-router.get('/', authMiddleware, requireRole('admin'), async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from('reviews')
-      .select('*, profiles(display_name, avatar_url, email), products(id, name, image_url)')
-      .order('created_at', { ascending: false })
-
-    if (error) throw error
-    res.json(data)
-  } catch (error) {
-    res.status(500).json({ error: error.message })
-  }
-})
-
-// DELETE /api/reviews/:id - Xóa một đánh giá (Chỉ dành cho Admin)
+// 5. DELETE /api/reviews/:id - Xóa một đánh giá (Chỉ dành cho Admin)
 router.delete('/:id', authMiddleware, requireRole('admin'), async (req, res) => {
   try {
     const { id } = req.params
 
-    // 1. Lấy thông tin review trước khi xóa để biết product_id
+    // Lấy thông tin review trước khi xóa để biết product_id
     const { data: review, error: getError } = await supabase
       .from('reviews')
       .select('product_id')
@@ -144,7 +144,7 @@ router.delete('/:id', authMiddleware, requireRole('admin'), async (req, res) => 
       return res.status(404).json({ error: 'Không tìm thấy đánh giá cần xóa.' })
     }
 
-    // 2. Thực hiện xóa đánh giá
+    // Thực hiện xóa đánh giá
     const { error: deleteError } = await supabase
       .from('reviews')
       .delete()
@@ -152,7 +152,7 @@ router.delete('/:id', authMiddleware, requireRole('admin'), async (req, res) => 
 
     if (deleteError) throw deleteError
 
-    // 3. Tính toán lại rating trung bình cho sản phẩm
+    // Tính toán lại rating trung bình cho sản phẩm
     const { data: allReviews, error: reviewsError } = await supabase
       .from('reviews')
       .select('rating')

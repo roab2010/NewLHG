@@ -56,10 +56,50 @@ function timeAgo(dateString) {
   return `${Math.floor(months / 12)} năm trước`
 }
 
+// Global unlocked AudioContext helper to bypass browser autoplay restrictions
+let globalAudioCtx = null;
+
+const initAudioContext = () => {
+  if (globalAudioCtx) return;
+  try {
+    globalAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  } catch (e) {
+    console.warn('[NotificationBell] Failed to create AudioContext:', e);
+  }
+};
+
+// Listen for first user interaction to unlock audio
+if (typeof window !== 'undefined') {
+  const unlockAudio = () => {
+    initAudioContext();
+    if (globalAudioCtx && globalAudioCtx.state === 'suspended') {
+      globalAudioCtx.resume().then(() => {
+        // Gỡ bỏ listeners sau khi đã unlock thành công
+        window.removeEventListener('click', unlockAudio);
+        window.removeEventListener('keydown', unlockAudio);
+        window.removeEventListener('touchstart', unlockAudio);
+      }).catch(err => console.warn('Failed to resume AudioContext:', err));
+    } else if (globalAudioCtx) {
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+    }
+  };
+  window.addEventListener('click', unlockAudio);
+  window.addEventListener('keydown', unlockAudio);
+  window.addEventListener('touchstart', unlockAudio);
+}
+
 // Play notification sound using Web Audio API (Double ping)
 const playNotificationSound = () => {
   try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    initAudioContext();
+    const audioCtx = globalAudioCtx;
+    if (!audioCtx) return;
+
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
     
     // Note 1: D5 (587.33Hz), duration 0.08s
     const osc1 = audioCtx.createOscillator();
@@ -76,6 +116,7 @@ const playNotificationSound = () => {
     // Note 2: A5 (880Hz), delayed by 0.08s, duration 0.25s
     setTimeout(() => {
       try {
+        if (audioCtx.state === 'suspended') return;
         const osc2 = audioCtx.createOscillator();
         const gain2 = audioCtx.createGain();
         osc2.type = 'sine';
