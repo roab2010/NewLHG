@@ -941,10 +941,9 @@ export default function Admin() {
               if (reviewSearchQuery.trim() !== '') {
                 const q = reviewSearchQuery.toLowerCase();
                 const userName = r.profiles?.display_name?.toLowerCase() || '';
-                const userEmail = r.profiles?.email?.toLowerCase() || '';
                 const productName = r.products?.name?.toLowerCase() || '';
                 const comment = r.comment?.toLowerCase() || '';
-                return userName.includes(q) || userEmail.includes(q) || productName.includes(q) || comment.includes(q);
+                return userName.includes(q) || productName.includes(q) || comment.includes(q);
               }
               return true;
             });
@@ -1082,15 +1081,8 @@ export default function Admin() {
                                   >
                                     <td>
                                       <div className="admin-user-profile-flex">
-                                        <img
-                                          src={r.profiles?.avatar_url || '/images/default-avatar.png'}
-                                          alt="Avatar"
-                                          className="admin-user-avatar-small"
-                                          onError={(e) => { e.target.src = '/images/default-avatar.png' }}
-                                        />
                                         <div>
                                           <p className="admin-user-name-bold">{r.profiles?.display_name || 'Khách hàng LHE'}</p>
-                                          <span className="admin-user-email-sub">{r.profiles?.email || 'customer@lhe.vn'}</span>
                                         </div>
                                       </div>
                                     </td>
