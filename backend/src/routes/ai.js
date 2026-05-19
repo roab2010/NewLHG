@@ -170,9 +170,9 @@ QUY TẮC PHẢN HỒI:
 3. Hỗ trợ hiển thị Markdown đẹp mắt để tô đậm các thông tin quan trọng.
 `
 
-    // Sử dụng model gemini-1.5-flash cho tốc độ siêu nhanh
+    // Sử dụng model gemini-2.5-flash thế hệ mới cực kỳ thông minh và nhanh
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
       systemInstruction: systemInstruction,
     })
 
