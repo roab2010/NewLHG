@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, Package, ShoppingBag, Users, FileText,
   Plus, Edit2, Trash2, Eye, DollarSign, UserCheck, Upload,
-  Ticket, Calendar, Tag, AlertCircle, CheckCircle2, RefreshCw, Star
+  Ticket, Calendar, Tag, AlertCircle, CheckCircle2, RefreshCw, Star, Cpu
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
@@ -28,6 +28,7 @@ const sidebarItems = [
   { key: 'reviews', label: 'Đánh Giá', icon: <Star size={20} /> },
   { key: 'members', label: 'Thành Viên', icon: <UserCheck size={20} /> },
   { key: 'posts', label: 'Bài Viết', icon: <FileText size={20} /> },
+  { key: 'ai', label: 'Huấn Luyện AI', icon: <Cpu size={20} /> },
 ]
 
 const formatPrice = (price) => {
@@ -85,6 +86,16 @@ export default function Admin() {
   const [reviewSearchQuery, setReviewSearchQuery] = useState('')
   const [reviewPage, setReviewPage] = useState(1)
   const reviewsPerPage = 8
+
+  // AI Config States
+  const [aiConfig, setAiConfig] = useState({
+    is_enabled: true,
+    bot_name: 'LHE Assistant',
+    welcome_message: '',
+    system_prompt: ''
+  })
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiSaving, setAiSaving] = useState(false)
 
   // Modal States
   const [productModal, setProductModal] = useState({ isOpen: false, data: null })
@@ -223,6 +234,61 @@ export default function Admin() {
     }
     loadReviewsData()
   }, [profile, activeTab, token])
+
+  // Load AI Configuration
+  useEffect(() => {
+    async function loadAIConfig() {
+      if (profile?.role !== 'admin' || activeTab !== 'ai' || !token) return
+      setAiLoading(true)
+      try {
+        const res = await fetch(`${API_URL}/ai/admin-config`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setAiConfig(data)
+        } else {
+          throw new Error('Không thể tải cấu hình AI')
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải cấu hình AI:', err)
+        setAlertDialog({ isOpen: true, message: 'Lỗi khi tải cấu hình trợ lý ảo AI!' })
+      } finally {
+        setAiLoading(false)
+      }
+    }
+    loadAIConfig()
+  }, [profile, activeTab, token])
+
+  // Save AI Configuration
+  const handleSaveAIConfig = async (e) => {
+    e.preventDefault()
+    setAiSaving(true)
+    try {
+      const res = await fetch(`${API_URL}/ai/admin-config`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(aiConfig)
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        setAiConfig(data.config)
+        setAlertDialog({ isOpen: true, message: 'Đã cập nhật cấu hình huấn luyện AI thành công!' })
+      } else {
+        const errData = await res.json()
+        throw new Error(errData.error || 'Không thể cập nhật cấu hình AI')
+      }
+    } catch (err) {
+      console.error('Lỗi khi lưu cấu hình AI:', err)
+      setAlertDialog({ isOpen: true, message: err.message || 'Lỗi khi cập nhật cấu hình AI!' })
+    } finally {
+      setAiSaving(false)
+    }
+  }
 
   // Reset page when filters change
   useEffect(() => {
@@ -1165,6 +1231,120 @@ export default function Admin() {
               </motion.div>
             );
           })()}
+
+          {/* TAB: AI CONFIGURATION */}
+          {activeTab === 'ai' && (
+            <motion.div
+              key="ai-config"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="admin-section glass-card">
+                <div className="admin-section-header">
+                  <h2>Huấn Luyện Trợ Lý Ảo AI</h2>
+                  <p className="admin-section-subtitle" style={{ color: 'var(--white-45)', fontSize: '13px', marginTop: '4px' }}>
+                    Cấu hình và huấn luyện chatbot tự động Gemini tư vấn bán hàng thời gian thực.
+                  </p>
+                </div>
+
+                {aiLoading ? (
+                  <div className="admin-loading-spinner-wrapper" style={{ padding: '40px' }}>
+                    <RefreshCw className="loading-spinner" size={24} />
+                    <p>Đang tải cấu hình huấn luyện AI...</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSaveAIConfig} className="admin-ai-config-form">
+                    <div className="admin-form-group">
+                      <label className="admin-switch-container">
+                        <span className="admin-label-bold">Trạng thái hoạt động AI Chatbot</span>
+                        <div className="admin-switch-wrapper">
+                          <input
+                            type="checkbox"
+                            checked={aiConfig.is_enabled !== false}
+                            onChange={(e) => setAiConfig({ ...aiConfig, is_enabled: e.target.checked })}
+                          />
+                          <div className="admin-switch-slider"></div>
+                        </div>
+                      </label>
+                      <p className="admin-form-hint" style={{ marginTop: '4px' }}>
+                        Bật hoặc tắt con AI trả lời khách hàng ở góc dưới trang web của User.
+                      </p>
+                    </div>
+
+                    <div className="admin-form-row">
+                      <div className="admin-form-group">
+                        <label className="admin-label-bold">Tên hiển thị của Bot</label>
+                        <input
+                          type="text"
+                          required
+                          value={aiConfig.bot_name || ''}
+                          onChange={(e) => setAiConfig({ ...aiConfig, bot_name: e.target.value })}
+                          placeholder="Ví dụ: LHE Assistant"
+                        />
+                        <p className="admin-form-hint">Tên của Bot khi trò chuyện với khách hàng.</p>
+                      </div>
+
+                      <div className="admin-form-group">
+                        <label className="admin-label-bold">Lời chào mặc định khi mở chat</label>
+                        <input
+                          type="text"
+                          required
+                          value={aiConfig.welcome_message || ''}
+                          onChange={(e) => setAiConfig({ ...aiConfig, welcome_message: e.target.value })}
+                          placeholder="Nhập lời chào..."
+                        />
+                        <p className="admin-form-hint">
+                          Tin nhắn đầu tiên hiển thị ngay khi khách hàng click vào bong bóng chat.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="admin-form-group">
+                      <label className="admin-label-bold">Bản Hướng Dẫn Huấn Luyện AI (System Instruction)</label>
+                      <textarea
+                        required
+                        rows={10}
+                        value={aiConfig.system_prompt || ''}
+                        onChange={(e) => setAiConfig({ ...aiConfig, system_prompt: e.target.value })}
+                        placeholder="Hãy viết các nguyên tắc, tính cách, luật lệ hoặc thông tin lịch sử của đội tuyển..."
+                        className="admin-textarea-prompt"
+                        style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--white-10)', borderRadius: '8px', color: '#fff', fontSize: '13.5px', lineHeight: '1.6', outline: 'none', resize: 'vertical' }}
+                      />
+                      <div className="admin-ai-prompt-tips" style={{ marginTop: '12px', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.04)' }}>
+                        <h5 style={{ color: 'var(--accent)', fontSize: '13px', fontWeight: '600', marginBottom: '8px' }}>💡 Mẹo viết Hướng Dẫn Huấn Luyện (Prompt) hiệu quả:</h5>
+                        <ul style={{ paddingLeft: '16px', listStyleType: 'disc', color: 'var(--white-60)', fontSize: '12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <li><strong>Tính cách:</strong> Xác định rõ tính cách trợ lý (Ví dụ: Thân thiện, vui vẻ, năng nổ, thích Esport).</li>
+                          <li><strong>Luật trả lời:</strong> Yêu cầu AI luôn thêm các icon liên quan đến game, giải đấu (🎮🔥🏆).</li>
+                          <li><strong>Kiến thức thêm:</strong> Cung cấp lịch sử của Long Hải Esports, danh sách thành viên chủ chốt (Hoàng Hữu Nhân - Scout, Lâm Quốc Bảo - Rifler,...).</li>
+                          <li><strong>Quy tắc bán hàng:</strong> Dặn AI khéo léo lái câu hỏi của khách hàng để khuyến khích mua Áo Jersey LHE 2026 hoặc Vòng tay LHE.</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="admin-ai-submit-bar" style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                      <button
+                        type="submit"
+                        disabled={aiSaving}
+                        className="admin-btn-accent-glow"
+                        style={{ padding: '10px 24px', background: 'linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13.5px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(0, 180, 216, 0.25)' }}
+                      >
+                        {aiSaving ? (
+                          <>
+                            <RefreshCw className="loading-spinner" size={16} style={{ marginRight: '8px', animation: 'spin 1.5s linear infinite' }} />
+                            Đang Lưu Cấu Hình...
+                          </>
+                        ) : (
+                          'Cập Nhật Bản Huấn Luyện'
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </motion.div>
+          )}
 
           {/* TAB 6 & 7: UNIMPLEMENTED PLACEHOLDERS */}
           {(activeTab === 'members' || activeTab === 'posts') && (

@@ -17,6 +17,7 @@ import reviewRoutes from './routes/reviews.js'
 import couponsRoutes from './routes/coupons.js'
 import notificationsRoutes from './routes/notifications.js'
 import analyticsRoutes from './routes/analytics.js'
+import aiRoutes from './routes/ai.js'
 
 dotenv.config()
 
@@ -62,6 +63,7 @@ app.use('/api/reviews', reviewRoutes)
 app.use('/api/coupons', couponsRoutes)
 app.use('/api/notifications', notificationsRoutes)
 app.use('/api/admin/analytics', analyticsRoutes)
+app.use('/api/ai', aiRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {

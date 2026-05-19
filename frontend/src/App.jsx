@@ -16,6 +16,7 @@ import ProductDetail from './pages/Shop/ProductDetail'
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 import ResetPassword from './pages/ResetPassword/ResetPassword'
 import { AuthProvider, useAuth } from './context/AuthContext'
+import AIChatWidget from './components/AIChatWidget/AIChatWidget'
 import './App.css'
 
 function ProtectedRoute({ children, requiredRole }) {
@@ -94,6 +95,7 @@ function AppContent() {
           </Routes>
         </main>
         <Footer />
+        <AIChatWidget />
       </div>
     </Router>
   )

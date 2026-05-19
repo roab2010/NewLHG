@@ -461,7 +461,7 @@
 .floating-cart-btn {
   position: fixed;
   bottom: 30px;
-  right: 30px;
+  left: 30px; /* Di chuyển sang góc dưới bên trái theo yêu cầu của anh Bảo */
   width: 60px;
   height: 60px;
   background: var(--gradient-primary);
@@ -502,3 +502,15 @@
 .toast-icon.success {
   color: #4ade80;
 }
+
+/* Mobile styles for floating cart button */
+@media (max-width: 768px) {
+  .floating-cart-btn {
+    bottom: 24px;
+    left: 24px;
+    width: 52px;
+    height: 52px;
+    box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4);
+  }
+}
+
