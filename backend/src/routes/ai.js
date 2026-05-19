@@ -42,6 +42,79 @@ function writeAIConfig(config) {
   }
 }
 
+// Helper to read CS2/CS:GO stats
+function readCS2Stats() {
+  try {
+    const cs2Path = path.join(__dirname, '../../data/cs2stats.json')
+    if (fs.existsSync(cs2Path)) {
+      const data = fs.readFileSync(cs2Path, 'utf8')
+      return JSON.parse(data)
+    }
+  } catch (err) {
+    console.error('Error reading CS2 stats for AI:', err)
+  }
+  return null
+}
+
+// Helper to read LoL stats
+function readLoLStats() {
+  try {
+    const lolPath = path.join(__dirname, '../../data/lolstats.json')
+    if (fs.existsSync(lolPath)) {
+      const data = fs.readFileSync(lolPath, 'utf8')
+      return JSON.parse(data)
+    }
+  } catch (err) {
+    console.error('Error reading LOL stats for AI:', err)
+  }
+  return null
+}
+
+// Helper to fetch YouTube Live History via RSS
+async function fetchLiveHistory() {
+  const channelId = 'UCPmpK4CnfdeRWQGUvYeLGsQ'
+  const url = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`
+  
+  // Tệp fallback tĩnh cho các highlight video của LHE và livestream cũ nếu API bị lỗi/chậm
+  const fallbackVideos = [
+    { id: 'fGs9yj6Vr7o', title: 'Highlight Long Hải Esports 1', link: 'https://www.youtube.com/watch?v=fGs9yj6Vr7o', pubDate: '15/05/2026' },
+    { id: 'jJ4DN6GMyGM', title: 'Highlight Long Hải Esports 2', link: 'https://www.youtube.com/watch?v=jJ4DN6GMyGM', pubDate: '14/05/2026' },
+    { id: 'p7i_zmTuc2o', title: 'Highlight Long Hải Esports 3', link: 'https://www.youtube.com/watch?v=p7i_zmTuc2o', pubDate: '13/05/2026' },
+    { id: '3zNgnGxZcOI', title: 'Highlight Long Hải Esports 4', link: 'https://www.youtube.com/watch?v=3zNgnGxZcOI', pubDate: '12/05/2026' }
+  ]
+
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 1800) // Timeout 1.8s tránh nghẽn chat API
+
+  try {
+    const response = await fetch(url, { signal: controller.signal })
+    clearTimeout(timeoutId)
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+    const data = await response.json()
+    
+    if (data.status === 'ok' && data.items && data.items.length > 0) {
+      return data.items.map(item => {
+        let videoId = ''
+        if (item.link && item.link.includes('v=')) {
+          videoId = item.link.split('v=')[1]
+        } else if (item.guid && item.guid.includes('video:')) {
+          videoId = item.guid.split('video:')[1]
+        }
+        return {
+          id: videoId,
+          title: item.title,
+          link: item.link || `https://www.youtube.com/watch?v=${videoId}`,
+          pubDate: new Date(item.pubDate).toLocaleDateString('vi-VN')
+        }
+      })
+    }
+  } catch (err) {
+    clearTimeout(timeoutId)
+    console.warn('[Gemini AI] Error or timeout fetching YouTube Live History, using fallback:', err.message)
+  }
+  return fallbackVideos
+}
+
 // 1. GET /api/ai/config - Lấy cấu hình công khai (Tên bot, Lời chào, Bật/Tắt) cho User
 router.get('/config', async (req, res) => {
   const config = readAIConfig()
@@ -111,6 +184,13 @@ router.post('/chat', async (req, res) => {
       .select('name, price, description, category, stock, rating')
       .eq('is_active', true)
 
+        // 2.1. Đọc dữ liệu CS2 & LOL stats real-time từ file JSON local của web
+    const cs2Stats = readCS2Stats()
+    const lolStats = readLoLStats()
+
+    // 2.2. Lấy dữ liệu YouTube Live History thời gian thực
+    const liveHistory = await fetchLiveHistory()
+
     // 3. Tra cứu thông tin User & Đơn hàng nếu có token (Auth Header)
     let userContext = ''
     const authHeader = req.headers.authorization
@@ -161,6 +241,26 @@ ${JSON.stringify(products, null, 2)}
 Lưu ý về sản phẩm:
 - Giá sản phẩm là VNĐ. Hãy viết rõ ràng dạng 450.000đ thay vì số thô.
 - Hãy khuyên khích khách hàng mua hàng bằng cách dẫn link hoặc hướng dẫn họ vào tab "CỬA HÀNG" ở thanh điều hướng trên cùng.
+
+${cs2Stats ? `
+DƯỚI ĐÂY LÀ BẢNG XẾP HẠNG VÀ THÔNG SỐ CS2 (CS:GO) REAL-TIME CỦA CÁC THÀNH VIÊN LONG HẢI ESPORTS (Hãy dùng dữ liệu thực tế này để trả lời chính xác khi khách hỏi về rank, điểm số, K/D, rating...):
+- Ngày cập nhật cuối: ${cs2Stats.lastUpdated}
+- Danh sách người chơi CS2:
+${(cs2Stats.players || []).map(p => `- ${p.realName} (Tên ingame: ${p.playerName || p.nickname}) | Rank/Rating CS2: ${p.currentRank || 'Chưa xếp hạng'} | K/D: ${p.kd} | Rating: ${p.rating} | Tỉ lệ thắng: ${p.winRate}% | Tỉ lệ Headshot: ${p.hsPercent}% | ADR: ${p.adr} | Trận đã chơi: ${p.played} | Kills: ${p.kills} | Deaths: ${p.deaths}`).join('\n')}
+` : ''}
+
+${lolStats ? `
+DƯỚI ĐÂY LÀ BẢNG XẾP HẠNG VÀ THÔNG SỐ LIÊN MINH HUYỀN THOẠI (LOL) REAL-TIME CỦA CÁC THÀNH VIÊN LONG HẢI ESPORTS:
+- Danh sách người chơi LOL:
+${lolStats.map(p => `- Tên tài khoản LOL: ${p.nickname}#${p.tag} | Hạng Đơn/Đôi: ${p.soloRank} (${p.soloLP}) | Tỉ lệ thắng Solo: ${p.soloWinRate} | Hạng Linh Hoạt: ${p.flexRank} (${p.flexLP}) | Tỉ lệ thắng Flex: ${p.flexWinRate} | KDA: ${p.kda} | Trận đã chơi: ${p.matchesPlayed}`).join('\n')}
+` : ''}
+
+${liveHistory && liveHistory.length > 0 ? `
+DƯỚI ĐÂY LÀ DANH SÁCH CÁC LIVESTREAM VÀ VIDEO HIGHLIGHT MỚI NHẤT TỪ KÊNH YOUTUBE CỦA LONG HẢI ESPORTS (Hãy dùng thông tin này để giới thiệu, cung cấp link xem lại livestream/highlight chính xác cho khách hàng khi họ hỏi về clip, video, highlight, livestream cũ hoặc livestream gần đây):
+- Kênh livestream/video chính thức: https://www.youtube.com/@sae.1405/streams
+- Danh sách video/livestream gần đây nhất (hãy dẫn link khi họ hỏi):
+${liveHistory.map(v => `- Tiêu đề: "${v.title}" | Ngày phát: ${v.pubDate} | Link xem: ${v.link}`).join('\n')}
+` : ''}
 
 ${userContext}
 
