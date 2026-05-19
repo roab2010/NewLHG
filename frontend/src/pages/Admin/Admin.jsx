@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, Package, ShoppingBag, Users, FileText,
   Plus, Edit2, Trash2, Eye, DollarSign, UserCheck, Upload,
-  Ticket, Calendar, Tag, AlertCircle, CheckCircle2, RefreshCw, Star, Cpu
+  Ticket, Calendar, Tag, AlertCircle, CheckCircle2, RefreshCw, Star, Cpu, Terminal, Sparkles, Save
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
@@ -1236,87 +1236,124 @@ export default function Admin() {
                   </div>
                 ) : (
                   <form onSubmit={handleSaveAIConfig} className="admin-ai-config-form">
-                    <div className="admin-form-group">
-                      <label className="admin-switch-container">
-                        <span className="admin-label-bold">Trạng thái hoạt động AI Chatbot</span>
-                        <div className="admin-switch-wrapper">
-                          <input
-                            type="checkbox"
-                            checked={aiConfig.is_enabled !== false}
-                            onChange={(e) => setAiConfig({ ...aiConfig, is_enabled: e.target.checked })}
-                          />
-                          <div className="admin-switch-slider"></div>
+                    {/* Card 1: Cấu hình Nhận diện & Trạng thái */}
+                    <div className="admin-ai-card">
+                      <div className="admin-ai-card-title">
+                        <Cpu size={18} />
+                        <span>Cấu Hình Nhận Diện & Trạng Thái</span>
+                      </div>
+                      
+                      <div className="admin-ai-input-group">
+                        <label className="admin-switch-container">
+                          <span>Kích hoạt trợ lý ảo AI Chatbot</span>
+                          <div className="admin-switch-wrapper">
+                            <input
+                              type="checkbox"
+                              checked={aiConfig.is_enabled !== false}
+                              onChange={(e) => setAiConfig({ ...aiConfig, is_enabled: e.target.checked })}
+                            />
+                            <div className="admin-switch-slider"></div>
+                          </div>
+                        </label>
+                        <div className="admin-ai-input-hint">
+                          Bật hoặc tắt con AI tự động trả lời khách hàng ở góc dưới trang web của User.
                         </div>
-                      </label>
-                      <p className="admin-form-hint" style={{ marginTop: '4px' }}>
-                        Bật hoặc tắt con AI trả lời khách hàng ở góc dưới trang web của User.
-                      </p>
+                      </div>
+
+                      <div className="admin-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px' }}>
+                        <div className="admin-ai-input-group">
+                          <label>Tên hiển thị của Bot</label>
+                          <input
+                            type="text"
+                            required
+                            value={aiConfig.bot_name || ''}
+                            onChange={(e) => setAiConfig({ ...aiConfig, bot_name: e.target.value })}
+                            placeholder="Ví dụ: LHE Assistant"
+                          />
+                          <div className="admin-ai-input-hint">Tên của Bot khi trò chuyện với khách hàng.</div>
+                        </div>
+
+                        <div className="admin-ai-input-group">
+                          <label>Lời chào mặc định khi mở chat</label>
+                          <input
+                            type="text"
+                            required
+                            value={aiConfig.welcome_message || ''}
+                            onChange={(e) => setAiConfig({ ...aiConfig, welcome_message: e.target.value })}
+                            placeholder="Nhập lời chào..."
+                          />
+                          <div className="admin-ai-input-hint">
+                            Tin nhắn đầu tiên hiển thị ngay khi khách hàng click vào bong bóng chat.
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="admin-form-row">
-                      <div className="admin-form-group">
-                        <label className="admin-label-bold">Tên hiển thị của Bot</label>
-                        <input
-                          type="text"
+                    {/* Card 2: Chỉ Thị Huấn Luyện AI (System Instruction) */}
+                    <div className="admin-ai-card">
+                      <div className="admin-ai-card-title">
+                        <Terminal size={18} />
+                        <span>Chỉ Thị Huấn Luyện (System Instruction)</span>
+                      </div>
+
+                      <div className="admin-ai-input-group">
+                        <label>Nội dung huấn luyện AI</label>
+                        <textarea
                           required
-                          value={aiConfig.bot_name || ''}
-                          onChange={(e) => setAiConfig({ ...aiConfig, bot_name: e.target.value })}
-                          placeholder="Ví dụ: LHE Assistant"
+                          rows={12}
+                          value={aiConfig.system_prompt || ''}
+                          onChange={(e) => setAiConfig({ ...aiConfig, system_prompt: e.target.value })}
+                          placeholder="Hãy viết các nguyên tắc, tính cách, luật lệ hoặc thông tin lịch sử của đội tuyển..."
+                          className="admin-textarea-prompt"
                         />
-                        <p className="admin-form-hint">Tên của Bot khi trò chuyện với khách hàng.</p>
+                        <div className="admin-ai-input-hint">
+                          💡 <strong>Mẹo của LHE</strong>: Hãy nhấn Enter xuống dòng và viết tiếp các hướng dẫn huấn luyện mới của anh vào cuối ô này, không cần xóa các dòng cũ đi!
+                        </div>
                       </div>
 
-                      <div className="admin-form-group">
-                        <label className="admin-label-bold">Lời chào mặc định khi mở chat</label>
-                        <input
-                          type="text"
-                          required
-                          value={aiConfig.welcome_message || ''}
-                          onChange={(e) => setAiConfig({ ...aiConfig, welcome_message: e.target.value })}
-                          placeholder="Nhập lời chào..."
-                        />
-                        <p className="admin-form-hint">
-                          Tin nhắn đầu tiên hiển thị ngay khi khách hàng click vào bong bóng chat.
-                        </p>
+                      <div className="admin-ai-tips-card">
+                        <div className="admin-ai-tips-title">
+                          <Sparkles size={16} />
+                          <span>💡 Cẩm nang huấn luyện Prompt hiệu quả</span>
+                        </div>
+                        <div className="admin-ai-tips-list">
+                          <div className="admin-ai-tips-item">
+                            <strong>🎭 Tính cách trợ lý</strong>
+                            Xác định rõ tính cách (Ví dụ: Thân thiện, vui vẻ, năng nổ, chuyên nghiệp và thích Esport).
+                          </div>
+                          <div className="admin-ai-tips-item">
+                            <strong>🎮 Quy tắc trả lời</strong>
+                            Yêu cầu AI luôn thêm các icon liên quan đến game, giải đấu như 🎮, 🔥, 🏆 để tạo sinh động.
+                          </div>
+                          <div className="admin-ai-tips-item">
+                            <strong>📚 Kiến thức nội bộ</strong>
+                            Cung cấp lịch sử của Long Hải Esports, danh sách thành viên chủ chốt (Hoàng Hữu Nhân - Scout, Lâm Quốc Bảo - Rifler,...).
+                          </div>
+                          <div className="admin-ai-tips-item">
+                            <strong>💰 Kịch bản bán hàng</strong>
+                            Dặn AI khéo léo lái câu hỏi của khách hàng để khuyến khích mua Áo Jersey LHE 2026 hoặc Vòng tay LHE.
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="admin-form-group">
-                      <label className="admin-label-bold">Bản Hướng Dẫn Huấn Luyện AI (System Instruction)</label>
-                      <textarea
-                        required
-                        rows={10}
-                        value={aiConfig.system_prompt || ''}
-                        onChange={(e) => setAiConfig({ ...aiConfig, system_prompt: e.target.value })}
-                        placeholder="Hãy viết các nguyên tắc, tính cách, luật lệ hoặc thông tin lịch sử của đội tuyển..."
-                        className="admin-textarea-prompt"
-                        style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--white-10)', borderRadius: '8px', color: '#fff', fontSize: '13.5px', lineHeight: '1.6', outline: 'none', resize: 'vertical' }}
-                      />
-                      <div className="admin-ai-prompt-tips" style={{ marginTop: '12px', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.04)' }}>
-                        <h5 style={{ color: 'var(--accent)', fontSize: '13px', fontWeight: '600', marginBottom: '8px' }}>💡 Mẹo viết Hướng Dẫn Huấn Luyện (Prompt) hiệu quả:</h5>
-                        <ul style={{ paddingLeft: '16px', listStyleType: 'disc', color: 'var(--white-60)', fontSize: '12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                          <li><strong>Tính cách:</strong> Xác định rõ tính cách trợ lý (Ví dụ: Thân thiện, vui vẻ, năng nổ, thích Esport).</li>
-                          <li><strong>Luật trả lời:</strong> Yêu cầu AI luôn thêm các icon liên quan đến game, giải đấu (🎮🔥🏆).</li>
-                          <li><strong>Kiến thức thêm:</strong> Cung cấp lịch sử của Long Hải Esports, danh sách thành viên chủ chốt (Hoàng Hữu Nhân - Scout, Lâm Quốc Bảo - Rifler,...).</li>
-                          <li><strong>Quy tắc bán hàng:</strong> Dặn AI khéo léo lái câu hỏi của khách hàng để khuyến khích mua Áo Jersey LHE 2026 hoặc Vòng tay LHE.</li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="admin-ai-submit-bar" style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                    {/* Submit Button */}
+                    <div className="admin-ai-submit-bar">
                       <button
                         type="submit"
                         disabled={aiSaving}
-                        className="admin-btn-accent-glow"
-                        style={{ padding: '10px 24px', background: 'linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13.5px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(0, 180, 216, 0.25)' }}
+                        className="admin-btn-save-ai"
                       >
                         {aiSaving ? (
                           <>
-                            <RefreshCw className="loading-spinner" size={16} style={{ marginRight: '8px', animation: 'spin 1.5s linear infinite' }} />
-                            Đang Lưu Cấu Hình...
+                            <RefreshCw className="loading-spinner" size={16} style={{ animation: 'spin 1.5s linear infinite' }} />
+                            Đang lưu cấu hình huấn luyện...
                           </>
                         ) : (
-                          'Cập Nhật Bản Huấn Luyện'
+                          <>
+                            <Save size={16} />
+                            Cập Nhật Bản Huấn Luyện
+                          </>
                         )}
                       </button>
                     </div>
