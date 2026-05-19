@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowLeft, CheckCircle2, Package, MapPin, Phone, User as UserIcon } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Package, MapPin, Phone, User as UserIcon, X } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
+import { validateCoupon } from '../../services/api'
 import { sendTelegramMessage } from '../../services/telegram'
 import './Checkout.css'
 
 export default function Checkout() {
   const navigate = useNavigate()
-  const { user, profile, isAuthenticated } = useAuth()
+  const { user, profile, isAuthenticated, token } = useAuth()
   const [cart, setCart] = useState([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [alertDialog, setAlertDialog] = useState({ isOpen: false, message: '', type: 'error' })
+  const [couponCode, setCouponCode] = useState('')
+  const [couponApplied, setCouponApplied] = useState(null)
+  const [couponError, setCouponError] = useState('')
+  const [couponLoading, setCouponLoading] = useState(false)
   
   const [formData, setFormData] = useState({
     name: profile?.display_name || '',
@@ -57,6 +62,8 @@ export default function Checkout() {
   }, [isAuthenticated, user?.id, navigate, profile])
 
   const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const discountAmount = couponApplied ? Math.round(cartTotal * couponApplied.discount_percent / 100) : 0
+  const finalTotal = cartTotal - discountAmount
   
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)
@@ -64,6 +71,28 @@ export default function Checkout() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return
+    setCouponLoading(true)
+    setCouponError('')
+    try {
+      const data = await validateCoupon(couponCode, token)
+      setCouponApplied(data)
+      setCouponError('')
+    } catch (err) {
+      setCouponError(err.message)
+      setCouponApplied(null)
+    } finally {
+      setCouponLoading(false)
+    }
+  }
+
+  const handleRemoveCoupon = () => {
+    setCouponApplied(null)
+    setCouponCode('')
+    setCouponError('')
   }
 
   const handleSubmit = async (e) => {
@@ -76,11 +105,13 @@ export default function Checkout() {
         .from('orders')
         .insert({
           user_id: user.id,
-          total_amount: cartTotal,
+          total_amount: finalTotal,
           status: 'pending',
           shipping_address: formData.address,
           phone: formData.phone,
-          notes: formData.notes
+          notes: formData.notes,
+          coupon_id: couponApplied?.id || null,
+          discount_amount: discountAmount
         })
         .select()
         .single()
@@ -101,6 +132,15 @@ export default function Checkout() {
 
       if (itemsError) throw itemsError
 
+      // 3. Ghi nhận sử dụng mã giảm giá
+      if (couponApplied) {
+        await supabase.from('coupon_usage').insert({
+          coupon_id: couponApplied.id,
+          user_id: user.id,
+          order_id: orderData.id,
+        })
+      }
+
       // 4. Gửi thông báo Telegram
       const orderMsg = `
 <b>🛍 ĐƠN HÀNG MỚI!</b>
@@ -108,7 +148,9 @@ export default function Checkout() {
 <b>Khách hàng:</b> ${formData.name}
 <b>SĐT:</b> ${formData.phone}
 <b>Địa chỉ:</b> ${formData.address}
-<b>Tổng tiền:</b> ${formatPrice(cartTotal)}
+${couponApplied ? `<b>Mã giảm giá:</b> ${couponApplied.code} (-${couponApplied.discount_percent}%)
+<b>Giảm:</b> ${formatPrice(discountAmount)}
+` : ''}<b>Tổng tiền:</b> ${formatPrice(finalTotal)}
 ------------------------
 <b>Sản phẩm:</b>
 ${cart.map(item => `- ${item.name} (x${item.quantity})`).join('\n')}
@@ -262,18 +304,51 @@ ${formData.notes ? `<b>Ghi chú:</b> ${formData.notes}` : ''}
               ))}
             </div>
 
+            {/* Mã giảm giá */}
+            <div className="checkout__coupon">
+              <h3>Mã giảm giá</h3>
+              <div className="checkout__coupon-input">
+                <input
+                  type="text"
+                  placeholder="Nhập mã giảm giá"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                  disabled={!!couponApplied}
+                />
+                {couponApplied ? (
+                  <button type="button" className="btn btn-ghost" onClick={handleRemoveCoupon}>Hủy</button>
+                ) : (
+                  <button type="button" className="btn btn-primary" onClick={handleApplyCoupon} disabled={couponLoading}>
+                    {couponLoading ? 'Đang kiểm tra...' : 'Áp dụng'}
+                  </button>
+                )}
+              </div>
+              {couponError && <p className="checkout__coupon-error">{couponError}</p>}
+              {couponApplied && (
+                <p className="checkout__coupon-success">
+                  ✅ Đã áp dụng mã <strong>{couponApplied.code}</strong> — Giảm {couponApplied.discount_percent}%
+                </p>
+              )}
+            </div>
+
             <div className="checkout-totals">
               <div className="checkout-row">
                 <span>Tạm tính</span>
                 <span>{formatPrice(cartTotal)}</span>
               </div>
+              {discountAmount > 0 && (
+                <div className="checkout-row checkout-row--discount">
+                  <span>Giảm giá ({couponApplied.discount_percent}%)</span>
+                  <span>-{formatPrice(discountAmount)}</span>
+                </div>
+              )}
               <div className="checkout-row">
                 <span>Phí giao hàng</span>
                 <span>Miễn phí</span>
               </div>
               <div className="checkout-row checkout-final">
                 <span>Tổng cộng</span>
-                <span className="checkout-final-price">{formatPrice(cartTotal)}</span>
+                <span className="checkout-final-price">{formatPrice(finalTotal)}</span>
               </div>
             </div>
           </div>

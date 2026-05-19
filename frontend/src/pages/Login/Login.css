@@ -164,3 +164,18 @@
   color: var(--primary-light);
   text-decoration: underline;
 }
+
+/* Forgot Password Link */
+.login__forgot-link {
+  display: block;
+  text-align: right;
+  color: var(--primary);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  margin-top: calc(var(--space-xs) * -1);
+  transition: opacity 0.2s;
+}
+.login__forgot-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}

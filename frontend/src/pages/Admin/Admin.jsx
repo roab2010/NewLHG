@@ -1,17 +1,28 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, Package, ShoppingBag, Users, FileText,
-  Plus, Edit2, Trash2, Eye, TrendingUp, DollarSign, UserCheck, Upload
+  Plus, Edit2, Trash2, Eye, DollarSign, UserCheck, Upload,
+  Ticket, Calendar, Tag, AlertCircle, CheckCircle2, RefreshCw
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
+import { uploadImage } from '../../services/storage'
+import {
+  fetchCoupons, createCoupon, updateCoupon, deleteCoupon,
+  fetchAnalyticsRevenue, fetchAnalyticsTopProducts, fetchAnalyticsUsersGrowth, fetchAnalyticsOrdersByStatus
+} from '../../services/api'
+import {
+  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  BarChart, Bar, Cell, PieChart, Pie, LineChart, Line
+} from 'recharts'
 import './Admin.css'
 
 const sidebarItems = [
   { key: 'dashboard', label: 'Tổng Quan', icon: <LayoutDashboard size={20} /> },
   { key: 'products', label: 'Sản Phẩm', icon: <Package size={20} /> },
   { key: 'orders', label: 'Đơn Hàng', icon: <ShoppingBag size={20} /> },
+  { key: 'coupons', label: 'Mã Giảm Giá', icon: <Ticket size={20} /> },
   { key: 'users', label: 'Người Dùng', icon: <Users size={20} /> },
   { key: 'members', label: 'Thành Viên', icon: <UserCheck size={20} /> },
   { key: 'posts', label: 'Bài Viết', icon: <FileText size={20} /> },
@@ -22,12 +33,19 @@ const formatPrice = (price) => {
 }
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' })
+  if (!dateString) return 'Vô hạn'
+  return new Date(dateString).toLocaleString('vi-VN', { 
+    hour: '2-digit', 
+    minute: '2-digit', 
+    day: '2-digit', 
+    month: '2-digit', 
+    year: 'numeric' 
+  })
 }
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState('dashboard')
-  const { profile } = useAuth()
+  const { profile, token } = useAuth()
   
   // Data States
   const [stats, setStats] = useState({ users: 0, orders: 0, revenue: 0, products: 0 })
@@ -36,6 +54,27 @@ export default function Admin() {
   const [users, setUsers] = useState([])
   const [recentActivity, setRecentActivity] = useState([])
   const [loading, setLoading] = useState(true)
+
+  // Analytics States
+  const [revenueData, setRevenueData] = useState([])
+  const [topProductsData, setTopProductsData] = useState([])
+  const [usersGrowthData, setUsersGrowthData] = useState([])
+  const [ordersStatusData, setOrdersStatusData] = useState([])
+  const [analyticsPeriod, setAnalyticsPeriod] = useState(30)
+  const [analyticsLoading, setAnalyticsLoading] = useState(false)
+
+  // Coupons States
+  const [coupons, setCoupons] = useState([])
+  const [couponModal, setCouponModal] = useState({ isOpen: false, data: null })
+  const [couponForm, setCouponForm] = useState({
+    code: '',
+    discount_percent: 10,
+    max_uses: '',
+    is_active: true,
+    expires_at: '',
+    description: ''
+  })
+  const [couponSubmitting, setCouponSubmitting] = useState(false)
 
   // Modal States
   const [productModal, setProductModal] = useState({ isOpen: false, data: null })
@@ -46,7 +85,9 @@ export default function Admin() {
   
   // Form State for Product
   const [productForm, setProductForm] = useState({ name: '', price: '', stock: '', category: 'Áo', image_url: '' })
+  const [imageUploading, setImageUploading] = useState(false)
 
+  // Load Main Tables Data
   useEffect(() => {
     async function loadData() {
       try {
@@ -59,15 +100,14 @@ export default function Admin() {
         const { data: productsData } = await supabase.from('products').select('*').order('created_at', { ascending: false })
         setProducts(productsData || [])
         
-        // 3. Fetch Orders (Cần login admin hoặc role có quyền xem order)
-        // Trong schema, Admin thấy tất cả.
+        // 3. Fetch Orders
         const { data: ordersData } = await supabase.from('orders').select(`
           id, total_amount, status, created_at, phone, shipping_address, notes,
           user:profiles(display_name)
         `).order('created_at', { ascending: false })
         setOrders(ordersData || [])
 
-        // Tính toán stats
+        // Calculate stats
         const totalRevenue = (ordersData || [])
           .filter(o => o.status === 'delivered')
           .reduce((sum, o) => sum + Number(o.total_amount || 0), 0)
@@ -78,7 +118,7 @@ export default function Admin() {
           products: productsData?.length || 0
         })
 
-        // Tạo Recent Activity ảo từ dữ liệu thật
+        // Recent activities
         const activities = []
         if (ordersData && ordersData.length > 0) {
           activities.push({
@@ -118,13 +158,56 @@ export default function Admin() {
     }
   }, [profile])
 
+  // Load Analytics Data
+  useEffect(() => {
+    async function loadAnalyticsData() {
+      if (profile?.role !== 'admin' || activeTab !== 'dashboard' || !token) return
+      setAnalyticsLoading(true)
+      try {
+        const [rev, top, growth, statusData] = await Promise.all([
+          fetchAnalyticsRevenue(analyticsPeriod, token),
+          fetchAnalyticsTopProducts(token),
+          fetchAnalyticsUsersGrowth(analyticsPeriod, token),
+          fetchAnalyticsOrdersByStatus(token)
+        ])
+        setRevenueData(rev || [])
+        setTopProductsData(top || [])
+        setUsersGrowthData(growth || [])
+        setOrdersStatusData(statusData || [])
+      } catch (err) {
+        console.error('Lỗi khi tải biểu đồ Analytics:', err)
+      } finally {
+        setAnalyticsLoading(false)
+      }
+    }
+    loadAnalyticsData()
+  }, [profile, activeTab, analyticsPeriod, token])
+
+  // Load Coupons Data
+  useEffect(() => {
+    async function loadCouponsData() {
+      if (profile?.role !== 'admin' || activeTab !== 'coupons' || !token) return
+      try {
+        const data = await fetchCoupons(token)
+        setCoupons(data || [])
+      } catch (err) {
+        console.error('Lỗi khi tải mã giảm giá:', err)
+      }
+    }
+    loadCouponsData()
+  }, [profile, activeTab, token])
+
+  // Product CRUD Handlers
   const handleDeleteProduct = (id) => {
     setConfirmDialog({
       isOpen: true,
       message: 'Bạn có chắc chắn muốn xóa sản phẩm này?',
       onConfirm: async () => {
         const { error } = await supabase.from('products').delete().eq('id', id)
-        if (!error) setProducts(products.filter(p => p.id !== id))
+        if (!error) {
+          setProducts(products.filter(p => p.id !== id))
+          setStats(s => ({ ...s, products: s.products - 1 }))
+        }
         else setAlertDialog({ isOpen: true, message: 'Lỗi khi xóa sản phẩm: ' + error.message })
         setConfirmDialog({ isOpen: false })
       }
@@ -137,7 +220,10 @@ export default function Admin() {
       message: 'Bạn có chắc chắn muốn xóa người dùng này?',
       onConfirm: async () => {
         const { error } = await supabase.from('profiles').delete().eq('id', id)
-        if (!error) setUsers(users.filter(u => u.id !== id))
+        if (!error) {
+          setUsers(users.filter(u => u.id !== id))
+          setStats(s => ({ ...s, users: s.users - 1 }))
+        }
         else setAlertDialog({ isOpen: true, message: 'Lỗi khi xóa người dùng: ' + error.message })
         setConfirmDialog({ isOpen: false })
       }
@@ -148,10 +234,16 @@ export default function Admin() {
     const { error } = await supabase.from('orders').update({ status: newStatus }).eq('id', id)
     if (!error) {
       setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus } : o))
-      // Cập nhật lại doanh thu nếu chuyển thành delivered
+      
+      // Update statistics revenue
       if (newStatus === 'delivered') {
         const o = orders.find(x => x.id === id)
         if (o) setStats(s => ({ ...s, revenue: s.revenue + Number(o.total_amount) }))
+      } else {
+        const oldO = orders.find(x => x.id === id)
+        if (oldO && oldO.status === 'delivered') {
+          setStats(s => ({ ...s, revenue: Math.max(0, s.revenue - Number(oldO.total_amount)) }))
+        }
       }
     } else setAlertDialog({ isOpen: true, message: 'Lỗi khi cập nhật trạng thái đơn hàng!' })
   }
@@ -163,14 +255,20 @@ export default function Admin() {
     } else setAlertDialog({ isOpen: true, message: 'Lỗi khi cập nhật chức vụ!' })
   }
 
-  const handleImageUpload = (e) => {
+  // Image upload directly to Supabase Storage
+  const handleImageUpload = async (e) => {
     const file = e.target.files?.[0] || e.dataTransfer?.files?.[0]
     if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setProductForm(prev => ({...prev, image_url: reader.result}))
+      setImageUploading(true)
+      try {
+        const publicUrl = await uploadImage('products', file, 'products')
+        setProductForm(prev => ({ ...prev, image_url: publicUrl }))
+      } catch (err) {
+        console.error('Lỗi upload ảnh:', err)
+        setAlertDialog({ isOpen: true, message: 'Lỗi upload ảnh lên Supabase Storage: ' + err.message })
+      } finally {
+        setImageUploading(false)
       }
-      reader.readAsDataURL(file)
     }
   }
 
@@ -199,14 +297,14 @@ export default function Admin() {
     }
 
     if (productModal.data) {
-      // Cập nhật
+      // Update
       const { error } = await supabase.from('products').update(productData).eq('id', productModal.data.id)
       if (!error) {
         setProducts(products.map(p => p.id === productModal.data.id ? { ...p, ...productData } : p))
         setProductModal({ isOpen: false, data: null })
       } else setAlertDialog({ isOpen: true, message: 'Lỗi khi cập nhật sản phẩm!' })
     } else {
-      // Thêm mới
+      // Create new
       productData.created_by = profile?.id
       const { data, error } = await supabase.from('products').insert([productData]).select()
       if (!error && data) {
@@ -225,6 +323,83 @@ export default function Admin() {
       setAlertDialog({ isOpen: true, message: 'Không thể lấy chi tiết đơn hàng' })
     }
   }
+
+  // Coupons CRUD Handlers
+  const handleOpenCouponModal = (coupon = null) => {
+    if (coupon) {
+      setCouponForm({
+        code: coupon.code,
+        discount_percent: coupon.discount_percent,
+        max_uses: coupon.max_uses || '',
+        is_active: coupon.is_active,
+        expires_at: coupon.expires_at ? coupon.expires_at.split('T')[0] : '',
+        description: coupon.description || ''
+      })
+      setCouponModal({ isOpen: true, data: coupon })
+    } else {
+      setCouponForm({
+        code: '',
+        discount_percent: 10,
+        max_uses: '',
+        is_active: true,
+        expires_at: '',
+        description: ''
+      })
+      setCouponModal({ isOpen: true, data: null })
+    }
+  }
+
+  const handleSaveCoupon = async () => {
+    if (!couponForm.code.trim() || !couponForm.discount_percent) {
+      return setAlertDialog({ isOpen: true, message: 'Vui lòng nhập đầy đủ thông tin mã giảm giá!' })
+    }
+
+    const couponData = {
+      code: couponForm.code.trim().toUpperCase(),
+      discount_percent: Number(couponForm.discount_percent),
+      max_uses: couponForm.max_uses ? Number(couponForm.max_uses) : null,
+      is_active: couponForm.is_active,
+      expires_at: couponForm.expires_at ? new Date(couponForm.expires_at).toISOString() : null,
+      description: couponForm.description.trim() || null
+    }
+
+    setCouponSubmitting(true)
+    try {
+      if (couponModal.data) {
+        // Update
+        const updated = await updateCoupon(couponModal.data.id, couponData, token)
+        setCoupons(coupons.map(c => c.id === couponModal.data.id ? updated : c))
+      } else {
+        // Create
+        const created = await createCoupon(couponData, token)
+        setCoupons([created, ...coupons])
+      }
+      setCouponModal({ isOpen: false, data: null })
+    } catch (err) {
+      setAlertDialog({ isOpen: true, message: err.message || 'Lỗi khi lưu mã giảm giá!' })
+    } finally {
+      setCouponSubmitting(false)
+    }
+  }
+
+  const handleDeleteCoupon = (id) => {
+    setConfirmDialog({
+      isOpen: true,
+      message: 'Bạn có chắc chắn muốn xóa mã giảm giá này?',
+      onConfirm: async () => {
+        try {
+          await deleteCoupon(id, token)
+          setCoupons(coupons.filter(c => c.id !== id))
+        } catch (err) {
+          setAlertDialog({ isOpen: true, message: err.message || 'Lỗi khi xóa mã giảm giá!' })
+        }
+        setConfirmDialog({ isOpen: false })
+      }
+    })
+  }
+
+  // Colors for Recharts Pie Chart
+  const COLORS = ['#F59E0B', '#3B82F6', '#10B981', '#6366F1', '#FF1744']
 
   return (
     <div className="admin-page">
@@ -261,254 +436,466 @@ export default function Admin() {
           </div>
         </div>
 
-        {activeTab === 'dashboard' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            {loading ? <p>Đang tải dữ liệu...</p> : (
-              <>
-                {/* Stats Cards */}
-                <div className="admin-stats">
-                  <div className="admin-stat-card glass-card">
-                    <div className="admin-stat-card__icon" style={{ color: '#3B82F6', background: '#3B82F615' }}>
-                      <Users size={24} />
-                    </div>
-                    <div className="admin-stat-card__info">
-                      <span className="admin-stat-card__value">{stats.users}</span>
-                      <span className="admin-stat-card__label">Người dùng</span>
-                    </div>
-                  </div>
-                  
-                  <div className="admin-stat-card glass-card">
-                    <div className="admin-stat-card__icon" style={{ color: '#10B981', background: '#10B98115' }}>
-                      <ShoppingBag size={24} />
-                    </div>
-                    <div className="admin-stat-card__info">
-                      <span className="admin-stat-card__value">{stats.orders}</span>
-                      <span className="admin-stat-card__label">Đơn hàng</span>
-                    </div>
-                  </div>
-
-                  <div className="admin-stat-card glass-card">
-                    <div className="admin-stat-card__icon" style={{ color: '#F59E0B', background: '#F59E0B15' }}>
-                      <DollarSign size={24} />
-                    </div>
-                    <div className="admin-stat-card__info">
-                      <span className="admin-stat-card__value">{formatPrice(stats.revenue)}</span>
-                      <span className="admin-stat-card__label">Doanh thu</span>
-                    </div>
-                  </div>
-
-                  <div className="admin-stat-card glass-card">
-                    <div className="admin-stat-card__icon" style={{ color: '#8B5CF6', background: '#8B5CF615' }}>
-                      <Package size={24} />
-                    </div>
-                    <div className="admin-stat-card__info">
-                      <span className="admin-stat-card__value">{stats.products}</span>
-                      <span className="admin-stat-card__label">Sản phẩm</span>
-                    </div>
-                  </div>
+        <AnimatePresence mode="wait">
+          {/* TAB 1: DASHBOARD ANALYTICS */}
+          {activeTab === 'dashboard' && (
+            <motion.div
+              key="dashboard"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+            >
+              {loading ? (
+                <div style={{ textAlign: 'center', padding: '100px 0', color: 'var(--white-40)' }}>
+                  <RefreshCw className="loading-spinner" size={40} style={{ margin: '0 auto var(--space-md)' }} />
+                  <p>Đang tải dữ liệu hệ thống...</p>
                 </div>
-
-                {/* Recent Activity */}
-                <div className="admin-section glass-card">
-                  <h2>Hoạt Động Gần Đây (Thực tế)</h2>
-                  <div className="admin-activity">
-                    {recentActivity.length === 0 ? <p>Chưa có hoạt động nào.</p> : recentActivity.map(act => (
-                      <div key={act.id} className="admin-activity__item">
-                        <div className="admin-activity__dot" style={{ background: act.color }} />
-                        <div>
-                          <p>{act.text}</p>
-                          <span>{act.time}</span>
-                        </div>
+              ) : (
+                <>
+                  {/* Stats Cards */}
+                  <div className="admin-stats">
+                    <div className="admin-stat-card glass-card">
+                      <div className="admin-stat-card__icon" style={{ color: '#3B82F6', background: '#3B82F615' }}>
+                        <Users size={24} />
                       </div>
-                    ))}
+                      <div className="admin-stat-card__info">
+                        <span className="admin-stat-card__value">{stats.users}</span>
+                        <span className="admin-stat-card__label">Người dùng</span>
+                      </div>
+                    </div>
+                    
+                    <div className="admin-stat-card glass-card">
+                      <div className="admin-stat-card__icon" style={{ color: '#10B981', background: '#10B98115' }}>
+                        <ShoppingBag size={24} />
+                      </div>
+                      <div className="admin-stat-card__info">
+                        <span className="admin-stat-card__value">{stats.orders}</span>
+                        <span className="admin-stat-card__label">Đơn hàng</span>
+                      </div>
+                    </div>
+
+                    <div className="admin-stat-card glass-card">
+                      <div className="admin-stat-card__icon" style={{ color: '#F59E0B', background: '#F59E0B15' }}>
+                        <DollarSign size={24} />
+                      </div>
+                      <div className="admin-stat-card__info">
+                        <span className="admin-stat-card__value">{formatPrice(stats.revenue)}</span>
+                        <span className="admin-stat-card__label">Doanh thu</span>
+                      </div>
+                    </div>
+
+                    <div className="admin-stat-card glass-card">
+                      <div className="admin-stat-card__icon" style={{ color: '#8B5CF6', background: '#8B5CF615' }}>
+                        <Package size={24} />
+                      </div>
+                      <div className="admin-stat-card__info">
+                        <span className="admin-stat-card__value">{stats.products}</span>
+                        <span className="admin-stat-card__label">Sản phẩm</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
-          </motion.div>
-        )}
 
-        {activeTab === 'products' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div className="admin-section glass-card">
-              <div className="admin-section__header">
-                <h2>Quản Lý Sản Phẩm</h2>
-                <button className="btn btn-primary btn--sm" onClick={() => handleOpenProductModal()}>
-                  <Plus size={16} /> Thêm Sản Phẩm
-                </button>
-              </div>
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên</th>
-                    <th>Danh mục</th>
-                    <th>Giá</th>
-                    <th>Tồn kho</th>
-                    <th>Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.length === 0 ? (
-                    <tr><td colSpan="6" style={{textAlign:'center'}}>Chưa có sản phẩm nào.</td></tr>
-                  ) : products.map(product => (
-                    <tr key={product.id}>
-                      <td>
-                        <img 
-                          src={product.image_url || '/images/shop/placeholder.jpg'} 
-                          alt={product.name} 
-                          style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} 
-                        />
-                      </td>
-                      <td>{product.name}</td>
-                      <td><span className="admin-badge">{product.category || 'Khác'}</span></td>
-                      <td>{formatPrice(product.price)}</td>
-                      <td>{product.stock}</td>
-                      <td>
-                        <div className="admin-table__actions">
-                          <button className="admin-action-btn" onClick={() => handleOpenProductModal(product)}><Edit2 size={16} /></button>
-                          <button className="admin-action-btn admin-action-btn--danger" onClick={() => handleDeleteProduct(product.id)}><Trash2 size={16} /></button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </motion.div>
-        )}
-
-        {activeTab === 'orders' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div className="admin-section glass-card">
-              <h2>Quản Lý Đơn Hàng</h2>
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Mã ĐH</th>
-                    <th>Khách hàng</th>
-                    <th>Tổng tiền</th>
-                    <th>Trạng thái</th>
-                    <th>Ngày đặt</th>
-                    <th>Chi tiết</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.length === 0 ? (
-                    <tr><td colSpan="5" style={{textAlign:'center'}}>Chưa có đơn hàng nào.</td></tr>
-                  ) : orders.map(order => (
-                    <tr key={order.id}>
-                      <td>#{order.id.substring(0,8)}</td>
-                      <td>{order.user?.display_name || 'Khách'}</td>
-                      <td>{formatPrice(order.total_amount)}</td>
-                      <td>
-                        <select 
-                          className={`admin-status admin-status--${order.status} admin-select`}
-                          value={order.status}
-                          onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
+                  {/* Analytics Section */}
+                  <div className="analytics-header">
+                    <h2>Biểu đồ phân tích chuyên sâu</h2>
+                    <div className="analytics-period-selector">
+                      {[7, 30, 90].map((days) => (
+                        <button
+                          key={days}
+                          className={`analytics-period-btn ${analyticsPeriod === days ? 'analytics-period-btn--active' : ''}`}
+                          onClick={() => setAnalyticsPeriod(days)}
                         >
-                          <option value="pending">Chờ xử lý</option>
-                          <option value="confirmed">Đã xác nhận</option>
-                          <option value="shipped">Đang giao</option>
-                          <option value="delivered">Đã giao</option>
-                          <option value="cancelled">Đã hủy</option>
-                        </select>
-                      </td>
-                      <td>{formatDate(order.created_at)}</td>
-                      <td>
-                        <button className="admin-action-btn" onClick={() => showOrderDetails(order)}>
-                          <Eye size={16} />
+                          {days} Ngày
                         </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </motion.div>
-        )}
+                      ))}
+                    </div>
+                  </div>
 
-        {activeTab === 'users' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div className="admin-section glass-card">
-              <h2>Quản Lý Người Dùng</h2>
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Tên</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Ngày tham gia</th>
-                    <th>Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.length === 0 ? (
-                    <tr><td colSpan="5" style={{textAlign:'center'}}>Chưa có người dùng.</td></tr>
-                  ) : users.map(u => (
-                    <tr key={u.id} style={{ cursor: 'pointer' }} onClick={() => setUserDetailModal({ isOpen: true, user: u })}>
-                      <td>{u.display_name || 'Chưa đặt tên'}</td>
-                      <td>ID: {u.id.substring(0,8)}...</td>
-                      <td onClick={(e) => e.stopPropagation()}>
-                        <select
-                          value={u.role}
-                          onChange={(e) => handleUpdateUserRole(u.id, e.target.value)}
-                          className={`admin-badge admin-badge--${u.role} admin-select`}
-                        >
-                          <option value="customer">Customer</option>
-                          <option value="member">Member</option>
-                          <option value="admin">Admin</option>
-                        </select>
-                      </td>
-                      <td>{formatDate(u.created_at)}</td>
-                      <td onClick={(e) => e.stopPropagation()}>
-                        <div className="admin-table__actions">
-                          <button className="admin-action-btn" onClick={() => setUserDetailModal({ isOpen: true, user: u })}><Eye size={16} /></button>
-                          <button className="admin-action-btn admin-action-btn--danger" onClick={() => handleDeleteUser(u.id)}><Trash2 size={16} /></button>
+                  {/* Charts Grid */}
+                  <div className="analytics-grid">
+                    {/* Line Chart: Revenue */}
+                    <div className="analytics-chart-container glass-card">
+                      <h3>Doanh thu theo thời gian</h3>
+                      {analyticsLoading && (
+                        <div className="analytics-loading-placeholder">
+                          <RefreshCw className="loading-spinner" size={24} />
                         </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </motion.div>
-        )}
+                      )}
+                      <ResponsiveContainer width="100%" height={300}>
+                        <LineChart data={revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                          <defs>
+                            <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
+                              <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
+                          <XAxis dataKey="date" stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                          <YAxis stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                          <Tooltip 
+                            contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
+                            labelStyle={{ color: 'var(--white)' }}
+                          />
+                          <Line type="monotone" dataKey="revenue" name="Doanh thu (VND)" stroke="#10B981" strokeWidth={3} activeDot={{ r: 8 }} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
 
-        {(activeTab === 'members' || activeTab === 'posts') && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div className="admin-section glass-card" style={{ textAlign: 'center', padding: 'var(--space-4xl)' }}>
-              <LayoutDashboard size={48} style={{ color: 'var(--white-20)', marginBottom: 'var(--space-lg)' }} />
-              <h2>Quản Lý {activeTab === 'members' ? 'Thành Viên' : 'Bài Viết'}</h2>
-              <p style={{ color: 'var(--white-40)', marginTop: 'var(--space-md)' }}>
-                Tính năng sẽ được tích hợp với database Supabase.
-              </p>
-            </div>
-          </motion.div>
-        )}
+                    {/* Area Chart: User Growth */}
+                    <div className="analytics-chart-container glass-card">
+                      <h3>Tăng trưởng người dùng mới</h3>
+                      {analyticsLoading && (
+                        <div className="analytics-loading-placeholder">
+                          <RefreshCw className="loading-spinner" size={24} />
+                        </div>
+                      )}
+                      <ResponsiveContainer width="100%" height={300}>
+                        <AreaChart data={usersGrowthData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                          <defs>
+                            <linearGradient id="userGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.5}/>
+                              <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/>
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
+                          <XAxis dataKey="date" stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                          <YAxis stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                          <Tooltip 
+                            contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
+                          />
+                          <Area type="monotone" dataKey="count" name="Người dùng mới" stroke="#8B5CF6" fillOpacity={1} fill="url(#userGrad)" strokeWidth={2} />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+
+                    {/* Bar Chart: Top Products */}
+                    <div className="analytics-chart-container glass-card">
+                      <h3>Top 5 sản phẩm bán chạy nhất</h3>
+                      {analyticsLoading && (
+                        <div className="analytics-loading-placeholder">
+                          <RefreshCw className="loading-spinner" size={24} />
+                        </div>
+                      )}
+                      <ResponsiveContainer width="100%" height={300}>
+                        <BarChart data={topProductsData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
+                          <XAxis dataKey="name" stroke="var(--white-40)" tick={{ fontSize: 9 }} />
+                          <YAxis stroke="var(--white-40)" tick={{ fontSize: 11 }} />
+                          <Tooltip 
+                            contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
+                          />
+                          <Bar dataKey="total_sold" name="Đã bán" fill="#F59E0B" radius={[4, 4, 0, 0]}>
+                            {topProductsData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+
+                    {/* Pie Chart: Order Status */}
+                    <div className="analytics-chart-container glass-card">
+                      <h3>Phân bổ trạng thái đơn hàng</h3>
+                      {analyticsLoading && (
+                        <div className="analytics-loading-placeholder">
+                          <RefreshCw className="loading-spinner" size={24} />
+                        </div>
+                      )}
+                      <ResponsiveContainer width="100%" height={300}>
+                        <PieChart>
+                          <Pie
+                            data={ordersStatusData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={60}
+                            outerRadius={80}
+                            paddingAngle={5}
+                            dataKey="count"
+                            nameKey="status"
+                          >
+                            {ordersStatusData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip 
+                            contentStyle={{ background: '#12121a', border: '1px solid var(--white-10)', borderRadius: '8px' }}
+                          />
+                          <Legend />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Recent Activity */}
+                  <div className="admin-section glass-card">
+                    <h2>Hoạt Động Gần Đây (Thực tế)</h2>
+                    <div className="admin-activity">
+                      {recentActivity.length === 0 ? <p>Chưa có hoạt động nào.</p> : recentActivity.map(act => (
+                        <div key={act.id} className="admin-activity__item">
+                          <div className="admin-activity__dot" style={{ background: act.color }} />
+                          <div>
+                            <p>{act.text}</p>
+                            <span>{act.time}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </motion.div>
+          )}
+
+          {/* TAB 2: PRODUCT MANAGEMENT */}
+          {activeTab === 'products' && (
+            <motion.div
+              key="products"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="admin-section glass-card">
+                <div className="admin-section__header">
+                  <h2>Quản Lý Sản Phẩm</h2>
+                  <button className="btn btn-primary btn--sm" onClick={() => handleOpenProductModal()}>
+                    <Plus size={16} /> Thêm Sản Phẩm
+                  </button>
+                </div>
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Hình ảnh</th>
+                      <th>Tên</th>
+                      <th>Danh mục</th>
+                      <th>Giá</th>
+                      <th>Tồn kho</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {products.length === 0 ? (
+                      <tr><td colSpan="6" style={{textAlign:'center'}}>Chưa có sản phẩm nào.</td></tr>
+                    ) : products.map(product => (
+                      <tr key={product.id}>
+                        <td>
+                          <img 
+                            src={product.image_url || '/images/shop/placeholder.jpg'} 
+                            alt={product.name} 
+                            style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} 
+                          />
+                        </td>
+                        <td>{product.name}</td>
+                        <td><span className="admin-badge">{product.category || 'Khác'}</span></td>
+                        <td>{formatPrice(product.price)}</td>
+                        <td>{product.stock}</td>
+                        <td>
+                          <div className="admin-table__actions">
+                            <button className="admin-action-btn" onClick={() => handleOpenProductModal(product)}><Edit2 size={16} /></button>
+                            <button className="admin-action-btn admin-action-btn--danger" onClick={() => handleDeleteProduct(product.id)}><Trash2 size={16} /></button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 3: ORDER MANAGEMENT */}
+          {activeTab === 'orders' && (
+            <motion.div
+              key="orders"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="admin-section glass-card">
+                <h2>Quản Lý Đơn Hàng</h2>
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Mã ĐH</th>
+                      <th>Khách hàng</th>
+                      <th>Tổng tiền</th>
+                      <th>Trạng thái</th>
+                      <th>Ngày đặt</th>
+                      <th>Chi tiết</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orders.length === 0 ? (
+                      <tr><td colSpan="5" style={{textAlign:'center'}}>Chưa có đơn hàng nào.</td></tr>
+                    ) : orders.map(order => (
+                      <tr key={order.id}>
+                        <td>#{order.id.substring(0,8)}</td>
+                        <td>{order.user?.display_name || 'Khách'}</td>
+                        <td>{formatPrice(order.total_amount)}</td>
+                        <td>
+                          <select 
+                            className={`admin-status admin-status--${order.status} admin-select`}
+                            value={order.status}
+                            onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
+                          >
+                            <option value="pending">Chờ xử lý</option>
+                            <option value="confirmed">Đã xác nhận</option>
+                            <option value="shipped">Đang giao</option>
+                            <option value="delivered">Đã giao</option>
+                            <option value="cancelled">Đã hủy</option>
+                          </select>
+                        </td>
+                        <td>{formatDate(order.created_at)}</td>
+                        <td>
+                          <button className="admin-action-btn" onClick={() => showOrderDetails(order)}>
+                            <Eye size={16} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 4: COUPON MANAGEMENT */}
+          {activeTab === 'coupons' && (
+            <motion.div
+              key="coupons"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="admin-section glass-card">
+                <div className="admin-section__header">
+                  <h2>Quản Lý Mã Giảm Giá (Coupons)</h2>
+                  <button className="btn btn-primary btn--sm" onClick={() => handleOpenCouponModal()}>
+                    <Plus size={16} /> Thêm Mã Giảm Giá
+                  </button>
+                </div>
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Mã Code</th>
+                      <th>Giảm giá (%)</th>
+                      <th>Đã dùng / Tối đa</th>
+                      <th>Ngày hết hạn</th>
+                      <th>Trạng thái</th>
+                      <th>Mô tả</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {coupons.length === 0 ? (
+                      <tr><td colSpan="7" style={{textAlign:'center'}}>Chưa có mã giảm giá nào.</td></tr>
+                    ) : coupons.map(c => (
+                      <tr key={c.id}>
+                        <td><strong>{c.code}</strong></td>
+                        <td><span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{c.discount_percent}%</span></td>
+                        <td>{c.used_count} / {c.max_uses || 'Vô hạn'}</td>
+                        <td>{formatDate(c.expires_at)}</td>
+                        <td>
+                          <span className={c.is_active ? 'coupon-active' : 'coupon-inactive'}>
+                            {c.is_active ? 'Hoạt động' : 'Tắt'}
+                          </span>
+                        </td>
+                        <td><span style={{ color: 'var(--white-60)', fontSize: 'var(--fs-xs)' }}>{c.description || 'Không có'}</span></td>
+                        <td>
+                          <div className="admin-table__actions">
+                            <button className="admin-action-btn" onClick={() => handleOpenCouponModal(c)}><Edit2 size={16} /></button>
+                            <button className="admin-action-btn admin-action-btn--danger" onClick={() => handleDeleteCoupon(c.id)}><Trash2 size={16} /></button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 5: USER MANAGEMENT */}
+          {activeTab === 'users' && (
+            <motion.div
+              key="users"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="admin-section glass-card">
+                <h2>Quản Lý Người Dùng</h2>
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Tên</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Ngày tham gia</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.length === 0 ? (
+                      <tr><td colSpan="5" style={{textAlign:'center'}}>Chưa có người dùng.</td></tr>
+                    ) : users.map(u => (
+                      <tr key={u.id} style={{ cursor: 'pointer' }} onClick={() => setUserDetailModal({ isOpen: true, user: u })}>
+                        <td>{u.display_name || 'Chưa đặt tên'}</td>
+                        <td>ID: {u.id.substring(0,8)}...</td>
+                        <td onClick={(e) => e.stopPropagation()}>
+                          <select
+                            value={u.role}
+                            onChange={(e) => handleUpdateUserRole(u.id, e.target.value)}
+                            className={`admin-badge admin-badge--${u.role} admin-select`}
+                          >
+                            <option value="customer">Customer</option>
+                            <option value="member">Member</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                        </td>
+                        <td>{formatDate(u.created_at)}</td>
+                        <td onClick={(e) => e.stopPropagation()}>
+                          <div className="admin-table__actions">
+                            <button className="admin-action-btn" onClick={() => setUserDetailModal({ isOpen: true, user: u })}><Eye size={16} /></button>
+                            <button className="admin-action-btn admin-action-btn--danger" onClick={() => handleDeleteUser(u.id)}><Trash2 size={16} /></button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 6 & 7: UNIMPLEMENTED PLACEHOLDERS */}
+          {(activeTab === 'members' || activeTab === 'posts') && (
+            <motion.div
+              key="placeholders"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="admin-section glass-card" style={{ textAlign: 'center', padding: 'var(--space-4xl)' }}>
+                <LayoutDashboard size={48} style={{ color: 'var(--white-20)', marginBottom: 'var(--space-lg)' }} />
+                <h2>Quản Lý {activeTab === 'members' ? 'Thành Viên' : 'Bài Viết'}</h2>
+                <p style={{ color: 'var(--white-40)', marginTop: 'var(--space-md)' }}>
+                  Tính năng sẽ được tích hợp trực tiếp với database Supabase ở phase sau.
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
-      {/* Modals */}
+      {/* Modals & Dialogs */}
+      
+      {/* 1. Modal Product (Create/Update) */}
       {productModal.isOpen && (
         <div className="admin-modal-overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) setProductModal({ isOpen: false, data: null }) }}>
           <motion.div 
@@ -546,7 +933,12 @@ export default function Admin() {
                 onClick={() => document.getElementById('productImageInput').click()}
               >
                 <input type="file" id="productImageInput" accept="image/*" style={{display: 'none'}} onChange={handleImageUpload} />
-                {productForm.image_url ? (
+                {imageUploading ? (
+                  <div className="admin-image-placeholder">
+                    <RefreshCw className="loading-spinner" size={24} />
+                    <p>Đang tải ảnh lên Supabase Storage...</p>
+                  </div>
+                ) : productForm.image_url ? (
                   <img src={productForm.image_url} alt="preview" className="admin-image-preview" />
                 ) : (
                   <div className="admin-image-placeholder">
@@ -558,12 +950,91 @@ export default function Admin() {
             </div>
             <div className="admin-modal-actions">
               <button className="btn btn-ghost" onClick={() => setProductModal({ isOpen: false, data: null })}>Hủy</button>
-              <button className="btn btn-primary" onClick={handleSaveProduct}>Lưu</button>
+              <button className="btn btn-primary" onClick={handleSaveProduct} disabled={imageUploading}>
+                {imageUploading ? 'Đang lưu ảnh...' : 'Lưu'}
+              </button>
             </div>
           </motion.div>
         </div>
       )}
 
+      {/* 2. Modal Coupon (Create/Update) */}
+      {couponModal.isOpen && (
+        <div className="admin-modal-overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) setCouponModal({ isOpen: false, data: null }) }}>
+          <motion.div 
+            className="admin-modal"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <h3>{couponModal.data ? 'Cập Nhật Mã Giảm Giá' : 'Tạo Mã Giảm Giá Mới'}</h3>
+            <div className="form-group">
+              <label>Mã Code (Ví dụ: TUANKITT)</label>
+              <input 
+                type="text" 
+                value={couponForm.code} 
+                onChange={e => setCouponForm({...couponForm, code: e.target.value})} 
+                placeholder="Nhập mã in hoa không dấu"
+                style={{ textTransform: 'uppercase' }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Phần trăm giảm (%)</label>
+              <input 
+                type="number" 
+                min="1" 
+                max="100" 
+                value={couponForm.discount_percent} 
+                onChange={e => setCouponForm({...couponForm, discount_percent: e.target.value})} 
+              />
+            </div>
+            <div className="form-group">
+              <label>Giới hạn số lần sử dụng (Tùy chọn)</label>
+              <input 
+                type="number" 
+                min="1" 
+                value={couponForm.max_uses} 
+                onChange={e => setCouponForm({...couponForm, max_uses: e.target.value})} 
+                placeholder="Để trống nếu không giới hạn"
+              />
+            </div>
+            <div className="form-group">
+              <label>Ngày hết hạn (Tùy chọn)</label>
+              <input 
+                type="date" 
+                value={couponForm.expires_at} 
+                onChange={e => setCouponForm({...couponForm, expires_at: e.target.value})} 
+              />
+            </div>
+            <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-sm) 0' }}>
+              <input 
+                type="checkbox" 
+                id="is_active" 
+                checked={couponForm.is_active} 
+                onChange={e => setCouponForm({...couponForm, is_active: e.target.checked})}
+                style={{ width: 'auto', cursor: 'pointer' }}
+              />
+              <label htmlFor="is_active" style={{ margin: 0, cursor: 'pointer' }}>Cho phép hoạt động ngay</label>
+            </div>
+            <div className="form-group">
+              <label>Mô tả ngắn</label>
+              <input 
+                type="text" 
+                value={couponForm.description} 
+                onChange={e => setCouponForm({...couponForm, description: e.target.value})} 
+                placeholder="Ví dụ: Giảm giá đặc biệt cho tuyển thủ"
+              />
+            </div>
+            <div className="admin-modal-actions">
+              <button className="btn btn-ghost" onClick={() => setCouponModal({ isOpen: false, data: null })} disabled={couponSubmitting}>Hủy</button>
+              <button className="btn btn-primary" onClick={handleSaveCoupon} disabled={couponSubmitting}>
+                {couponSubmitting ? 'Đang lưu...' : 'Lưu'}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* 3. Modal Order details */}
       {orderModal.isOpen && (
         <div className="admin-modal-overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) setOrderModal({ isOpen: false, order: null, items: [] }) }}>
           <motion.div 
@@ -598,6 +1069,7 @@ export default function Admin() {
         </div>
       )}
 
+      {/* 4. Modal User Detail */}
       {userDetailModal.isOpen && (
         <div className="admin-modal-overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) setUserDetailModal({ isOpen: false, user: null }) }}>
           <motion.div 
@@ -646,6 +1118,7 @@ export default function Admin() {
         </div>
       )}
 
+      {/* 5. Modal Confirm */}
       {confirmDialog.isOpen && (
         <div className="admin-confirm-overlay">
           <motion.div 
@@ -662,6 +1135,7 @@ export default function Admin() {
         </div>
       )}
 
+      {/* 6. Modal Alert */}
       {alertDialog.isOpen && (
         <div className="admin-confirm-overlay">
           <motion.div 

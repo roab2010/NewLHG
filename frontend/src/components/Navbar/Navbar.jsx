@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { Menu, X, Shield, LogOut, User, ShoppingCart } from 'lucide-react'
+import NotificationBell from '../NotificationBell/NotificationBell'
 import './Navbar.css'
 
 const navLinks = [
@@ -67,6 +68,7 @@ export default function Navbar() {
                   <span>Admin</span>
                 </Link>
               )}
+              {user && <NotificationBell />}
               <div className="navbar__user-menu">
                 <button className="navbar__user-btn">
                   <User size={18} />

@@ -1,19 +1,73 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { User, ShoppingBag, Package, Edit2, Save, X, Lock } from 'lucide-react'
+import { User, ShoppingBag, Package, Edit2, Save, X, Lock, RefreshCw } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
+import { cancelOrder } from '../../services/api'
+import { uploadImage } from '../../services/storage'
 import './Profile.css'
 
+// Order Timeline Component
+function OrderTimeline({ status }) {
+  const steps = [
+    { key: 'pending', label: 'Chờ xử lý', icon: '📋' },
+    { key: 'confirmed', label: 'Đã xác nhận', icon: '✅' },
+    { key: 'shipped', label: 'Đang giao', icon: '🚚' },
+    { key: 'delivered', label: 'Đã giao', icon: '📦' },
+  ]
+  const cancelled = status === 'cancelled'
+  const currentIndex = steps.findIndex(s => s.key === status)
+
+  return (
+    <div className="order-timeline">
+      {cancelled ? (
+        <div className="order-timeline__cancelled">❌ Đơn hàng đã bị hủy</div>
+      ) : (
+        <div className="order-timeline__steps">
+          {steps.map((step, index) => (
+            <div key={step.key} className={`order-timeline__step ${index <= currentIndex ? 'order-timeline__step--active' : ''} ${index === currentIndex ? 'order-timeline__step--current' : ''}`}>
+              <div className="order-timeline__dot">{step.icon}</div>
+              <span className="order-timeline__label">{step.label}</span>
+              {index < steps.length - 1 && <div className={`order-timeline__line ${index < currentIndex ? 'order-timeline__line--active' : ''}`} />}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Profile() {
-  const { user, profile } = useAuth()
+  const { user, profile, token } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = searchParams.get('tab') || 'info'
   const isAdmin = profile?.role === 'admin'
   
+  const [avatarUploading, setAvatarUploading] = useState(false)
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
+
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setAvatarUploading(true)
+    try {
+      const publicUrl = await uploadImage('avatars', file, 'avatars')
+      const { error } = await supabase.from('profiles').update({ avatar_url: publicUrl }).eq('id', user.id)
+      if (error) throw error
+      setAlertDialog({ isOpen: true, message: 'Cập nhật ảnh đại diện thành công! Vui lòng tải lại trang để thấy thay đổi.', type: 'success' })
+      // Cập nhật profile local
+      if (profile) {
+        profile.avatar_url = publicUrl
+      }
+    } catch (err) {
+      console.error('Lỗi upload avatar:', err)
+      setAlertDialog({ isOpen: true, message: 'Lỗi khi upload ảnh đại diện: ' + err.message, type: 'error' })
+    } finally {
+      setAvatarUploading(false)
+    }
+  }
 
   // Profile Edit State
   const [isEditingProfile, setIsEditingProfile] = useState(false)
@@ -52,7 +106,7 @@ export default function Profile() {
     setLoading(true)
     const { data, error } = await supabase
       .from('orders')
-      .select('*, order_items(quantity, price, product_id, products(name, image_url))')
+      .select('*, order_items(quantity, price, product_id, products(name, image_url)), coupons(code, discount_percent)')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       
@@ -60,6 +114,35 @@ export default function Profile() {
       setOrders(data)
     }
     setLoading(false)
+  }
+
+  const handleCancelOrder = async (orderId) => {
+    if (!confirm('Bạn có chắc muốn hủy đơn hàng này?')) return
+    try {
+      await cancelOrder(orderId, token)
+      setOrders(orders.map(o => o.id === orderId ? { ...o, status: 'cancelled' } : o))
+      setAlertDialog({ isOpen: true, message: 'Đã hủy đơn hàng thành công!', type: 'success' })
+    } catch (err) {
+      setAlertDialog({ isOpen: true, message: err.message, type: 'error' })
+    }
+  }
+
+  const handleReorder = (order) => {
+    if (!user?.id) return
+    const cartKey = `cart_${user.id}`
+    const existingCart = JSON.parse(localStorage.getItem(cartKey) || '[]')
+    order.order_items.forEach(item => {
+      const product = item.products
+      if (!product) return
+      const existing = existingCart.find(c => c.id === item.product_id)
+      if (existing) {
+        existing.quantity += item.quantity
+      } else {
+        existingCart.push({ id: item.product_id, name: product.name, price: item.price, image_url: product.image_url, quantity: item.quantity })
+      }
+    })
+    localStorage.setItem(cartKey, JSON.stringify(existingCart))
+    setAlertDialog({ isOpen: true, message: 'Đã thêm sản phẩm vào giỏ hàng!', type: 'success' })
   }
 
   const handleUpdateProfile = async (e) => {
@@ -153,8 +236,31 @@ export default function Profile() {
       <div className="container profile-container">
         <div className="profile-sidebar glass-card">
           <div className="profile-user">
-            <div className="profile-avatar">
-              <User size={40} />
+            <div 
+              className="profile-avatar"
+              onClick={() => document.getElementById('avatar-input').click()}
+              style={{ cursor: 'pointer', position: 'relative' }}
+              title="Click để đổi ảnh đại diện"
+            >
+              <input 
+                type="file" 
+                id="avatar-input" 
+                accept="image/*" 
+                style={{ display: 'none' }} 
+                onChange={handleAvatarUpload} 
+                disabled={avatarUploading}
+              />
+              {avatarUploading ? (
+                <RefreshCw className="loading-spinner" size={20} style={{ color: 'var(--primary)' }} />
+              ) : profile?.avatar_url ? (
+                <img 
+                  src={profile.avatar_url} 
+                  alt="Avatar" 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} 
+                />
+              ) : (
+                <User size={40} />
+              )}
             </div>
             <div className="profile-user-info">
               <h3>{profile?.display_name || 'Người dùng'}</h3>
@@ -335,6 +441,7 @@ export default function Profile() {
                         </div>
                         {getStatusBadge(order.status)}
                       </div>
+                      <OrderTimeline status={order.status} />
                       <div className="order-body">
                         {order.order_items?.map((item, idx) => (
                           <div key={idx} className="order-item">
@@ -359,9 +466,26 @@ export default function Profile() {
                         ))}
                       </div>
                       <div className="order-footer">
+                        {order.discount_amount > 0 && (
+                          <div className="profile__order-discount">
+                            🏷️ Mã giảm giá: <strong>{order.coupons?.code}</strong> — Giảm {formatPrice(order.discount_amount)}
+                          </div>
+                        )}
                         <div className="order-totals">
                           <span>Tổng cộng:</span>
                           <span className="total-price">{formatPrice(order.total_amount)}</span>
+                        </div>
+                        <div className="order-actions">
+                          {order.status === 'pending' && (
+                            <button className="btn btn-ghost profile__cancel-btn" onClick={() => handleCancelOrder(order.id)}>
+                              ✕ Hủy đơn hàng
+                            </button>
+                          )}
+                          {(order.status === 'delivered' || order.status === 'cancelled') && (
+                            <button className="btn btn-primary btn--sm" onClick={() => handleReorder(order)}>
+                              <RefreshCw size={14} /> Mua lại
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>

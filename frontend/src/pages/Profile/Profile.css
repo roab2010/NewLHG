@@ -47,6 +47,38 @@
   justify-content: center;
   margin-bottom: 1rem;
   box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.4);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.profile-avatar::before {
+  content: 'Đổi ảnh';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.profile-avatar:hover::before {
+  opacity: 1;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .profile-user-info h3 {
@@ -319,3 +351,97 @@
 .profile-alert-box .btn { width: 100%; justify-content: center; }
 .btn-danger { background: #EF4444; color: white; border: 1px solid transparent; }
 .btn-danger:hover { background: #DC2626; }
+
+/* Order Timeline */
+.order-timeline {
+  margin: 0;
+  padding: var(--space-md, 1rem) var(--space-lg, 1.5rem);
+  background: rgba(255,255,255,0.02);
+}
+.order-timeline__steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+}
+.order-timeline__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  position: relative;
+  flex: 1;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+.order-timeline__step--active { opacity: 1; }
+.order-timeline__step--current .order-timeline__dot {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+}
+.order-timeline__dot {
+  font-size: 1.4rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+  transition: transform 0.3s, filter 0.3s;
+}
+.order-timeline__label {
+  font-size: 0.7rem;
+  color: var(--white-60);
+  text-align: center;
+}
+.order-timeline__line {
+  position: absolute;
+  top: 20px;
+  left: 60%;
+  right: -40%;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  z-index: 0;
+}
+.order-timeline__line--active {
+  background: var(--primary-color, #FFD700);
+}
+.order-timeline__cancelled {
+  text-align: center;
+  color: #FF4444;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.5rem;
+}
+
+/* Order Actions */
+.order-footer {
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.order-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+.profile__cancel-btn {
+  color: #FF4444 !important;
+  border-color: #FF4444 !important;
+}
+.profile__cancel-btn:hover {
+  background: rgba(255,68,68,0.1) !important;
+}
+.profile__order-discount {
+  color: #10B981;
+  font-size: 0.875rem;
+  padding-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .order-timeline__steps { gap: 0.25rem; }
+  .order-timeline__label { font-size: 0.6rem; }
+  .order-timeline__dot { width: 32px; height: 32px; font-size: 1.1rem; }
+  .order-actions { flex-direction: column; }
+}

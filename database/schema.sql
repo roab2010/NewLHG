@@ -118,6 +118,12 @@ ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
 -- Profiles: readable by all, editable by owner
 CREATE POLICY "Profiles are viewable by everyone" ON profiles FOR SELECT USING (true);
 CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
+CREATE POLICY "Admin can update any profile" ON profiles FOR UPDATE USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
+CREATE POLICY "Admin can delete any profile" ON profiles FOR DELETE USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
 CREATE POLICY "Users can insert own profile" ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
 
 -- Members: readable by all
@@ -200,3 +206,89 @@ VALUES
   ('Hoàng Trí Luật', 'YenOi', '2004-01-01', 'Lurker', 'Phán Đoán', '#A855F7', 6),
   ('Phạm Thanh Tài', 'Taile', '2004-06-12', 'AWPer', 'Rình Ai Tắm', '#EC4899', 7)
 ON CONFLICT DO NOTHING;
+
+-- =====================================================
+-- 9. Coupons (Mã giảm giá)
+-- =====================================================
+CREATE TABLE IF NOT EXISTS coupons (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  code TEXT UNIQUE NOT NULL,
+  discount_percent INT NOT NULL CHECK (discount_percent >= 1 AND discount_percent <= 100),
+  max_uses INT DEFAULT NULL,
+  used_count INT DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  expires_at TIMESTAMPTZ DEFAULT NULL,
+  description TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 10. Coupon Usage (Theo dõi sử dụng mã)
+CREATE TABLE IF NOT EXISTS coupon_usage (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  coupon_id UUID REFERENCES coupons(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
+  used_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(coupon_id, user_id)
+);
+
+-- 11. Notifications (Thông báo)
+CREATE TABLE IF NOT EXISTS notifications (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  message TEXT NOT NULL,
+  type TEXT DEFAULT 'info' CHECK (type IN ('order', 'review', 'system', 'info')),
+  is_read BOOLEAN DEFAULT false,
+  link TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- =====================================================
+-- NEW COLUMNS: Orders (coupon support)
+-- =====================================================
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS coupon_id UUID REFERENCES coupons(id);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS discount_amount DECIMAL(10,2) DEFAULT 0;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS notes TEXT;
+
+-- =====================================================
+-- RLS for new tables
+-- =====================================================
+ALTER TABLE coupons ENABLE ROW LEVEL SECURITY;
+ALTER TABLE coupon_usage ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
+
+-- Coupons: readable by all authenticated, manageable by admin
+CREATE POLICY "Coupons are viewable by authenticated users" ON coupons FOR SELECT USING (auth.uid() IS NOT NULL);
+CREATE POLICY "Admin can manage coupons" ON coupons FOR ALL USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
+
+-- Coupon Usage: users can see own, admin sees all
+CREATE POLICY "Users can see own coupon usage" ON coupon_usage FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert own coupon usage" ON coupon_usage FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Admin can see all coupon usage" ON coupon_usage FOR SELECT USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
+
+-- Notifications: users can see/manage own only
+CREATE POLICY "Users can see own notifications" ON notifications FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Users can update own notifications" ON notifications FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Users can delete own notifications" ON notifications FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "System can insert notifications" ON notifications FOR INSERT WITH CHECK (true);
+
+-- Enable realtime for notifications
+ALTER PUBLICATION supabase_realtime ADD TABLE notifications;
+
+-- =====================================================
+-- SEED DATA: Team Member Coupon Codes (10% discount)
+-- =====================================================
+INSERT INTO coupons (code, discount_percent, description, is_active) VALUES
+  ('NHANHOANG', 10, 'Mã giảm giá tuyển thủ NhanHoang', true),
+  ('TUANKITT', 10, 'Mã giảm giá tuyển thủ TuanKitt', true),
+  ('ROAB', 10, 'Mã giảm giá tuyển thủ Roab', true),
+  ('XUNWON', 10, 'Mã giảm giá tuyển thủ XunWon', true),
+  ('LOCMASTER', 10, 'Mã giảm giá tuyển thủ LocMaster', true),
+  ('YENOI', 10, 'Mã giảm giá tuyển thủ YenOi', true),
+  ('TAILE', 10, 'Mã giảm giá tuyển thủ Taile', true)
+ON CONFLICT (code) DO NOTHING;

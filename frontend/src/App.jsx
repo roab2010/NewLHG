@@ -13,6 +13,8 @@ import Checkout from './pages/Checkout/Checkout'
 import Profile from './pages/Profile/Profile'
 import LiveHistory from './pages/LiveHistory/LiveHistory'
 import ProductDetail from './pages/Shop/ProductDetail'
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
+import ResetPassword from './pages/ResetPassword/ResetPassword'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import './App.css'
 
@@ -63,6 +65,8 @@ function AppContent() {
             <Route path="/live-history" element={<LiveHistory />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route 
               path="/checkout" 
               element={

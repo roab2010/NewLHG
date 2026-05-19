@@ -4,6 +4,8 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 
+import { generalLimiter, authLimiter } from './middleware/rateLimit.js'
+
 import authRoutes from './routes/auth.js'
 import memberRoutes from './routes/members.js'
 import productRoutes from './routes/products.js'
@@ -12,6 +14,9 @@ import postRoutes from './routes/posts.js'
 import statsRoutes from './routes/stats.js'
 import adminRoutes from './routes/admin.js'
 import reviewRoutes from './routes/reviews.js'
+import couponsRoutes from './routes/coupons.js'
+import notificationsRoutes from './routes/notifications.js'
+import analyticsRoutes from './routes/analytics.js'
 
 dotenv.config()
 
@@ -31,9 +36,10 @@ app.use(cors({
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(generalLimiter)
 
 // Routes
-app.use('/api/auth', authRoutes)
+app.use('/api/auth', authLimiter, authRoutes)
 app.use('/api/members', memberRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/orders', orderRoutes)
@@ -41,6 +47,9 @@ app.use('/api/posts', postRoutes)
 app.use('/api/stats', statsRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/reviews', reviewRoutes)
+app.use('/api/coupons', couponsRoutes)
+app.use('/api/notifications', notificationsRoutes)
+app.use('/api/admin/analytics', analyticsRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {

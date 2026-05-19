@@ -167,3 +167,142 @@ export async function updateUserRole(userId, role, token) {
   if (!res.ok) throw new Error('Failed to update role')
   return res.json()
 }
+
+// ── Coupons ──
+export async function validateCoupon(code, token) {
+  const res = await fetch(`${API_URL}/coupons/validate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ code }),
+  })
+  if (!res.ok) {
+    const errorData = await res.json()
+    throw new Error(errorData.error || 'Mã giảm giá không hợp lệ')
+  }
+  return res.json()
+}
+
+export async function fetchCoupons(token) {
+  const res = await fetch(`${API_URL}/coupons`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to fetch coupons')
+  return res.json()
+}
+
+export async function createCoupon(couponData, token) {
+  const res = await fetch(`${API_URL}/coupons`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(couponData),
+  })
+  if (!res.ok) {
+    const errorData = await res.json()
+    throw new Error(errorData.error || 'Failed to create coupon')
+  }
+  return res.json()
+}
+
+export async function updateCoupon(id, couponData, token) {
+  const res = await fetch(`${API_URL}/coupons/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(couponData),
+  })
+  if (!res.ok) {
+    const errorData = await res.json()
+    throw new Error(errorData.error || 'Failed to update coupon')
+  }
+  return res.json()
+}
+
+export async function deleteCoupon(id, token) {
+  const res = await fetch(`${API_URL}/coupons/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to delete coupon')
+  return res.json()
+}
+
+// ── Notifications ──
+export async function fetchNotifications(token) {
+  const res = await fetch(`${API_URL}/notifications`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to fetch notifications')
+  return res.json()
+}
+
+export async function markNotificationRead(id, token) {
+  const res = await fetch(`${API_URL}/notifications/${id}/read`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to mark notification as read')
+  return res.json()
+}
+
+export async function markAllNotificationsRead(token) {
+  const res = await fetch(`${API_URL}/notifications/read-all`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to mark all notifications as read')
+  return res.json()
+}
+
+// ── Orders (Cancel Order) ──
+export async function cancelOrder(orderId, token) {
+  const res = await fetch(`${API_URL}/orders/${orderId}/cancel`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) {
+    const errorData = await res.json()
+    throw new Error(errorData.error || 'Failed to cancel order')
+  }
+  return res.json()
+}
+
+// ── Analytics (Admin) ──
+export async function fetchAnalyticsRevenue(days = 30, token) {
+  const res = await fetch(`${API_URL}/admin/analytics/revenue?days=${days}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to fetch revenue analytics')
+  return res.json()
+}
+
+export async function fetchAnalyticsTopProducts(token) {
+  const res = await fetch(`${API_URL}/admin/analytics/top-products`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to fetch top products analytics')
+  return res.json()
+}
+
+export async function fetchAnalyticsUsersGrowth(days = 30, token) {
+  const res = await fetch(`${API_URL}/admin/analytics/users-growth?days=${days}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to fetch users growth analytics')
+  return res.json()
+}
+
+export async function fetchAnalyticsOrdersByStatus(token) {
+  const res = await fetch(`${API_URL}/admin/analytics/orders-by-status`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to fetch orders status analytics')
+  return res.json()
+}

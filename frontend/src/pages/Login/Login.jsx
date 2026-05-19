@@ -106,6 +106,8 @@ export default function Login() {
               </>
             )}
           </button>
+
+          <Link to="/forgot-password" className="login__forgot-link">Quên mật khẩu?</Link>
         </form>
 
         <div className="auth-card__footer">
