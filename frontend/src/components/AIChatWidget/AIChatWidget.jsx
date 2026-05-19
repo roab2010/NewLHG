@@ -143,7 +143,9 @@ export default function AIChatWidget() {
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        content: 'Hệ thống AI gặp sự cố nhỏ khi kết nối. Bạn vui lòng thử lại sau giây lát nhé! 🎮🤖',
+        content: err.message && err.message !== 'Failed to get AI response'
+          ? `🤖 **Thông báo hệ thống:** ${err.message}`
+          : 'Hệ thống AI gặp sự cố nhỏ khi kết nối. Bạn vui lòng thử lại sau giây lát nhé! 🎮🤖',
         timestamp: new Date()
       }])
     } finally {

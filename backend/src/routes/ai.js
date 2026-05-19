@@ -322,6 +322,24 @@ QUY TẮC PHẢN HỒI:
 
   } catch (error) {
     console.error('[Gemini AI Error]:', error)
+    
+    const errorMessage = error.message || ''
+    const status = error.status || 0
+    
+    // Nếu hết lượt/Quota: Trả về reply lịch sự giải thích rõ nguyên nhân thay vì ném lỗi 500
+    if (status === 429 || errorMessage.includes('429') || errorMessage.includes('quota') || errorMessage.includes('Quota')) {
+      return res.json({
+        reply: '🤖 **Rất tiếc!** Hiện tại tài khoản trí tuệ nhân tạo (Gemini API Key) của hệ thống đã vượt quá giới hạn lượt trò chuyện miễn phí trong ngày (Lỗi 429 - Quota Exceeded).\n\nAnh Bảo vui lòng thử lại sau hoặc cập nhật thêm API Key mới trong trang cấu hình Admin nhé! 🎮✨'
+      })
+    }
+    
+    // Nếu API Key bị sai/hết hạn: Báo Admin kiểm tra
+    if (status === 400 || status === 403 || errorMessage.includes('API key') || errorMessage.includes('key not valid')) {
+      return res.json({
+        reply: '🤖 **Khóa kết nối API (GEMINI_API_KEY) hiện tại của hệ thống không hợp lệ hoặc đã hết hạn.**\n\nAnh Bảo vui lòng kiểm tra và cập nhật lại API Key chính xác trong trang cấu hình Admin nhé! 🎮🛠️'
+      })
+    }
+    
     res.status(500).json({ error: 'Đã xảy ra lỗi khi kết nối với trí tuệ nhân tạo, vui lòng thử lại sau!' })
   }
 })
