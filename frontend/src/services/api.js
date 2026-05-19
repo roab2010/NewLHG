@@ -336,3 +336,25 @@ export async function updateOrderStatus(orderId, status, token) {
   if (!res.ok) throw new Error('Failed to update order status')
   return res.json()
 }
+
+export async function fetchAdminAIConfig(token) {
+  const res = await fetch(`${API_URL}/ai/admin-config`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to fetch admin AI config')
+  return res.json()
+}
+
+export async function updateAdminAIConfig(config, token) {
+  const res = await fetch(`${API_URL}/ai/admin-config`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(config),
+  })
+  if (!res.ok) throw new Error('Failed to update admin AI config')
+  return res.json()
+}
+

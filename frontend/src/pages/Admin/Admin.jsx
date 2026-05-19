@@ -11,7 +11,8 @@ import { uploadImage } from '../../services/storage'
 import {
   fetchCoupons, createCoupon, updateCoupon, deleteCoupon,
   fetchAnalyticsRevenue, fetchAnalyticsTopProducts, fetchAnalyticsUsersGrowth, fetchAnalyticsOrdersByStatus,
-  updateOrderStatus, fetchAdminReviews, deleteAdminReview
+  updateOrderStatus, fetchAdminReviews, deleteAdminReview,
+  fetchAdminAIConfig, updateAdminAIConfig
 } from '../../services/api'
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -241,15 +242,8 @@ export default function Admin() {
       if (profile?.role !== 'admin' || activeTab !== 'ai' || !token) return
       setAiLoading(true)
       try {
-        const res = await fetch(`${API_URL}/ai/admin-config`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        if (res.ok) {
-          const data = await res.json()
-          setAiConfig(data)
-        } else {
-          throw new Error('Không thể tải cấu hình AI')
-        }
+        const data = await fetchAdminAIConfig(token)
+        setAiConfig(data)
       } catch (err) {
         console.error('Lỗi khi tải cấu hình AI:', err)
         setAlertDialog({ isOpen: true, message: 'Lỗi khi tải cấu hình trợ lý ảo AI!' })
@@ -265,23 +259,9 @@ export default function Admin() {
     e.preventDefault()
     setAiSaving(true)
     try {
-      const res = await fetch(`${API_URL}/ai/admin-config`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(aiConfig)
-      })
-
-      if (res.ok) {
-        const data = await res.json()
-        setAiConfig(data.config)
-        setAlertDialog({ isOpen: true, message: 'Đã cập nhật cấu hình huấn luyện AI thành công!' })
-      } else {
-        const errData = await res.json()
-        throw new Error(errData.error || 'Không thể cập nhật cấu hình AI')
-      }
+      const data = await updateAdminAIConfig(aiConfig, token)
+      setAiConfig(data.config)
+      setAlertDialog({ isOpen: true, message: 'Đã cập nhật cấu hình huấn luyện AI thành công!' })
     } catch (err) {
       console.error('Lỗi khi lưu cấu hình AI:', err)
       setAlertDialog({ isOpen: true, message: err.message || 'Lỗi khi cập nhật cấu hình AI!' })
