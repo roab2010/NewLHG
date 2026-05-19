@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, CheckCircle2, Package, MapPin, Phone, User as UserIcon, X } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
-import { validateCoupon } from '../../services/api'
+import { validateCoupon, createOrder } from '../../services/api'
 import { sendTelegramMessage } from '../../services/telegram'
 import './Checkout.css'
 
@@ -100,48 +100,24 @@ export default function Checkout() {
     setIsSubmitting(true)
 
     try {
-      // 1. Tạo đơn hàng mới
-      const { data: orderData, error: orderError } = await supabase
-        .from('orders')
-        .insert({
-          user_id: user.id,
-          total_amount: finalTotal,
-          status: 'pending',
-          shipping_address: formData.address,
-          phone: formData.phone,
-          notes: formData.notes,
-          coupon_id: couponApplied?.id || null,
-          discount_amount: discountAmount
-        })
-        .select()
-        .single()
-
-      if (orderError) throw orderError
-
-      // 2. Tạo chi tiết đơn hàng (order_items)
-      const orderItems = cart.map(item => ({
-        order_id: orderData.id,
-        product_id: item.id,
-        quantity: item.quantity,
-        price: item.price
-      }))
-
-      const { error: itemsError } = await supabase
-        .from('order_items')
-        .insert(orderItems)
-
-      if (itemsError) throw itemsError
-
-      // 3. Ghi nhận sử dụng mã giảm giá
-      if (couponApplied) {
-        await supabase.from('coupon_usage').insert({
-          coupon_id: couponApplied.id,
-          user_id: user.id,
-          order_id: orderData.id,
-        })
+      // 1. Chuẩn bị dữ liệu đơn hàng
+      const orderData = {
+        items: cart.map(item => ({
+          product_id: item.id,
+          quantity: item.quantity,
+          price: item.price
+        })),
+        shipping_address: formData.address,
+        phone: formData.phone,
+        notes: formData.notes,
+        coupon_id: couponApplied?.id || null,
+        discount_amount: discountAmount
       }
 
-      // 4. Gửi thông báo Telegram
+      // 2. Gọi API backend tạo đơn hàng
+      const createdOrder = await createOrder(orderData, token)
+
+      // 3. Gửi thông báo Telegram
       const orderMsg = `
 <b>🛍 ĐƠN HÀNG MỚI!</b>
 ------------------------
@@ -160,14 +136,14 @@ ${formData.notes ? `<b>Ghi chú:</b> ${formData.notes}` : ''}
       
       await sendTelegramMessage(orderMsg);
 
-      // 5. Thành công
+      // 4. Thành công
       setIsSuccess(true)
       if (user?.id) {
         localStorage.removeItem(`cart_${user.id}`)
       }
     } catch (err) {
       console.error('Lỗi khi đặt hàng:', err)
-      setAlertDialog({ isOpen: true, message: 'Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!', type: 'error' })
+      setAlertDialog({ isOpen: true, message: err.message || 'Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!', type: 'error' })
     } finally {
       setIsSubmitting(false)
     }

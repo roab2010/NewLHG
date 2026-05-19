@@ -306,3 +306,16 @@ export async function fetchAnalyticsOrdersByStatus(token) {
   if (!res.ok) throw new Error('Failed to fetch orders status analytics')
   return res.json()
 }
+
+export async function updateOrderStatus(orderId, status, token) {
+  const res = await fetch(`${API_URL}/orders/${orderId}/status`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status }),
+  })
+  if (!res.ok) throw new Error('Failed to update order status')
+  return res.json()
+}

@@ -8,7 +8,7 @@ const router = express.Router()
 // POST /api/orders (authenticated customers)
 router.post('/', authMiddleware, async (req, res) => {
   try {
-    const { items, shipping_address, phone, coupon_id, discount_amount } = req.body
+    const { items, shipping_address, phone, coupon_id, discount_amount, notes } = req.body
     
     // Calculate total
     let totalAmount = 0
@@ -34,6 +34,7 @@ router.post('/', authMiddleware, async (req, res) => {
       shipping_address,
       phone,
       status: 'pending',
+      notes: notes || null
     }
     if (coupon_id) orderInsert.coupon_id = coupon_id
     if (discount_amount) orderInsert.discount_amount = discount_amount
@@ -143,8 +144,8 @@ router.put('/:id/status', authMiddleware, requireRole('admin'), async (req, res)
   }
 })
 
-// PUT /api/orders/cancel/:id - User cancels own pending order
-router.put('/cancel/:id', authMiddleware, async (req, res) => {
+// PUT /api/orders/:id/cancel - User cancels own pending order
+router.put('/:id/cancel', authMiddleware, async (req, res) => {
   try {
     // First check if order belongs to user and is pending
     const { data: order, error: findError } = await supabase
@@ -170,6 +171,15 @@ router.put('/cancel/:id', authMiddleware, async (req, res) => {
       .single()
 
     if (error) throw error
+
+    // Notify all admins about the cancelled order
+    const { data: admins } = await supabase.from('profiles').select('id').eq('role', 'admin')
+    if (admins) {
+      for (const admin of admins) {
+        await createNotification(admin.id, 'Đơn hàng đã hủy', `Đơn hàng #${data.id.substring(0, 8)} đã bị khách hàng hủy`, 'order', '/admin')
+      }
+    }
+
     res.json(data)
   } catch (error) {
     res.status(400).json({ error: error.message })

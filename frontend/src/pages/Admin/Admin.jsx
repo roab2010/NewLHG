@@ -10,7 +10,8 @@ import { supabase } from '../../services/supabase'
 import { uploadImage } from '../../services/storage'
 import {
   fetchCoupons, createCoupon, updateCoupon, deleteCoupon,
-  fetchAnalyticsRevenue, fetchAnalyticsTopProducts, fetchAnalyticsUsersGrowth, fetchAnalyticsOrdersByStatus
+  fetchAnalyticsRevenue, fetchAnalyticsTopProducts, fetchAnalyticsUsersGrowth, fetchAnalyticsOrdersByStatus,
+  updateOrderStatus
 } from '../../services/api'
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -231,8 +232,8 @@ export default function Admin() {
   }
 
   const handleUpdateOrderStatus = async (id, newStatus) => {
-    const { error } = await supabase.from('orders').update({ status: newStatus }).eq('id', id)
-    if (!error) {
+    try {
+      await updateOrderStatus(id, newStatus, token)
       setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus } : o))
       
       // Update statistics revenue
@@ -245,7 +246,9 @@ export default function Admin() {
           setStats(s => ({ ...s, revenue: Math.max(0, s.revenue - Number(oldO.total_amount)) }))
         }
       }
-    } else setAlertDialog({ isOpen: true, message: 'Lỗi khi cập nhật trạng thái đơn hàng!' })
+    } catch (err) {
+      setAlertDialog({ isOpen: true, message: err.message || 'Lỗi khi cập nhật trạng thái đơn hàng!' })
+    }
   }
 
   const handleUpdateUserRole = async (id, newRole) => {
