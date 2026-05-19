@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, Package, ShoppingBag, Users, FileText,
   Plus, Edit2, Trash2, Eye, DollarSign, UserCheck, Upload,
-  Ticket, Calendar, Tag, AlertCircle, CheckCircle2, RefreshCw
+  Ticket, Calendar, Tag, AlertCircle, CheckCircle2, RefreshCw, Star
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../services/supabase'
@@ -11,7 +11,7 @@ import { uploadImage } from '../../services/storage'
 import {
   fetchCoupons, createCoupon, updateCoupon, deleteCoupon,
   fetchAnalyticsRevenue, fetchAnalyticsTopProducts, fetchAnalyticsUsersGrowth, fetchAnalyticsOrdersByStatus,
-  updateOrderStatus
+  updateOrderStatus, fetchAdminReviews, deleteAdminReview
 } from '../../services/api'
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -25,6 +25,7 @@ const sidebarItems = [
   { key: 'orders', label: 'Đơn Hàng', icon: <ShoppingBag size={20} /> },
   { key: 'coupons', label: 'Mã Giảm Giá', icon: <Ticket size={20} /> },
   { key: 'users', label: 'Người Dùng', icon: <Users size={20} /> },
+  { key: 'reviews', label: 'Đánh Giá', icon: <Star size={20} /> },
   { key: 'members', label: 'Thành Viên', icon: <UserCheck size={20} /> },
   { key: 'posts', label: 'Bài Viết', icon: <FileText size={20} /> },
 ]
@@ -76,6 +77,12 @@ export default function Admin() {
     description: ''
   })
   const [couponSubmitting, setCouponSubmitting] = useState(false)
+  
+  // Reviews States
+  const [reviews, setReviews] = useState([])
+  const [reviewLoading, setReviewLoading] = useState(false)
+  const [reviewFilterRating, setReviewFilterRating] = useState('all')
+  const [reviewSearchQuery, setReviewSearchQuery] = useState('')
 
   // Modal States
   const [productModal, setProductModal] = useState({ isOpen: false, data: null })
@@ -198,6 +205,23 @@ export default function Admin() {
     loadCouponsData()
   }, [profile, activeTab, token])
 
+  // Load Reviews Data
+  useEffect(() => {
+    async function loadReviewsData() {
+      if (profile?.role !== 'admin' || activeTab !== 'reviews' || !token) return
+      setReviewLoading(true)
+      try {
+        const data = await fetchAdminReviews(token)
+        setReviews(data || [])
+      } catch (err) {
+        console.error('Lỗi khi tải danh sách đánh giá:', err)
+      } finally {
+        setReviewLoading(false)
+      }
+    }
+    loadReviewsData()
+  }, [profile, activeTab, token])
+
   // Product CRUD Handlers
   const handleDeleteProduct = (id) => {
     setConfirmDialog({
@@ -226,6 +250,23 @@ export default function Admin() {
           setStats(s => ({ ...s, users: s.users - 1 }))
         }
         else setAlertDialog({ isOpen: true, message: 'Lỗi khi xóa người dùng: ' + error.message })
+        setConfirmDialog({ isOpen: false })
+      }
+    })
+  }
+
+  const handleDeleteReview = (id) => {
+    setConfirmDialog({
+      isOpen: true,
+      message: 'Bạn có chắc chắn muốn xóa đánh giá này không? Hành động này cũng sẽ cập nhật lại điểm trung bình của sản phẩm tương ứng.',
+      onConfirm: async () => {
+        try {
+          await deleteAdminReview(id, token)
+          setReviews(reviews.filter(r => r.id !== id))
+          setAlertDialog({ isOpen: true, message: 'Đã xóa đánh giá thành công!' })
+        } catch (err) {
+          setAlertDialog({ isOpen: true, message: err.message || 'Lỗi khi xóa đánh giá!' })
+        }
         setConfirmDialog({ isOpen: false })
       }
     })
@@ -879,6 +920,168 @@ export default function Admin() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            </motion.div>
+          )}
+          
+          {/* TAB: REVIEW MANAGEMENT */}
+          {activeTab === 'reviews' && (
+            <motion.div
+              key="reviews"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="admin-section glass-card">
+                <div className="admin-section__header-flex">
+                  <h2>Quản Lý Đánh Giá từ Khách Hàng</h2>
+                  <div className="admin-filters">
+                    {/* Ô Tìm Kiếm */}
+                    <input
+                      type="text"
+                      placeholder="Tìm theo sản phẩm, khách hàng..."
+                      value={reviewSearchQuery}
+                      onChange={(e) => setReviewSearchQuery(e.target.value)}
+                      className="admin-search-input"
+                    />
+                    
+                    {/* Bộ lọc Rating */}
+                    <select
+                      value={reviewFilterRating}
+                      onChange={(e) => setReviewFilterRating(e.target.value)}
+                      className="admin-select"
+                    >
+                      <option value="all">Tất cả sao</option>
+                      <option value="5">⭐⭐⭐⭐⭐ (5 sao)</option>
+                      <option value="4">⭐⭐⭐⭐ (4 sao)</option>
+                      <option value="3">⭐⭐⭐ (3 sao)</option>
+                      <option value="2">⭐⭐ (2 sao)</option>
+                      <option value="1">⭐ (1 sao)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {reviewLoading ? (
+                  <div className="admin-loading-spinner-wrapper">
+                    <RefreshCw className="loading-spinner" size={24} />
+                    <p>Đang tải danh sách đánh giá...</p>
+                  </div>
+                ) : (
+                  <div className="admin-table-container" style={{ overflowX: 'auto' }}>
+                    <table className="admin-table">
+                      <thead>
+                        <tr>
+                          <th>Khách hàng</th>
+                          <th>Sản phẩm</th>
+                          <th style={{ width: '120px' }}>Đánh giá</th>
+                          <th>Nội dung nhận xét</th>
+                          <th style={{ width: '150px' }}>Thời gian</th>
+                          <th style={{ width: '80px', textAlign: 'center' }}>Thao tác</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {reviews
+                          .filter(r => {
+                            if (reviewFilterRating !== 'all' && r.rating !== parseInt(reviewFilterRating)) {
+                              return false;
+                            }
+                            if (reviewSearchQuery.trim() !== '') {
+                              const q = reviewSearchQuery.toLowerCase();
+                              const userName = r.profiles?.display_name?.toLowerCase() || '';
+                              const userEmail = r.profiles?.email?.toLowerCase() || '';
+                              const productName = r.products?.name?.toLowerCase() || '';
+                              const comment = r.comment?.toLowerCase() || '';
+                              return userName.includes(q) || userEmail.includes(q) || productName.includes(q) || comment.includes(q);
+                            }
+                            return true;
+                          })
+                          .length === 0 ? (
+                            <tr>
+                              <td colSpan="6" style={{ textAlign: 'center', padding: 'var(--space-2xl)', color: 'var(--white-40)' }}>
+                                Không tìm thấy đánh giá nào phù hợp.
+                              </td>
+                            </tr>
+                          ) : (
+                            reviews
+                              .filter(r => {
+                                if (reviewFilterRating !== 'all' && r.rating !== parseInt(reviewFilterRating)) return false;
+                                if (reviewSearchQuery.trim() !== '') {
+                                  const q = reviewSearchQuery.toLowerCase();
+                                  const userName = r.profiles?.display_name?.toLowerCase() || '';
+                                  const userEmail = r.profiles?.email?.toLowerCase() || '';
+                                  const productName = r.products?.name?.toLowerCase() || '';
+                                  const comment = r.comment?.toLowerCase() || '';
+                                  return userName.includes(q) || userEmail.includes(q) || productName.includes(q) || comment.includes(q);
+                                }
+                                return true;
+                              })
+                              .map(r => (
+                                <tr key={r.id} className="admin-review-row">
+                                  <td>
+                                    <div className="admin-user-profile-flex">
+                                      <img
+                                        src={r.profiles?.avatar_url || '/images/default-avatar.png'}
+                                        alt="Avatar"
+                                        className="admin-user-avatar-small"
+                                        onError={(e) => { e.target.src = '/images/default-avatar.png' }}
+                                      />
+                                      <div>
+                                        <p className="admin-user-name-bold">{r.profiles?.display_name || 'Khách hàng LHE'}</p>
+                                        <span className="admin-user-email-sub">{r.profiles?.email || 'customer@lhe.vn'}</span>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="admin-product-profile-flex">
+                                      <img
+                                        src={r.products?.image_url || '/images/default-product.png'}
+                                        alt="Product"
+                                        className="admin-product-img-small"
+                                        onError={(e) => { e.target.src = '/images/default-product.png' }}
+                                      />
+                                      <p className="admin-product-name-bold">{r.products?.name || 'Sản phẩm LHE'}</p>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="admin-rating-stars-flex">
+                                      {[...Array(5)].map((_, i) => (
+                                        <Star
+                                          key={i}
+                                          size={14}
+                                          fill={i < r.rating ? "#F59E0B" : "none"}
+                                          stroke={i < r.rating ? "#F59E0B" : "var(--white-20)"}
+                                        />
+                                      ))}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <p className="admin-review-comment">{r.comment || <em style={{color:'var(--white-20)'}}>Không có nhận xét</em>}</p>
+                                  </td>
+                                  <td>
+                                    <span className="admin-review-date">{formatDate(r.created_at)}</span>
+                                  </td>
+                                  <td>
+                                    <div className="admin-table__actions" style={{ justifyContent: 'center' }}>
+                                      <button
+                                        className="admin-action-btn admin-action-btn--danger"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleDeleteReview(r.id);
+                                        }}
+                                        title="Xóa đánh giá này"
+                                      >
+                                        <Trash2 size={16} />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
+                          )}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

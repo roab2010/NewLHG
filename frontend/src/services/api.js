@@ -138,6 +138,23 @@ export async function submitReview(reviewData, token) {
   return res.json()
 }
 
+export async function fetchAdminReviews(token) {
+  const res = await fetch(`${API_URL}/reviews`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to fetch admin reviews')
+  return res.json()
+}
+
+export async function deleteAdminReview(id, token) {
+  const res = await fetch(`${API_URL}/reviews/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to delete review')
+  return res.json()
+}
+
 // ── Admin ──
 export async function fetchAdminDashboard(token) {
   const res = await fetch(`${API_URL}/admin/dashboard`, {

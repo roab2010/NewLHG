@@ -1,6 +1,6 @@
 import express from 'express'
 import { supabase } from '../config/supabase.js'
-import { authMiddleware } from '../middleware/auth.js'
+import { authMiddleware, requireRole } from '../middleware/auth.js'
 
 const router = express.Router()
 
@@ -109,6 +109,72 @@ router.post('/', authMiddleware, async (req, res) => {
     res.status(201).json(data)
   } catch (error) {
     res.status(400).json({ error: error.message })
+  }
+})
+
+// GET /api/reviews - Lấy TẤT CẢ đánh giá (Chỉ dành cho Admin)
+router.get('/', authMiddleware, requireRole('admin'), async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('*, profiles(display_name, avatar_url, email), products(id, name, image_url)')
+      .order('created_at', { ascending: false })
+
+    if (error) throw error
+    res.json(data)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// DELETE /api/reviews/:id - Xóa một đánh giá (Chỉ dành cho Admin)
+router.delete('/:id', authMiddleware, requireRole('admin'), async (req, res) => {
+  try {
+    const { id } = req.params
+
+    // 1. Lấy thông tin review trước khi xóa để biết product_id
+    const { data: review, error: getError } = await supabase
+      .from('reviews')
+      .select('product_id')
+      .eq('id', id)
+      .maybeSingle()
+
+    if (getError) throw getError
+    if (!review) {
+      return res.status(404).json({ error: 'Không tìm thấy đánh giá cần xóa.' })
+    }
+
+    // 2. Thực hiện xóa đánh giá
+    const { error: deleteError } = await supabase
+      .from('reviews')
+      .delete()
+      .eq('id', id)
+
+    if (deleteError) throw deleteError
+
+    // 3. Tính toán lại rating trung bình cho sản phẩm
+    const { data: allReviews, error: reviewsError } = await supabase
+      .from('reviews')
+      .select('rating')
+      .eq('product_id', review.product_id)
+
+    if (reviewsError) throw reviewsError
+
+    const avg = allReviews && allReviews.length > 0
+      ? allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length
+      : 0
+
+    // Cập nhật rating mới cho sản phẩm
+    const { error: updateError } = await supabase
+      .from('products')
+      .update({ rating: parseFloat(avg.toFixed(1)) })
+      .eq('id', review.product_id)
+
+    if (updateError) throw updateError
+
+    res.json({ success: true, message: 'Đã xóa đánh giá thành công và cập nhật điểm sản phẩm.' })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
   }
 })
 
