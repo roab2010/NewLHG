@@ -14,7 +14,7 @@
     "flexWinRate": "52%",
     "kda": "1.52",
     "matchesPlayed": 24,
-    "updatedAt": "2026-05-31T14:45:28.153Z"
+    "updatedAt": "2026-05-31T16:08:51.753Z"
   },
   {
     "nickname": "YoneMin999",
@@ -31,24 +31,24 @@
     "flexWinRate": "44%",
     "kda": "2.41",
     "matchesPlayed": 14,
-    "updatedAt": "2026-05-31T14:45:34.476Z"
+    "updatedAt": "2026-05-31T16:08:58.092Z"
   },
   {
     "nickname": "TALE12",
     "tag": "2640",
-    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/7__100.webp",
-    "rank": "Silver 1",
-    "lp": "68 LP",
-    "winRate": "53%",
-    "soloRank": "Silver 1",
-    "soloLP": "68 LP",
-    "soloWinRate": "53%",
-    "flexRank": "Silver 2",
-    "flexLP": "61 LP",
-    "flexWinRate": "50%",
-    "kda": "1.79",
-    "matchesPlayed": 30,
-    "updatedAt": "2026-05-31T14:45:40.735Z"
+    "profileIcon": "",
+    "rank": "Unranked",
+    "lp": "0 LP",
+    "winRate": "0%",
+    "soloRank": "Unranked",
+    "soloLP": "0 LP",
+    "soloWinRate": "0%",
+    "flexRank": "Unranked",
+    "flexLP": "0 LP",
+    "flexWinRate": "0%",
+    "kda": "0.00",
+    "matchesPlayed": 0,
+    "updatedAt": "2026-05-31T16:09:04.255Z"
   },
   {
     "nickname": "Trảm Tình",
@@ -65,7 +65,7 @@
     "flexWinRate": "52%",
     "kda": "3.08",
     "matchesPlayed": 217,
-    "updatedAt": "2026-05-31T14:45:46.999Z"
+    "updatedAt": "2026-05-31T16:09:10.536Z"
   },
   {
     "nickname": "Young B",
@@ -82,7 +82,7 @@
     "flexWinRate": "51%",
     "kda": "3.12",
     "matchesPlayed": 24,
-    "updatedAt": "2026-05-31T14:45:53.207Z"
+    "updatedAt": "2026-05-31T16:09:16.751Z"
   },
   {
     "nickname": "Xun Won Tới Chơi",
@@ -99,7 +99,7 @@
     "flexWinRate": "38%",
     "kda": "2",
     "matchesPlayed": 0,
-    "updatedAt": "2026-05-31T14:45:59.408Z"
+    "updatedAt": "2026-05-31T16:09:22.919Z"
   },
   {
     "nickname": "LHE Shadow",
@@ -116,6 +116,6 @@
     "flexWinRate": "73%",
     "kda": "2.94",
     "matchesPlayed": 0,
-    "updatedAt": "2026-05-31T14:46:05.599Z"
+    "updatedAt": "2026-05-31T16:09:29.108Z"
   }
 ]
