@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-16T15:53:29.162Z",
+  "lastUpdated": "2026-06-16T19:36:25.047Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 16,
       "damage": 890492,
       "rounds": 12311,
-      "scrapedAt": "2026-06-16T15:52:44.603Z"
+      "scrapedAt": "2026-06-16T19:35:39.414Z"
     },
     {
       "nickname": "Roab",
@@ -44,22 +44,22 @@
       "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
       "bestRank": "14,963",
       "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
-      "kd": 1.21,
+      "kd": 1.2,
       "rating": 1.28,
       "winRate": 47,
       "hsPercent": 44,
       "adr": 91,
-      "kills": 9998,
-      "deaths": 8294,
-      "assists": 2357,
-      "headshots": 4377,
-      "played": 537,
+      "kills": 10009,
+      "deaths": 8313,
+      "assists": 2362,
+      "headshots": 4381,
+      "played": 538,
       "won": 252,
-      "lost": 271,
+      "lost": 272,
       "tied": 14,
-      "damage": 1035267,
-      "rounds": 11360,
-      "scrapedAt": "2026-06-16T15:52:53.164Z"
+      "damage": 1036764,
+      "rounds": 11380,
+      "scrapedAt": "2026-06-16T19:35:47.922Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 131755,
       "rounds": 2048,
-      "scrapedAt": "2026-06-16T15:53:00.607Z"
+      "scrapedAt": "2026-06-16T19:35:59.132Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +119,7 @@
       "tied": 6,
       "damage": 156115,
       "rounds": 2044,
-      "scrapedAt": "2026-06-16T15:53:09.792Z"
+      "scrapedAt": "2026-06-16T19:36:06.624Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-06-16T15:53:18.855Z"
+      "scrapedAt": "2026-06-16T19:36:14.743Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +179,7 @@
       "tied": 12,
       "damage": 798677,
       "rounds": 9833,
-      "scrapedAt": "2026-06-16T15:53:27.044Z"
+      "scrapedAt": "2026-06-16T19:36:22.929Z"
     }
   ]
 }
