@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-24T16:23:10.442Z",
+  "lastUpdated": "2026-06-24T18:52:51.685Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 17,
       "damage": 897615,
       "rounds": 12422,
-      "scrapedAt": "2026-06-24T16:22:29.657Z"
+      "scrapedAt": "2026-06-24T18:52:13.067Z"
     },
     {
       "nickname": "Roab",
@@ -39,7 +39,7 @@
       "steamProfile": "https://steamcommunity.com/profiles/76561199167690122",
       "csstatsUrl": "https://csstats.gg/player/76561199167690122",
       "playerName": "forest_sum2k4",
-      "avatar": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/77/77b1fdf62a69e8b008c37b5e664be04ea0412254_full.jpg",
+      "avatar": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/15/15005f8a36d3566f0729bf79c05c8a5bfc19e831_full.jpg",
       "currentRank": "13,878",
       "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
       "bestRank": "14,963",
@@ -59,7 +59,7 @@
       "tied": 15,
       "damage": 1064458,
       "rounds": 11696,
-      "scrapedAt": "2026-06-24T16:22:37.668Z"
+      "scrapedAt": "2026-06-24T18:52:20.083Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 134417,
       "rounds": 2090,
-      "scrapedAt": "2026-06-24T16:22:45.274Z"
+      "scrapedAt": "2026-06-24T18:52:26.821Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +119,7 @@
       "tied": 6,
       "damage": 156115,
       "rounds": 2044,
-      "scrapedAt": "2026-06-24T16:22:51.547Z"
+      "scrapedAt": "2026-06-24T18:52:34.576Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-06-24T16:22:59.707Z"
+      "scrapedAt": "2026-06-24T18:52:42.660Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +179,7 @@
       "tied": 13,
       "damage": 814058,
       "rounds": 10033,
-      "scrapedAt": "2026-06-24T16:23:08.320Z"
+      "scrapedAt": "2026-06-24T18:52:49.568Z"
     }
   ]
 }
