@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-08T11:05:45.930Z",
+  "lastUpdated": "2026-07-08T14:04:52.360Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 17,
       "damage": 902059,
       "rounds": 12475,
-      "scrapedAt": "2026-07-08T11:04:55.612Z"
+      "scrapedAt": "2026-07-08T14:04:13.722Z"
     },
     {
       "nickname": "Roab",
@@ -59,7 +59,7 @@
       "tied": 15,
       "damage": 1069282,
       "rounds": 11749,
-      "scrapedAt": "2026-07-08T11:05:05.087Z"
+      "scrapedAt": "2026-07-08T14:04:21.145Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 138103,
       "rounds": 2143,
-      "scrapedAt": "2026-07-08T11:05:16.436Z"
+      "scrapedAt": "2026-07-08T14:04:29.171Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +119,7 @@
       "tied": 6,
       "damage": 157680,
       "rounds": 2065,
-      "scrapedAt": "2026-07-08T11:05:27.266Z"
+      "scrapedAt": "2026-07-08T14:04:35.169Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-07-08T11:05:35.494Z"
+      "scrapedAt": "2026-07-08T14:04:43.363Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +179,7 @@
       "tied": 13,
       "damage": 818519,
       "rounds": 10086,
-      "scrapedAt": "2026-07-08T11:05:43.796Z"
+      "scrapedAt": "2026-07-08T14:04:50.236Z"
     }
   ]
 }
