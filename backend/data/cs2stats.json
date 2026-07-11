@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-11T19:18:37.491Z",
+  "lastUpdated": "2026-07-11T20:46:57.665Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 17,
       "damage": 910695,
       "rounds": 12575,
-      "scrapedAt": "2026-07-11T19:17:50.727Z"
+      "scrapedAt": "2026-07-11T20:46:14.898Z"
     },
     {
       "nickname": "Roab",
@@ -49,17 +49,17 @@
       "winRate": 47,
       "hsPercent": 44,
       "adr": 91,
-      "kills": 10393,
-      "deaths": 8615,
-      "assists": 2438,
-      "headshots": 4569,
-      "played": 557,
+      "kills": 10410,
+      "deaths": 8637,
+      "assists": 2443,
+      "headshots": 4576,
+      "played": 558,
       "won": 263,
-      "lost": 279,
+      "lost": 280,
       "tied": 15,
-      "damage": 1075037,
-      "rounds": 11801,
-      "scrapedAt": "2026-07-11T19:18:05.108Z"
+      "damage": 1076787,
+      "rounds": 11829,
+      "scrapedAt": "2026-07-11T20:46:23.241Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 138103,
       "rounds": 2143,
-      "scrapedAt": "2026-07-11T19:18:12.142Z"
+      "scrapedAt": "2026-07-11T20:46:30.627Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +119,7 @@
       "tied": 6,
       "damage": 161684,
       "rounds": 2113,
-      "scrapedAt": "2026-07-11T19:18:20.240Z"
+      "scrapedAt": "2026-07-11T20:46:39.744Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-07-11T19:18:26.848Z"
+      "scrapedAt": "2026-07-11T20:46:48.078Z"
     },
     {
       "nickname": "XunWon",
@@ -164,22 +164,22 @@
       "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
       "bestRank": null,
       "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "kd": 0.96,
+      "kd": 0.97,
       "rating": 1.06,
       "winRate": 48,
-      "hsPercent": 34,
+      "hsPercent": 35,
       "adr": 81,
-      "kills": 7630,
-      "deaths": 7910,
-      "assists": 2079,
-      "headshots": 2632,
-      "played": 478,
+      "kills": 7657,
+      "deaths": 7929,
+      "assists": 2082,
+      "headshots": 2643,
+      "played": 479,
       "won": 231,
-      "lost": 234,
+      "lost": 235,
       "tied": 13,
-      "damage": 826903,
-      "rounds": 10186,
-      "scrapedAt": "2026-07-11T19:18:35.342Z"
+      "damage": 829457,
+      "rounds": 10214,
+      "scrapedAt": "2026-07-11T20:46:55.319Z"
     }
   ]
 }
