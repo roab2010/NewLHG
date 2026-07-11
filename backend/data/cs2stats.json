@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-11T16:59:28.202Z",
+  "lastUpdated": "2026-07-11T18:00:10.097Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 17,
       "damage": 906717,
       "rounds": 12523,
-      "scrapedAt": "2026-07-11T16:58:49.431Z"
+      "scrapedAt": "2026-07-11T17:59:24.180Z"
     },
     {
       "nickname": "Roab",
@@ -59,7 +59,7 @@
       "tied": 15,
       "damage": 1069282,
       "rounds": 11749,
-      "scrapedAt": "2026-07-11T16:58:56.365Z"
+      "scrapedAt": "2026-07-11T17:59:34.362Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 138103,
       "rounds": 2143,
-      "scrapedAt": "2026-07-11T16:59:03.581Z"
+      "scrapedAt": "2026-07-11T17:59:42.023Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +119,7 @@
       "tied": 6,
       "damage": 161684,
       "rounds": 2113,
-      "scrapedAt": "2026-07-11T16:59:12.200Z"
+      "scrapedAt": "2026-07-11T17:59:51.469Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-07-11T16:59:19.303Z"
+      "scrapedAt": "2026-07-11T17:59:59.543Z"
     },
     {
       "nickname": "XunWon",
@@ -167,19 +167,19 @@
       "kd": 0.96,
       "rating": 1.06,
       "winRate": 48,
-      "hsPercent": 35,
+      "hsPercent": 34,
       "adr": 81,
-      "kills": 7594,
-      "deaths": 7870,
-      "assists": 2067,
-      "headshots": 2621,
-      "played": 476,
-      "won": 230,
-      "lost": 233,
+      "kills": 7630,
+      "deaths": 7910,
+      "assists": 2079,
+      "headshots": 2632,
+      "played": 478,
+      "won": 231,
+      "lost": 234,
       "tied": 13,
-      "damage": 822880,
-      "rounds": 10134,
-      "scrapedAt": "2026-07-11T16:59:26.070Z"
+      "damage": 826903,
+      "rounds": 10186,
+      "scrapedAt": "2026-07-11T18:00:07.963Z"
     }
   ]
 }
