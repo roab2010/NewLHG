@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-18T18:02:29.035Z",
+  "lastUpdated": "2026-07-18T20:04:03.417Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 17,
       "damage": 914341,
       "rounds": 12614,
-      "scrapedAt": "2026-07-18T18:01:43.450Z"
+      "scrapedAt": "2026-07-18T20:03:19.609Z"
     },
     {
       "nickname": "Roab",
@@ -46,20 +46,20 @@
       "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
       "kd": 1.21,
       "rating": 1.28,
-      "winRate": 47,
+      "winRate": 48,
       "hsPercent": 44,
       "adr": 91,
-      "kills": 10610,
-      "deaths": 8772,
-      "assists": 2477,
-      "headshots": 4661,
-      "played": 567,
-      "won": 269,
-      "lost": 283,
+      "kills": 10657,
+      "deaths": 8813,
+      "assists": 2484,
+      "headshots": 4686,
+      "played": 570,
+      "won": 271,
+      "lost": 284,
       "tied": 15,
-      "damage": 1096599,
-      "rounds": 12027,
-      "scrapedAt": "2026-07-18T18:01:55.445Z"
+      "damage": 1101061,
+      "rounds": 12086,
+      "scrapedAt": "2026-07-18T20:03:30.787Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 138103,
       "rounds": 2143,
-      "scrapedAt": "2026-07-18T18:02:02.759Z"
+      "scrapedAt": "2026-07-18T20:03:37.064Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +119,7 @@
       "tied": 6,
       "damage": 165642,
       "rounds": 2152,
-      "scrapedAt": "2026-07-18T18:02:10.286Z"
+      "scrapedAt": "2026-07-18T20:03:45.419Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-07-18T18:02:18.618Z"
+      "scrapedAt": "2026-07-18T20:03:53.424Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +179,7 @@
       "tied": 13,
       "damage": 832531,
       "rounds": 10253,
-      "scrapedAt": "2026-07-18T18:02:26.890Z"
+      "scrapedAt": "2026-07-18T20:04:01.272Z"
     }
   ]
 }
