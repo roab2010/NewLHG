@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-08T13:45:00.174Z",
+  "lastUpdated": "2026-08-08T14:32:00.685Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 17,
       "damage": 920804,
       "rounds": 12696,
-      "scrapedAt": "2026-08-08T13:44:16.482Z"
+      "scrapedAt": "2026-08-08T14:30:51.638Z"
     },
     {
       "nickname": "Roab",
@@ -59,7 +59,7 @@
       "tied": 15,
       "damage": 1129553,
       "rounds": 12416,
-      "scrapedAt": "2026-08-08T13:44:26.017Z"
+      "scrapedAt": "2026-08-08T14:31:02.562Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 138448,
       "rounds": 2163,
-      "scrapedAt": "2026-08-08T13:44:34.338Z"
+      "scrapedAt": "2026-08-08T14:31:10.661Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +119,7 @@
       "tied": 6,
       "damage": 167339,
       "rounds": 2182,
-      "scrapedAt": "2026-08-08T13:44:41.664Z"
+      "scrapedAt": "2026-08-08T14:31:18.330Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-08-08T13:44:49.821Z"
+      "scrapedAt": "2026-08-08T14:31:26.368Z"
     },
     {
       "nickname": "XunWon",
@@ -158,28 +158,8 @@
       "color": "#9CA3AF",
       "steamProfile": "https://steamcommunity.com/profiles/76561198877435442",
       "csstatsUrl": "https://csstats.gg/player/76561198877435442",
-      "playerName": "360HZ PEEK",
-      "avatar": "https://avatars.steamstatic.com/97e463a36f2693f6158631fb69c4074694019c20_full.jpg",
-      "currentRank": null,
-      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "bestRank": null,
-      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "kd": 0.97,
-      "rating": 1.06,
-      "winRate": 49,
-      "hsPercent": 34,
-      "adr": 81,
-      "kills": 7797,
-      "deaths": 8051,
-      "assists": 2124,
-      "headshots": 2682,
-      "played": 487,
-      "won": 237,
-      "lost": 237,
-      "tied": 13,
-      "damage": 844020,
-      "rounds": 10386,
-      "scrapedAt": "2026-08-08T13:44:58.062Z"
+      "error": "Navigation timeout of 30000 ms exceeded",
+      "scrapedAt": "2026-08-08T14:31:58.568Z"
     }
   ]
 }
