@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-18T12:43:49.528Z",
+  "lastUpdated": "2026-08-18T13:42:15.506Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -8,28 +8,28 @@
       "color": "#3B82F6",
       "steamProfile": "https://steamcommunity.com/profiles/76561198390172300",
       "csstatsUrl": "https://csstats.gg/player/76561198390172300",
-      "playerName": "",
-      "avatar": "",
+      "playerName": "Huang zhong",
+      "avatar": "https://avatars.steamstatic.com/a831ee473b249b482425b752c2407d194e0d5fdf_full.jpg",
       "currentRank": null,
-      "currentRankBg": null,
+      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
       "bestRank": null,
-      "bestRankBg": null,
-      "kd": null,
-      "rating": null,
-      "winRate": null,
-      "hsPercent": null,
-      "adr": null,
-      "kills": null,
-      "deaths": null,
-      "assists": null,
-      "headshots": null,
-      "played": null,
-      "won": null,
-      "lost": null,
-      "tied": null,
-      "damage": null,
-      "rounds": null,
-      "scrapedAt": "2026-08-18T12:42:55.150Z"
+      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
+      "kd": 0.87,
+      "rating": 0.99,
+      "winRate": 46,
+      "hsPercent": 38,
+      "adr": 73,
+      "kills": 8215,
+      "deaths": 9482,
+      "assists": 2958,
+      "headshots": 3128,
+      "played": 607,
+      "won": 278,
+      "lost": 312,
+      "tied": 17,
+      "damage": 928342,
+      "rounds": 12797,
+      "scrapedAt": "2026-08-18T13:41:05.886Z"
     },
     {
       "nickname": "Roab",
@@ -59,7 +59,7 @@
       "tied": 15,
       "damage": 1138548,
       "rounds": 12517,
-      "scrapedAt": "2026-08-18T12:43:05.561Z"
+      "scrapedAt": "2026-08-18T13:41:19.011Z"
     },
     {
       "nickname": "YenOi",
@@ -68,28 +68,8 @@
       "color": "#A855F7",
       "steamProfile": "https://steamcommunity.com/profiles/76561199042104680",
       "csstatsUrl": "https://csstats.gg/player/76561199042104680",
-      "playerName": "Whatdup",
-      "avatar": "https://avatars.steamstatic.com/c826c21abf1854b0f63dc90f007762537f06a65e_full.jpg",
-      "currentRank": null,
-      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "bestRank": null,
-      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "kd": 0.72,
-      "rating": 0.84,
-      "winRate": 41,
-      "hsPercent": 44,
-      "adr": 64,
-      "kills": 1232,
-      "deaths": 1710,
-      "assists": 486,
-      "headshots": 540,
-      "played": 102,
-      "won": 42,
-      "lost": 58,
-      "tied": 2,
-      "damage": 138448,
-      "rounds": 2163,
-      "scrapedAt": "2026-08-18T12:43:13.943Z"
+      "error": "Navigation timeout of 30000 ms exceeded",
+      "scrapedAt": "2026-08-18T13:41:51.525Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +99,7 @@
       "tied": 6,
       "damage": 167339,
       "rounds": 2182,
-      "scrapedAt": "2026-08-18T12:43:28.608Z"
+      "scrapedAt": "2026-08-18T13:41:57.694Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +129,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-08-18T12:43:35.845Z"
+      "scrapedAt": "2026-08-18T13:42:04.681Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +159,7 @@
       "tied": 13,
       "damage": 847851,
       "rounds": 10440,
-      "scrapedAt": "2026-08-18T12:43:47.384Z"
+      "scrapedAt": "2026-08-18T13:42:13.372Z"
     }
   ]
 }
