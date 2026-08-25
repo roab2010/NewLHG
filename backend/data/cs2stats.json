@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-25T06:44:40.075Z",
+  "lastUpdated": "2026-08-25T07:42:58.283Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 17,
       "damage": 928342,
       "rounds": 12797,
-      "scrapedAt": "2026-08-25T06:43:28.021Z"
+      "scrapedAt": "2026-08-25T07:42:14.851Z"
     },
     {
       "nickname": "Roab",
@@ -59,7 +59,7 @@
       "tied": 15,
       "damage": 1138548,
       "rounds": 12517,
-      "scrapedAt": "2026-08-25T06:43:40.706Z"
+      "scrapedAt": "2026-08-25T07:42:24.375Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 138448,
       "rounds": 2163,
-      "scrapedAt": "2026-08-25T06:43:48.964Z"
+      "scrapedAt": "2026-08-25T07:42:32.922Z"
     },
     {
       "nickname": "LocMaster",
@@ -98,8 +98,28 @@
       "color": "#EF4444",
       "steamProfile": "https://steamcommunity.com/profiles/76561199229851727",
       "csstatsUrl": "https://csstats.gg/player/76561199229851727",
-      "error": "Navigation timeout of 30000 ms exceeded",
-      "scrapedAt": "2026-08-25T06:44:21.275Z"
+      "playerName": "_Lộc***Master_",
+      "avatar": "https://avatars.steamstatic.com/414101ca776570c42aeff9ab48d984afdd37e9de_full.jpg",
+      "currentRank": null,
+      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
+      "bestRank": null,
+      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
+      "kd": 0.95,
+      "rating": 1.06,
+      "winRate": 45,
+      "hsPercent": 39,
+      "adr": 77,
+      "kills": 1544,
+      "deaths": 1628,
+      "assists": 466,
+      "headshots": 602,
+      "played": 104,
+      "won": 47,
+      "lost": 51,
+      "tied": 6,
+      "damage": 167339,
+      "rounds": 2182,
+      "scrapedAt": "2026-08-25T07:42:41.083Z"
     },
     {
       "nickname": "TuanKitt",
@@ -129,7 +149,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-08-25T06:44:29.600Z"
+      "scrapedAt": "2026-08-25T07:42:49.207Z"
     },
     {
       "nickname": "XunWon",
@@ -159,7 +179,7 @@
       "tied": 13,
       "damage": 847851,
       "rounds": 10440,
-      "scrapedAt": "2026-08-25T06:44:37.937Z"
+      "scrapedAt": "2026-08-25T07:42:56.156Z"
     }
   ]
 }
