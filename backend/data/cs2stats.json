@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-14T17:48:34.468Z",
+  "lastUpdated": "2026-09-14T21:33:23.311Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": 17,
       "damage": 928342,
       "rounds": 12797,
-      "scrapedAt": "2026-09-14T17:47:52.105Z"
+      "scrapedAt": "2026-09-14T21:32:30.940Z"
     },
     {
       "nickname": "Roab",
@@ -59,7 +59,7 @@
       "tied": 15,
       "damage": 1138548,
       "rounds": 12517,
-      "scrapedAt": "2026-09-14T17:48:00.811Z"
+      "scrapedAt": "2026-09-14T21:32:37.878Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 138448,
       "rounds": 2163,
-      "scrapedAt": "2026-09-14T17:48:08.939Z"
+      "scrapedAt": "2026-09-14T21:32:56.149Z"
     },
     {
       "nickname": "LocMaster",
@@ -104,22 +104,22 @@
       "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
       "bestRank": null,
       "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "kd": 0.95,
-      "rating": 1.06,
+      "kd": 0.94,
+      "rating": 1.05,
       "winRate": 45,
       "hsPercent": 39,
-      "adr": 77,
-      "kills": 1544,
-      "deaths": 1628,
+      "adr": 76,
+      "kills": 1549,
+      "deaths": 1647,
       "assists": 466,
-      "headshots": 602,
-      "played": 104,
+      "headshots": 605,
+      "played": 105,
       "won": 47,
-      "lost": 51,
+      "lost": 52,
       "tied": 6,
-      "damage": 167339,
-      "rounds": 2182,
-      "scrapedAt": "2026-09-14T17:48:18.150Z"
+      "damage": 167822,
+      "rounds": 2203,
+      "scrapedAt": "2026-09-14T21:33:04.156Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-09-14T17:48:25.467Z"
+      "scrapedAt": "2026-09-14T21:33:12.329Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +179,7 @@
       "tied": 13,
       "damage": 847851,
       "rounds": 10440,
-      "scrapedAt": "2026-09-14T17:48:32.348Z"
+      "scrapedAt": "2026-09-14T21:33:21.194Z"
     }
   ]
 }
