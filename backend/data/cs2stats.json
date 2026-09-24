@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-24T13:16:06.980Z",
+  "lastUpdated": "2026-09-24T18:17:25.297Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -8,6 +8,16 @@
       "color": "#3B82F6",
       "steamProfile": "https://steamcommunity.com/profiles/76561198390172300",
       "csstatsUrl": "https://csstats.gg/player/76561198390172300",
+      "error": "Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.",
+      "scrapedAt": "2026-09-24T18:16:36.840Z"
+    },
+    {
+      "nickname": "Roab",
+      "realName": "Lâm Quốc Bảo",
+      "steamId": "76561199167690122",
+      "color": "#EAB308",
+      "steamProfile": "https://steamcommunity.com/profiles/76561199167690122",
+      "csstatsUrl": "https://csstats.gg/player/76561199167690122",
       "playerName": "",
       "avatar": "",
       "currentRank": null,
@@ -29,37 +39,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-09-24T13:15:21.805Z"
-    },
-    {
-      "nickname": "Roab",
-      "realName": "Lâm Quốc Bảo",
-      "steamId": "76561199167690122",
-      "color": "#EAB308",
-      "steamProfile": "https://steamcommunity.com/profiles/76561199167690122",
-      "csstatsUrl": "https://csstats.gg/player/76561199167690122",
-      "playerName": "",
-      "avatar": "",
-      "currentRank": "13,852",
-      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
-      "bestRank": "14,627",
-      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
-      "kd": 1.21,
-      "rating": 1.28,
-      "winRate": 48,
-      "hsPercent": 44,
-      "adr": 91,
-      "kills": 11010,
-      "deaths": 9117,
-      "assists": 2569,
-      "headshots": 4850,
-      "played": 590,
-      "won": 281,
-      "lost": 294,
-      "tied": 15,
-      "damage": 1138548,
-      "rounds": 12517,
-      "scrapedAt": "2026-09-24T13:15:29.266Z"
+      "scrapedAt": "2026-09-24T18:16:57.942Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +69,7 @@
       "tied": 2,
       "damage": 138448,
       "rounds": 2163,
-      "scrapedAt": "2026-09-24T13:15:39.541Z"
+      "scrapedAt": "2026-09-24T18:17:04.031Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +99,7 @@
       "tied": 6,
       "damage": 170818,
       "rounds": 2233,
-      "scrapedAt": "2026-09-24T13:15:46.695Z"
+      "scrapedAt": "2026-09-24T18:17:10.043Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +129,7 @@
       "tied": 1,
       "damage": 171265,
       "rounds": 2476,
-      "scrapedAt": "2026-09-24T13:15:55.836Z"
+      "scrapedAt": "2026-09-24T18:17:16.628Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +159,7 @@
       "tied": 13,
       "damage": 847851,
       "rounds": 10440,
-      "scrapedAt": "2026-09-24T13:16:04.860Z"
+      "scrapedAt": "2026-09-24T18:17:23.210Z"
     }
   ]
 }
