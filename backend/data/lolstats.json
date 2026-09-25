@@ -14,12 +14,12 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T11:15:43.631Z"
+    "updatedAt": "2026-09-25T16:43:11.852Z"
   },
   {
     "nickname": "YoneMin999",
     "tag": "999",
-    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/4652__100.webp",
+    "profileIcon": "",
     "rank": "Unranked",
     "lp": "0 LP",
     "winRate": "0%",
@@ -31,12 +31,12 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T11:15:49.825Z"
+    "updatedAt": "2026-09-25T16:43:18.087Z"
   },
   {
     "nickname": "TALE12",
     "tag": "2640",
-    "profileIcon": "",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/7__100.webp",
     "rank": "Unranked",
     "lp": "0 LP",
     "winRate": "0%",
@@ -48,12 +48,12 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T11:15:56.000Z"
+    "updatedAt": "2026-09-25T16:43:24.294Z"
   },
   {
     "nickname": "Trảm Tình",
     "tag": "adc",
-    "profileIcon": "",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/6250__100.webp",
     "rank": "Unranked",
     "lp": "0 LP",
     "winRate": "0%",
@@ -65,7 +65,7 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T11:16:02.169Z"
+    "updatedAt": "2026-09-25T16:43:30.537Z"
   },
   {
     "nickname": "Young B",
@@ -82,7 +82,7 @@
     "flexWinRate": "0%",
     "kda": "3.04",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T11:16:08.373Z"
+    "updatedAt": "2026-09-25T16:43:36.839Z"
   },
   {
     "nickname": "Xun Won Tới Chơi",
@@ -99,7 +99,7 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T11:16:14.523Z"
+    "updatedAt": "2026-09-25T16:43:43.034Z"
   },
   {
     "nickname": "LHE Shadow",
@@ -114,8 +114,8 @@
     "flexRank": "Unranked",
     "flexLP": "0 LP",
     "flexWinRate": "0%",
-    "kda": "0.00",
+    "kda": "2.26",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T11:16:20.702Z"
+    "updatedAt": "2026-09-25T16:43:49.317Z"
   }
 ]
