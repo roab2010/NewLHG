@@ -14,7 +14,7 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T05:53:35.968Z"
+    "updatedAt": "2026-09-25T11:15:43.631Z"
   },
   {
     "nickname": "YoneMin999",
@@ -29,31 +29,14 @@
     "flexRank": "Unranked",
     "flexLP": "0 LP",
     "flexWinRate": "0%",
-    "kda": "2.41",
+    "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T05:53:42.230Z"
+    "updatedAt": "2026-09-25T11:15:49.825Z"
   },
   {
     "nickname": "TALE12",
     "tag": "2640",
-    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/7__100.webp",
-    "rank": "Unranked",
-    "lp": "0 LP",
-    "winRate": "0%",
-    "soloRank": "Unranked",
-    "soloLP": "0 LP",
-    "soloWinRate": "0%",
-    "flexRank": "Unranked",
-    "flexLP": "0 LP",
-    "flexWinRate": "0%",
-    "kda": "1.97",
-    "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T05:53:48.564Z"
-  },
-  {
-    "nickname": "Trảm Tình",
-    "tag": "adc",
-    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/6250__100.webp",
+    "profileIcon": "",
     "rank": "Unranked",
     "lp": "0 LP",
     "winRate": "0%",
@@ -65,7 +48,24 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T05:53:54.799Z"
+    "updatedAt": "2026-09-25T11:15:56.000Z"
+  },
+  {
+    "nickname": "Trảm Tình",
+    "tag": "adc",
+    "profileIcon": "",
+    "rank": "Unranked",
+    "lp": "0 LP",
+    "winRate": "0%",
+    "soloRank": "Unranked",
+    "soloLP": "0 LP",
+    "soloWinRate": "0%",
+    "flexRank": "Unranked",
+    "flexLP": "0 LP",
+    "flexWinRate": "0%",
+    "kda": "0.00",
+    "matchesPlayed": 0,
+    "updatedAt": "2026-09-25T11:16:02.169Z"
   },
   {
     "nickname": "Young B",
@@ -82,7 +82,7 @@
     "flexWinRate": "0%",
     "kda": "3.04",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T05:54:01.059Z"
+    "updatedAt": "2026-09-25T11:16:08.373Z"
   },
   {
     "nickname": "Xun Won Tới Chơi",
@@ -99,7 +99,7 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T05:54:07.241Z"
+    "updatedAt": "2026-09-25T11:16:14.523Z"
   },
   {
     "nickname": "LHE Shadow",
@@ -114,8 +114,8 @@
     "flexRank": "Unranked",
     "flexLP": "0 LP",
     "flexWinRate": "0%",
-    "kda": "2.26",
+    "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-09-25T05:54:13.540Z"
+    "updatedAt": "2026-09-25T11:16:20.702Z"
   }
 ]
