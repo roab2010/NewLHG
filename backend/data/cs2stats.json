@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-25T16:43:04.142Z",
+  "lastUpdated": "2026-09-25T20:17:41.748Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-09-25T16:38:38.485Z"
+      "scrapedAt": "2026-09-25T20:16:53.360Z"
     },
     {
       "nickname": "Roab",
@@ -38,8 +38,28 @@
       "color": "#EAB308",
       "steamProfile": "https://steamcommunity.com/profiles/76561199167690122",
       "csstatsUrl": "https://csstats.gg/player/76561199167690122",
-      "error": "Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.",
-      "scrapedAt": "2026-09-25T16:41:59.195Z"
+      "playerName": "",
+      "avatar": "",
+      "currentRank": "12,489",
+      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
+      "bestRank": "14,627",
+      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
+      "kd": 1.21,
+      "rating": 1.28,
+      "winRate": 47,
+      "hsPercent": 44,
+      "adr": 91,
+      "kills": 11097,
+      "deaths": 9187,
+      "assists": 2584,
+      "headshots": 4896,
+      "played": 594,
+      "won": 282,
+      "lost": 296,
+      "tied": 16,
+      "damage": 1147702,
+      "rounds": 12610,
+      "scrapedAt": "2026-09-25T20:17:03.444Z"
     },
     {
       "nickname": "YenOi",
@@ -51,25 +71,25 @@
       "playerName": "",
       "avatar": "",
       "currentRank": null,
-      "currentRankBg": null,
+      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
       "bestRank": null,
-      "bestRankBg": null,
-      "kd": null,
-      "rating": null,
-      "winRate": null,
-      "hsPercent": null,
-      "adr": null,
-      "kills": null,
-      "deaths": null,
-      "assists": null,
-      "headshots": null,
-      "played": null,
-      "won": null,
-      "lost": null,
-      "tied": null,
-      "damage": null,
-      "rounds": null,
-      "scrapedAt": "2026-09-25T16:42:19.655Z"
+      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
+      "kd": 0.72,
+      "rating": 0.84,
+      "winRate": 41,
+      "hsPercent": 44,
+      "adr": 64,
+      "kills": 1232,
+      "deaths": 1710,
+      "assists": 486,
+      "headshots": 540,
+      "played": 102,
+      "won": 42,
+      "lost": 58,
+      "tied": 2,
+      "damage": 138448,
+      "rounds": 2163,
+      "scrapedAt": "2026-09-25T20:17:15.591Z"
     },
     {
       "nickname": "LocMaster",
@@ -99,7 +119,7 @@
       "tied": 6,
       "damage": 170818,
       "rounds": 2233,
-      "scrapedAt": "2026-09-25T16:42:27.442Z"
+      "scrapedAt": "2026-09-25T20:17:24.078Z"
     },
     {
       "nickname": "TuanKitt",
@@ -129,7 +149,7 @@
       "tied": 1,
       "damage": 172290,
       "rounds": 2497,
-      "scrapedAt": "2026-09-25T16:42:35.460Z"
+      "scrapedAt": "2026-09-25T20:17:33.699Z"
     },
     {
       "nickname": "XunWon",
@@ -159,7 +179,7 @@
       "tied": 13,
       "damage": 852725,
       "rounds": 10485,
-      "scrapedAt": "2026-09-25T16:43:01.982Z"
+      "scrapedAt": "2026-09-25T20:17:39.624Z"
     }
   ]
 }
