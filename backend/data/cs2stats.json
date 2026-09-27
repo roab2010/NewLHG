@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-27T06:17:23.771Z",
+  "lastUpdated": "2026-09-27T12:51:39.294Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-09-27T06:16:37.636Z"
+      "scrapedAt": "2026-09-27T12:47:01.955Z"
     },
     {
       "nickname": "Roab",
@@ -38,28 +38,8 @@
       "color": "#EAB308",
       "steamProfile": "https://steamcommunity.com/profiles/76561199167690122",
       "csstatsUrl": "https://csstats.gg/player/76561199167690122",
-      "playerName": "",
-      "avatar": "",
-      "currentRank": "12,489",
-      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
-      "bestRank": "14,627",
-      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
-      "kd": 1.21,
-      "rating": 1.28,
-      "winRate": 47,
-      "hsPercent": 44,
-      "adr": 91,
-      "kills": 11097,
-      "deaths": 9187,
-      "assists": 2584,
-      "headshots": 4896,
-      "played": 594,
-      "won": 282,
-      "lost": 296,
-      "tied": 16,
-      "damage": 1147702,
-      "rounds": 12610,
-      "scrapedAt": "2026-09-27T06:16:46.720Z"
+      "error": "Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.",
+      "scrapedAt": "2026-09-27T12:50:22.778Z"
     },
     {
       "nickname": "YenOi",
@@ -71,25 +51,25 @@
       "playerName": "",
       "avatar": "",
       "currentRank": null,
-      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
+      "currentRankBg": null,
       "bestRank": null,
-      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "kd": 0.72,
-      "rating": 0.84,
-      "winRate": 41,
-      "hsPercent": 44,
-      "adr": 64,
-      "kills": 1232,
-      "deaths": 1710,
-      "assists": 486,
-      "headshots": 540,
-      "played": 102,
-      "won": 42,
-      "lost": 58,
-      "tied": 2,
-      "damage": 138448,
-      "rounds": 2163,
-      "scrapedAt": "2026-09-27T06:16:54.428Z"
+      "bestRankBg": null,
+      "kd": null,
+      "rating": null,
+      "winRate": null,
+      "hsPercent": null,
+      "adr": null,
+      "kills": null,
+      "deaths": null,
+      "assists": null,
+      "headshots": null,
+      "played": null,
+      "won": null,
+      "lost": null,
+      "tied": null,
+      "damage": null,
+      "rounds": null,
+      "scrapedAt": "2026-09-27T12:50:44.764Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +99,7 @@
       "tied": 6,
       "damage": 170818,
       "rounds": 2233,
-      "scrapedAt": "2026-09-27T06:17:01.590Z"
+      "scrapedAt": "2026-09-27T12:50:53.342Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +129,7 @@
       "tied": 1,
       "damage": 172290,
       "rounds": 2497,
-      "scrapedAt": "2026-09-27T06:17:13.440Z"
+      "scrapedAt": "2026-09-27T12:51:01.711Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +159,7 @@
       "tied": 13,
       "damage": 853683,
       "rounds": 10501,
-      "scrapedAt": "2026-09-27T06:17:21.641Z"
+      "scrapedAt": "2026-09-27T12:51:37.130Z"
     }
   ]
 }
