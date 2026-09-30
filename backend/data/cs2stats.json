@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-29T21:56:23.427Z",
+  "lastUpdated": "2026-09-30T01:07:41.639Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-09-29T21:55:38.913Z"
+      "scrapedAt": "2026-09-30T01:06:32.794Z"
     },
     {
       "nickname": "Roab",
@@ -59,7 +59,7 @@
       "tied": 16,
       "damage": 1153821,
       "rounds": 12685,
-      "scrapedAt": "2026-09-29T21:55:48.350Z"
+      "scrapedAt": "2026-09-30T01:06:42.021Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 138448,
       "rounds": 2163,
-      "scrapedAt": "2026-09-29T21:55:56.706Z"
+      "scrapedAt": "2026-09-30T01:06:49.357Z"
     },
     {
       "nickname": "LocMaster",
@@ -98,28 +98,8 @@
       "color": "#EF4444",
       "steamProfile": "https://steamcommunity.com/profiles/76561199229851727",
       "csstatsUrl": "https://csstats.gg/player/76561199229851727",
-      "playerName": "",
-      "avatar": "",
-      "currentRank": null,
-      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "bestRank": null,
-      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "kd": 0.94,
-      "rating": 1.05,
-      "winRate": 44,
-      "hsPercent": 39,
-      "adr": 76,
-      "kills": 1577,
-      "deaths": 1670,
-      "assists": 471,
-      "headshots": 615,
-      "played": 106,
-      "won": 47,
-      "lost": 53,
-      "tied": 6,
-      "damage": 170818,
-      "rounds": 2233,
-      "scrapedAt": "2026-09-29T21:56:05.448Z"
+      "error": "Navigation timeout of 30000 ms exceeded",
+      "scrapedAt": "2026-09-30T01:07:24.902Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +129,7 @@
       "tied": 1,
       "damage": 172290,
       "rounds": 2497,
-      "scrapedAt": "2026-09-29T21:56:13.583Z"
+      "scrapedAt": "2026-09-30T01:07:32.158Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +159,7 @@
       "tied": 13,
       "damage": 858736,
       "rounds": 10567,
-      "scrapedAt": "2026-09-29T21:56:21.295Z"
+      "scrapedAt": "2026-09-30T01:07:39.467Z"
     }
   ]
 }
