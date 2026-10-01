@@ -14,12 +14,12 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-01T14:13:48.566Z"
+    "updatedAt": "2026-10-01T20:09:04.650Z"
   },
   {
     "nickname": "YoneMin999",
     "tag": "999",
-    "profileIcon": "",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/4652__100.webp",
     "rank": "Unranked",
     "lp": "0 LP",
     "winRate": "0%",
@@ -29,9 +29,9 @@
     "flexRank": "Unranked",
     "flexLP": "0 LP",
     "flexWinRate": "0%",
-    "kda": "0.00",
+    "kda": "2.41",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-01T14:13:54.770Z"
+    "updatedAt": "2026-10-01T20:09:10.900Z"
   },
   {
     "nickname": "TALE12",
@@ -48,12 +48,12 @@
     "flexWinRate": "0%",
     "kda": "2.03",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-01T14:14:01.035Z"
+    "updatedAt": "2026-10-01T20:09:17.175Z"
   },
   {
     "nickname": "Trảm Tình",
     "tag": "adc",
-    "profileIcon": "",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/5470__100.webp",
     "rank": "Unranked",
     "lp": "0 LP",
     "winRate": "0%",
@@ -63,9 +63,9 @@
     "flexRank": "Unranked",
     "flexLP": "0 LP",
     "flexWinRate": "0%",
-    "kda": "0.00",
+    "kda": "3.13",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-01T14:14:07.190Z"
+    "updatedAt": "2026-10-01T20:09:23.490Z"
   },
   {
     "nickname": "Young B",
@@ -82,7 +82,7 @@
     "flexWinRate": "0%",
     "kda": "3.05",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-01T14:14:13.375Z"
+    "updatedAt": "2026-10-01T20:09:29.776Z"
   },
   {
     "nickname": "Xun Won Tới Chơi",
@@ -99,7 +99,7 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-01T14:14:19.532Z"
+    "updatedAt": "2026-10-01T20:09:35.999Z"
   },
   {
     "nickname": "LHE Shadow",
@@ -116,6 +116,6 @@
     "flexWinRate": "0%",
     "kda": "2.26",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-01T14:14:25.751Z"
+    "updatedAt": "2026-10-01T20:09:42.339Z"
   }
 ]
