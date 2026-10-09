@@ -14,7 +14,7 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-09T17:21:28.982Z"
+    "updatedAt": "2026-10-09T22:20:01.244Z"
   },
   {
     "nickname": "YoneMin999",
@@ -31,12 +31,12 @@
     "flexWinRate": "0%",
     "kda": "2.05",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-09T17:21:35.362Z"
+    "updatedAt": "2026-10-09T22:20:07.498Z"
   },
   {
     "nickname": "TALE12",
     "tag": "2640",
-    "profileIcon": "",
+    "profileIcon": "https://ak-deeplol-ddragon-cdn.deeplol.gg/cdn/img/profileicon/7__100.webp",
     "rank": "Unranked",
     "lp": "0 LP",
     "winRate": "0%",
@@ -46,9 +46,9 @@
     "flexRank": "Unranked",
     "flexLP": "0 LP",
     "flexWinRate": "0%",
-    "kda": "0.00",
+    "kda": "2.08",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-09T17:21:41.565Z"
+    "updatedAt": "2026-10-09T22:20:13.745Z"
   },
   {
     "nickname": "Trảm Tình",
@@ -65,7 +65,7 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-09T17:21:47.781Z"
+    "updatedAt": "2026-10-09T22:20:19.920Z"
   },
   {
     "nickname": "Young B",
@@ -82,7 +82,7 @@
     "flexWinRate": "0%",
     "kda": "3.05",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-09T17:21:54.201Z"
+    "updatedAt": "2026-10-09T22:20:26.186Z"
   },
   {
     "nickname": "Xun Won Tới Chơi",
@@ -99,7 +99,7 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-09T17:22:00.439Z"
+    "updatedAt": "2026-10-09T22:20:32.354Z"
   },
   {
     "nickname": "LHE Shadow",
@@ -116,6 +116,6 @@
     "flexWinRate": "0%",
     "kda": "0.00",
     "matchesPlayed": 0,
-    "updatedAt": "2026-10-09T17:22:06.625Z"
+    "updatedAt": "2026-10-09T22:20:38.519Z"
   }
 ]
