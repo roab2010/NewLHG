@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-15T21:58:11.728Z",
+  "lastUpdated": "2026-10-16T00:09:29.642Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-10-15T21:56:55.086Z"
+      "scrapedAt": "2026-10-16T00:08:33.242Z"
     },
     {
       "nickname": "Roab",
@@ -40,26 +40,26 @@
       "csstatsUrl": "https://csstats.gg/player/76561199167690122",
       "playerName": "",
       "avatar": "",
-      "currentRank": null,
-      "currentRankBg": null,
-      "bestRank": null,
-      "bestRankBg": null,
-      "kd": null,
-      "rating": null,
-      "winRate": null,
-      "hsPercent": null,
-      "adr": null,
-      "kills": null,
-      "deaths": null,
-      "assists": null,
-      "headshots": null,
-      "played": null,
-      "won": null,
-      "lost": null,
-      "tied": null,
-      "damage": null,
-      "rounds": null,
-      "scrapedAt": "2026-10-15T21:57:17.253Z"
+      "currentRank": "11,934",
+      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
+      "bestRank": "14,627",
+      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.rare.png",
+      "kd": 1.21,
+      "rating": 1.28,
+      "winRate": 47,
+      "hsPercent": 44,
+      "adr": 91,
+      "kills": 11219,
+      "deaths": 9299,
+      "assists": 2614,
+      "headshots": 4945,
+      "played": 600,
+      "won": 284,
+      "lost": 300,
+      "tied": 16,
+      "damage": 1159707,
+      "rounds": 12754,
+      "scrapedAt": "2026-10-16T00:08:42.612Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": 2,
       "damage": 138448,
       "rounds": 2163,
-      "scrapedAt": "2026-10-15T21:57:26.289Z"
+      "scrapedAt": "2026-10-16T00:08:49.998Z"
     },
     {
       "nickname": "LocMaster",
@@ -101,25 +101,25 @@
       "playerName": "",
       "avatar": "",
       "currentRank": null,
-      "currentRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
+      "currentRankBg": null,
       "bestRank": null,
-      "bestRankBg": "https://static.csstats.gg/images/ranks/cs2/rating.common.png",
-      "kd": 0.94,
-      "rating": 1.05,
-      "winRate": 44,
-      "hsPercent": 39,
-      "adr": 76,
-      "kills": 1577,
-      "deaths": 1670,
-      "assists": 471,
-      "headshots": 615,
-      "played": 106,
-      "won": 47,
-      "lost": 53,
-      "tied": 6,
-      "damage": 170818,
-      "rounds": 2233,
-      "scrapedAt": "2026-10-15T21:57:35.998Z"
+      "bestRankBg": null,
+      "kd": null,
+      "rating": null,
+      "winRate": null,
+      "hsPercent": null,
+      "adr": null,
+      "kills": null,
+      "deaths": null,
+      "assists": null,
+      "headshots": null,
+      "played": null,
+      "won": null,
+      "lost": null,
+      "tied": null,
+      "damage": null,
+      "rounds": null,
+      "scrapedAt": "2026-10-16T00:09:11.243Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": 1,
       "damage": 172290,
       "rounds": 2497,
-      "scrapedAt": "2026-10-15T21:57:47.951Z"
+      "scrapedAt": "2026-10-16T00:09:19.043Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +179,7 @@
       "tied": 13,
       "damage": 867009,
       "rounds": 10670,
-      "scrapedAt": "2026-10-15T21:58:09.586Z"
+      "scrapedAt": "2026-10-16T00:09:27.514Z"
     }
   ]
 }
