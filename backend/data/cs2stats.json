@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-03T07:37:59.466Z",
+  "lastUpdated": "2026-11-03T15:53:14.602Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-03T07:35:58.588Z"
+      "scrapedAt": "2026-11-03T15:51:06.931Z"
     },
     {
       "nickname": "Roab",
@@ -59,7 +59,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-03T07:36:21.486Z"
+      "scrapedAt": "2026-11-03T15:51:34.980Z"
     },
     {
       "nickname": "YenOi",
@@ -89,7 +89,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-03T07:36:44.586Z"
+      "scrapedAt": "2026-11-03T15:51:59.819Z"
     },
     {
       "nickname": "LocMaster",
@@ -119,7 +119,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-03T07:37:10.794Z"
+      "scrapedAt": "2026-11-03T15:52:22.736Z"
     },
     {
       "nickname": "TuanKitt",
@@ -149,7 +149,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-03T07:37:34.570Z"
+      "scrapedAt": "2026-11-03T15:52:45.623Z"
     },
     {
       "nickname": "XunWon",
@@ -179,7 +179,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-03T07:37:57.379Z"
+      "scrapedAt": "2026-11-03T15:53:12.497Z"
     }
   ]
 }
