@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-25T14:00:31.251Z",
+  "lastUpdated": "2026-11-25T22:59:06.731Z",
   "players": [
     {
       "nickname": "NhanHoang",
@@ -29,7 +29,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-25T13:55:06.748Z"
+      "scrapedAt": "2026-11-25T22:57:14.567Z"
     },
     {
       "nickname": "Roab",
@@ -38,8 +38,28 @@
       "color": "#EAB308",
       "steamProfile": "https://steamcommunity.com/profiles/76561199167690122",
       "csstatsUrl": "https://csstats.gg/player/76561199167690122",
-      "error": "Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.",
-      "scrapedAt": "2026-11-25T13:58:27.605Z"
+      "playerName": "",
+      "avatar": "",
+      "currentRank": null,
+      "currentRankBg": null,
+      "bestRank": null,
+      "bestRankBg": null,
+      "kd": null,
+      "rating": null,
+      "winRate": null,
+      "hsPercent": null,
+      "adr": null,
+      "kills": null,
+      "deaths": null,
+      "assists": null,
+      "headshots": null,
+      "played": null,
+      "won": null,
+      "lost": null,
+      "tied": null,
+      "damage": null,
+      "rounds": null,
+      "scrapedAt": "2026-11-25T22:57:37.551Z"
     },
     {
       "nickname": "YenOi",
@@ -69,7 +89,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-25T13:58:51.574Z"
+      "scrapedAt": "2026-11-25T22:57:58.992Z"
     },
     {
       "nickname": "LocMaster",
@@ -99,7 +119,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-25T13:59:26.059Z"
+      "scrapedAt": "2026-11-25T22:58:22.499Z"
     },
     {
       "nickname": "TuanKitt",
@@ -129,7 +149,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-25T13:59:52.000Z"
+      "scrapedAt": "2026-11-25T22:58:43.965Z"
     },
     {
       "nickname": "XunWon",
@@ -159,7 +179,7 @@
       "tied": null,
       "damage": null,
       "rounds": null,
-      "scrapedAt": "2026-11-25T14:00:29.146Z"
+      "scrapedAt": "2026-11-25T22:59:04.636Z"
     }
   ]
 }
